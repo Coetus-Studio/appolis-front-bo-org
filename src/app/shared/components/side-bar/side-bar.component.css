@@ -1,0 +1,31 @@
+/* Estilo para el sidebar */
+.bg-dark {
+  position: fixed; /* Fija el sidebar en la pantalla */
+  width: 250px; /* Ancho del sidebar */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es mayor que la ventana */
+}
+
+/* Estilo para el contenido principal */
+.col.py-3 {
+  padding: 20px; /* Espacio interno alrededor del contenido */
+  background-color: #f4f4f4; /* Fondo claro para el área de contenido */
+  margin-left: 250px; /* Alinea el contenido al lado del sidebar */
+}
+
+
+/* Ajuste para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .container-fluid {
+    margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
+  }
+
+  .bg-dark {
+    width: 100%; /* El sidebar ocupa todo el ancho en pantallas pequeñas */
+    position: relative; /* El sidebar se mueve junto con el contenido */
+  }
+
+  .col.py-3 {
+    margin-left: 0; /* Elimina el margen izquierdo para pantallas pequeñas */
+  }
+}
