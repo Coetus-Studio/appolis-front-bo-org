@@ -1,0 +1,6 @@
+:host {
+   display: block;
+   background-color: #3c00ff;
+   width: 100%;
+   height: 56px; /* Ajusta esto según la altura de tu navbar */
+}
