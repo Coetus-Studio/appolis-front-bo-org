@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'shared-side-bar',
+  selector: 'app-form',
   standalone: true,
   imports: [RouterLink, RouterOutlet],
-  templateUrl: './side-bar.component.html',
-  styleUrl: './side-bar.component.css'
+  templateUrl: './documents.component.html',
+  // styleUrl: './form.component.css'
 })
-export class SideBarComponent {
+export class DocumentsComponent {
 
 }

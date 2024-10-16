@@ -1,0 +1,5 @@
+<form (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="name">
+  <button type="submit" [disabled]="!residenceForm.valid">Submit</button>
+</form>
