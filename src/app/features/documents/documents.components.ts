@@ -8,6 +8,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './documents.component.html',
   // styleUrl: './form.component.css'
 })
-export class DocumentsComponent {
+export default class DocumentsComponent {
 
 }

@@ -1,32 +1,18 @@
 import { Routes } from "@angular/router";
-import { DocumentsComponent } from "./documents.components";
-import { CreateDocsComponent } from "./residence/pages/create-docs/create-docs.component";
-import { SummaryDocsComponent } from "./residence/pages/create-docs/summary-docs.component";
-
-
 
 export const DOCS_ROUTES: Routes = [
 
-
   {
     path: '',
-    component: DocumentsComponent,
+    loadComponent: () => import('./documents.components'),
   },
   {
     path: 'create',
-    component: CreateDocsComponent,
-    // children: [
-    //   { path: 'summary', component: SummaryDocsComponent}
-    // ]
+    loadComponent: () => import('./residence/pages/create-docs/create-docs.component'),
   },
   {
-    path: 'create/summary',
-    component: SummaryDocsComponent,
-    // outlet: 'summary'
+    path: 'summary',
+    loadComponent: () => import('./residence/pages/create-docs/summary-docs.component'),
   }
-
-
-
-
 
 ]

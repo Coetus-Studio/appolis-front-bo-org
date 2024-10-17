@@ -12,8 +12,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './summary-docs.component.html',
   // styleUrl: './summary-docs.component.css'
 })
-export class SummaryDocsComponent {
+export default class SummaryDocsComponent {
 
+  // TODO: ver redireccionamiento a summary
 
   // constructor() {}
 

@@ -9,7 +9,7 @@ import { FormComponent } from '../../components/form/form.component';
   templateUrl: './create-docs.component.html',
   styleUrl: './create-docs.component.css'
 })
-export class CreateDocsComponent {
+export default class CreateDocsComponent {
 
   constructor() {
     console.log('inicializando CreateDocsComponent');

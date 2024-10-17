@@ -42,7 +42,7 @@ export class FormComponent implements OnInit {
     console.log(this.residenceForm.value);
     // localStorage.setItem('residenceFormData', JSON.stringify(this.residenceForm.value));
 
-    this.router.navigate(['summary']);
+    // this.router.navigate(['create/summary']);
   }
 
 
