@@ -14,6 +14,10 @@ export const routes: Routes = [
     path: 'documents',
     loadChildren: () => import('./features/documents/documents.routes').then(m => m.DOCS_ROUTES)
   },
+  {
+    path: 'token',
+    loadChildren: () => import('./features/token/token.routes').then(m => m.BUYTOKEN_ROUTES)
+  },
 
 
 

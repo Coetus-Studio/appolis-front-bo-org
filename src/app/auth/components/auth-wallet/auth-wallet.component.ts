@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EthereumService } from '../services/etherum.service';
 import { CommonModule } from '@angular/common';
+import { EthereumService } from '../../../shared/services/etherum.service';
 
 @Component({
   selector: 'app-auth-wallet',
