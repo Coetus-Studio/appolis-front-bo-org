@@ -5,16 +5,14 @@ import { routes } from './app.routes';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
 import { StorageService } from './storage.service';
+import { provideHttpClient } from '@angular/common/http';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [    
+    provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes),
-    {
-      provide: HttpClient,
-      useValue: HttpClient
-    },
+    provideRouter(routes),    
     AuthService,
     {
       provide: StorageService,

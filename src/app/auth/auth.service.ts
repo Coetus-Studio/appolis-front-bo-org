@@ -13,7 +13,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:3000';  
 
   constructor(
-    // private storageService: StorageService,
+    private storageService: StorageService,
     private http: HttpClient,
     private router: Router
   ) {}
@@ -23,15 +23,15 @@ export class AuthService {
     { email, password } : 
     { email: string; password: string }
   ): Promise<any> {
-    try {
+    try { 
       if (!email || !password) {
         return false;
       }
       
-      // if (await this.storageService?.getItem('isAuthenticated') === 'true') {
-      //   return true;
-      // }
-
+      if (await this.storageService?.getItem('isAuthenticated') === 'true') {
+        return true;
+      }
+     
       let response = await lastValueFrom(
         this.http.post<any>(`${this.apiUrl}/v1/auth/signin`, {
           email,
@@ -39,11 +39,11 @@ export class AuthService {
         })
       );
 
-      // console.log('response',response);
+      console.log('response',response);
       
-      // await this.storageService.setItem('authToken', response.accessToken);
+      await this.storageService.setItem('authToken', response.accessToken);
       
-      // await this.storageService?.setItem('isAuthenticated', 'true');
+      await this.storageService?.setItem('isAuthenticated', 'true');
 
       return true; 
     } catch (error) {      
@@ -52,11 +52,12 @@ export class AuthService {
   }
 
   async logout() {    
-    // await this.storageService?.setItem('isAuthenticated', 'false');
-    this.router.navigate(['/login']);
+    await this.storageService?.clear();
+
+    this.router.navigate(['/']);
   }
 
-  // async checkAuthentication(): Promise<boolean> {    
-  //   // return await this.storageService?.getItem('isAuthenticated') === 'true';
-  // }
+  async checkAuthentication(): Promise<boolean> {    
+    return await this.storageService?.getItem('isAuthenticated') === 'true';
+  }
 }

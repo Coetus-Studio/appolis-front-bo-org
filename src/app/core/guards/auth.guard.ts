@@ -28,7 +28,7 @@ export class AuthGuard {
         }
       } else {
         console.log('Usuario no autenticado');
-        this.router.navigate(['/login'], /* { queryParams: { returnUrl: state.url } }*/);        
+        this.router.navigate(['/'], /* { queryParams: { returnUrl: state.url } }*/);        
         return false;
       }    
   }

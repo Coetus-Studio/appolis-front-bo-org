@@ -17,8 +17,8 @@ import { StorageService } from '../storage.service';
   styleUrl: './auth.component.css'
 })
 export class AuthComponent {
-  email: FormControl = new FormControl('');
-  password: FormControl = new FormControl('');
+  email: FormControl = new FormControl('contacto@appolis.net');
+  password: FormControl = new FormControl('password');
   isLoading: boolean = false;
 
   constructor(
@@ -28,43 +28,42 @@ export class AuthComponent {
 
   ngOnInit() {
     console.log('AuthComponent ngOnInit');
-    // this.authService.checkAuthentication().then((authenticated) => {
-    //   if(authenticated) {
-    //     this.router.navigate(['/home']);
-    //   }
-    // });
+    this.authService.checkAuthentication().then((authenticated) => {
+      if(authenticated) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   async login() {
-  //   try {
-  //     let emailFormControl : string = this.email.value;
-  //     let passwordFormControl : string = this.password.value;
+    try {
+      let emailFormControl : string = this.email.value;
+      let passwordFormControl : string = this.password.value;
 
-  //     if(emailFormControl === ' ' || passwordFormControl === ' ') {
+      console.log('emailFormControl',emailFormControl)
+      console.log('passwordFormControl',passwordFormControl)
+
+      if(emailFormControl === ' ' || passwordFormControl === ' ') {
         console.log('****AMBOS VACIOS*****');
-  //       console.log('emailFormControl', emailFormControl);
-  //       console.log('passwordFormControl', passwordFormControl);
-  //       return;
-  //     }
+        console.log('emailFormControl', emailFormControl);
+        console.log('passwordFormControl', passwordFormControl);
+        return;
+      }
 
-  //     console.log('****SIN VACIOS*****');
-  //     console.log('emailFormControl', emailFormControl);
-  //     console.log('passwordFormControl', passwordFormControl);
+      this.isLoading = true; // Set loading to true
 
-  //     this.isLoading = true; // Set loading to true
+      await this.authService.login({
+        email: emailFormControl,
+        password: passwordFormControl,
+      });
 
-  //     // await this.authService.login({
-  //     //   email: emailFormControl,
-  //     //   password: passwordFormControl,
-  //     // });
+      this.isLoading = false; // Set loading to false on success
 
-  //     this.isLoading = false; // Set loading to false on success
+      await this.router.navigate(['/home']);
 
-  //     await this.router.navigate(['/home']);
-
-  //   } catch (error) {
-  //     console.error('error',error);
-  //     this.isLoading = false; // Set loading to false on success
-  //   }
+    } catch (error) {
+      console.error('error',error);
+      this.isLoading = false; // Set loading to false on success
+    }
   }
 }
