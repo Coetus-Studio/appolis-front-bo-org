@@ -1,31 +1,43 @@
-/* Estilo para el sidebar */
-.bg-dark {
-  position: fixed; /* Fija el sidebar en la pantalla */
+/* styles.css o app.component.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  height: 100vh; /* Altura completa de la ventana */
+}
+
+.sidebar {
   width: 250px; /* Ancho del sidebar */
-  height: 100vh; /* Ocupa toda la altura de la ventana */
-  overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es mayor que la ventana */
+  background-color: #f4f4f4;
+  padding: 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo para el contenido principal */
-.col.py-3 {
-  padding: 20px; /* Espacio interno alrededor del contenido */
-  background-color: #f4f4f4; /* Fondo claro para el área de contenido */
-  margin-left: 250px; /* Alinea el contenido al lado del sidebar */
+.sidebar nav ul {
+  list-style-type: none;
+  padding: 0;
 }
 
+.sidebar nav ul li {
+  margin: 15px 0;
+}
 
-/* Ajuste para pantallas más pequeñas */
-@media (max-width: 768px) {
-  .container-fluid {
-    margin-left: 0; /* Elimina el margen izquierdo en pantallas pequeñas */
-  }
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: #333;
+}
 
-  .bg-dark {
-    width: 100%; /* El sidebar ocupa todo el ancho en pantallas pequeñas */
-    position: relative; /* El sidebar se mueve junto con el contenido */
-  }
+.sidebar nav ul li a:hover {
+  color: #007bff;
+}
 
-  .col.py-3 {
-    margin-left: 0; /* Elimina el margen izquierdo para pantallas pequeñas */
-  }
+.content {
+  flex-grow: 1; /* Permite que el contenido ocupe el espacio restante */
+  padding: 20px; /* Espacio alrededor del contenido */
+  background-color: #fff; /* Fondo blanco para el contenido */
+  overflow-y: auto; /* Permite desplazamiento si es necesario */
 }

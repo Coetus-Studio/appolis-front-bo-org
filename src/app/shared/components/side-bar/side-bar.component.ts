@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'shared-side-bar',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
