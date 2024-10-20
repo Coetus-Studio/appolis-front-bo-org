@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
+import { StorageService } from './storage.service';
 
 export const routes: Routes = [
 
   {
     path: '',
-    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES)
+    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES),    
   },
   {
     path: 'home',
