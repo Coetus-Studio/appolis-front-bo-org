@@ -71,11 +71,11 @@ export class ContractService {
     // llamamos a transferFrom del smart contract
     const transfer = await this.contract!['transferFrom'](
       // Dirección del remitente
-      '0x7290F876e01923900082e243363b4c33677d3d8a',
+      addressFrom,
       // Dirección del destinatario
-      '0x63C0947437890352746162403D7639B683A48553',
+      addressTo,
       // Cantidad de tokens a transferir
-      1000000000000000000
+      1
 
     );
   }

@@ -62,15 +62,15 @@ export default class BuyTokenComponent implements OnInit{
   }
 
   async buyToken() {
-    const amount = 1000; // Cambia esto al monto de tokens que deseas comprar
+    const amount = 1; // Cambia esto al monto de tokens que deseas comprar
 
     console.log('contract 3', this.contract)
 
     // instancio la funcion del smart contract
     // let contractFunction = this.contract?.functions['transferFrom'];
 
-    const addressFrom = '0x7290F876e01923900082e243363b4c33677d3d8a';
-    const addressTo = '0x7290F876e01923900082';
+    const addressFrom = '0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f';
+    const addressTo = '0x04C4DfAa7E1C6fa175c833Ec7e8820D31d621381';
 
     const transfer = this.contractService.tranferFrom(addressFrom, addressTo, amount);
     // console.log('contractFunction', contractFunction)

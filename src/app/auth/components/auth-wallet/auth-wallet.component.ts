@@ -37,47 +37,6 @@ export class AuthWalletComponent {
 
    }
 
-   // coneccion con metamask
-  //  async connectToWallet() {
-
-  //    try {
-  //      await this.ethereumService.connectToMetaMaskWallet();
-  //      this.isConnectedToBlockchain = true;
-  //      this.addressUser = await this.ethereumService.getSigner(); // Guarda la dirección en addressUser
-  //    } catch (error) {
-  //      console.error('Error connecting to wallet', error);
-  //      this.isConnectedToBlockchain = false;
-  //    }
-
-
-  //    console.log('Connect address: ', this.addressUser);
-
-  //  }
-
-
-  // conexión con metamask
-// async connectToWallet() {
-//   try {
-//     await this.ethereumService.connectToMetaMaskWallet();
-//     this.isConnectedToBlockchain = true;
-
-//     // Asegúrate de que estás obteniendo el signer correctamente
-//     const signer = await this.ethereumService.getSigner();
-
-//     if (signer) {
-//       this.addressUser = signer; // Asumiendo que `signer` es la dirección en este caso
-//     } else {
-//       console.error('Signer is undefined');
-//       this.isConnectedToBlockchain = false; // O maneja esto como prefieras
-//     }
-//   } catch (error) {
-//     console.error('Error connecting to wallet', error);
-//     this.isConnectedToBlockchain = false;
-//   }
-
-//   console.log('Connect address: ', this.addressUser);
-// }
-
 // conexión con metamask
 async connectToWallet() {
   try {
