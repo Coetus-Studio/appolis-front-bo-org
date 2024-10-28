@@ -1,7 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { ethers } from 'ethers';
+import { ethers, ContractFactory } from 'ethers';
 import { BehaviorSubject } from 'rxjs';
+
 
 
 @Injectable({
@@ -68,18 +69,44 @@ export class EthereumService {
       this.signer.next(this.provider.getSigner());
 
       const address = await this.signer.getValue()!.getAddress();
+      console.log('conectado a metamask')
     } else {
       console.error('MetaMask is not installed.');
     }
 
+    await this.metodosRandomProviderEthersJs();
+
   }
 
-  async getSigner() {
-    console.log('Getting signer...');
-    const address = await this.signer.getValue()!.getAddress();
+  async metodosRandomProviderEthersJs() {
+    const block = await this.provider?.getBlockNumber();
+    console.log('Block Number:', block);
 
-    // return this.signer.getValue();
-    return address;
+    const balance = await this.provider?.getBalance('0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f');
+    console.log('Balance:', balance);
+
+    const balance2 = ethers.utils.formatEther('0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f')
+    console.log('Balance Ether:', balance2);
+
+  }
+
+
+  // async getSigner() {
+  //   console.log('Getting signer...');
+  //   const address = await this.signer.getValue()!.getAddress();
+
+  //   // return this.signer.getValue();
+  //   return address;
+  // }
+
+  // async getSigner(): Promise<ethers.providers.JsonRpcSigner | undefined> {
+  //   console.log('Getting signer...');
+  //   return this.signer.getValue(); // Devuelve el signer en lugar de la dirección
+  // }
+
+
+  async getSigner(): Promise<ethers.providers.JsonRpcSigner | undefined> {
+    return this.signer.getValue(); // Devuelve el signer en lugar de la dirección
   }
 
 }
