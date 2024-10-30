@@ -19,6 +19,7 @@ export class AuthWalletComponent {
 
    constructor(private ethereumService: EthereumService) { }
 
+   // TODO: se podria dejar addressUser dentro de ngOnInit??
    ngOnInit(): void {
     //  throw new Error('Method not implemented.');
     //  this.connectToWallet();
@@ -36,18 +37,32 @@ export class AuthWalletComponent {
 
    }
 
-   async connectToWallet() {
+// conexión con metamask
+async connectToWallet() {
+  try {
+    await this.ethereumService.connectToMetaMaskWallet();
+    this.isConnectedToBlockchain = true;
 
-     try {
-       await this.ethereumService.connectToMetaMaskWallet();
-       this.isConnectedToBlockchain = true;
-       this.addressUser = await this.ethereumService.getSigner(); // Guarda la dirección en addressUser
-     } catch (error) {
-       console.error('Error connecting to wallet', error);
-       this.isConnectedToBlockchain = false;
-     }
+    // Obtén el signer
+    const signer = await this.ethereumService.getSigner();
 
-   }
+    if (signer) {
+      // Obtén la dirección del signer
+      this.addressUser = await signer.getAddress();
+    } else {
+      console.error('Signer is undefined');
+      this.isConnectedToBlockchain = false;
+    }
+  } catch (error) {
+    console.error('Error connecting to wallet', error);
+    this.isConnectedToBlockchain = false;
+  }
+
+  console.log('Connect address: ', this.addressUser);
+}
+
+
+
 
 
 }

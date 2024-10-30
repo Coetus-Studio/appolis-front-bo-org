@@ -14,16 +14,23 @@ async function main() {
   // ahora desplegamos NFT. Este SC no recibe ningun parametro en su constructor
   const nft = await NFT.deploy();
 
-  // Save copies of each contracts abi and address to the frontend.
+  // Guarde copias de cada contrato abi y dirección en el frontend.
   // estos ficheros se almacenaran en la carpeta contractsData
   saveFrontendFiles(marketplace, "Marketplace");
   saveFrontendFiles(nft, "NFT");
+
+  console.log('marketplace: ' + JSON.stringify(marketplace.address));
+  console.log('nft: ' + JSON.stringify(nft.address));
 
 }
 
 function saveFrontendFiles(contract, name) {
   const fs = require("fs");
-  const contractsDir = __dirname + "/../contracts-data";
+  // const contractsDir = __dirname + "/../contracts-data";
+  const contractsDir = __dirname + "/../../assets/contracts-data";
+
+  // console.log('contractsDir: ', contractsDir)
+
 
   if (!fs.existsSync(contractsDir)) {
     fs.mkdirSync(contractsDir);

@@ -307,44 +307,6 @@
         "Context"
       ]
     },
-    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
-      "lastModificationDate": 1728353447155,
-      "contentHash": "6a55c353946e471d9792965d06208295",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ERC165"
-      ]
-    },
     "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
       "lastModificationDate": 1728353447145,
       "contentHash": "4aefc698f77ecbace7f401257dfe182d",
@@ -417,6 +379,44 @@
       ],
       "artifacts": [
         "IERC721Receiver"
+      ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1728353447155,
+      "contentHash": "6a55c353946e471d9792965d06208295",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ERC165"
       ]
     },
     "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\node_modules\\@openzeppelin\\contracts\\utils\\math\\Math.sol": {
