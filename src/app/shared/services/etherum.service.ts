@@ -18,7 +18,7 @@ export class EthereumService {
   constructor(private ngZone: NgZone) {
 
     if (typeof window.ethereum !== 'undefined') {
-      // Coerce the type of window.ethereum to MetaMaskInpageProvider
+      // fuerza el tipo window.ethereum to MetaMaskInpageProvider
       const metaMaskProvider = window.ethereum as MetaMaskInpageProvider;
       this.provider = new ethers.providers.Web3Provider(metaMaskProvider as unknown as ethers.providers.ExternalProvider);
       this.signer.next(this.provider.getSigner());

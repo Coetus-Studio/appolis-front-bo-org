@@ -680,6 +680,117 @@
       "artifacts": [
         "NFT"
       ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\JamToken.sol": {
+      "lastModificationDate": 1730252137406,
+      "contentHash": "0362d9d2cc4e9472f9fcadc49961779e",
+      "sourceName": "src/app/smartcontract/contracts/JamToken.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "JamToken"
+      ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\StellartToken.sol": {
+      "lastModificationDate": 1730252177356,
+      "contentHash": "27e7e284040bd618b4d55aeca458347a",
+      "sourceName": "src/app/smartcontract/contracts/StellartToken.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "StellartToken"
+      ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\TokenFarm.sol": {
+      "lastModificationDate": 1719791841814,
+      "contentHash": "e3a9c52e147ff66f539d1758b707cd43",
+      "sourceName": "src/app/smartcontract/contracts/TokenFarm.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./JamToken.sol",
+        "./StellartToken.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "TokenFarm"
+      ]
     }
   }
 }

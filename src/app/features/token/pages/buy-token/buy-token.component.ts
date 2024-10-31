@@ -2,17 +2,26 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
-import { ContractService } from '../../../../shared/services/contract.service';
-import { EthereumService } from '../../../../shared/services/etherum.service';
-import marketplace from '../../../../assets/contracts-data/Marketplace-address.json'
-import Marketplace from '../../../../assets/contracts-data/Marketplace.json';
-import nFT from '../../../../assets/contracts-data/NFT-address.json';
-import NFT from '../../../../assets/contracts-data/NFT.json';
 
 import { Fragment } from 'ethers/lib/utils';
 import { Contract, ethers } from 'ethers';
 
+import { ContractService } from '../../../../shared/services/contract.service';
+import { EthereumService } from '../../../../shared/services/etherum.service';
+/* import marketplace from '../../../../assets/contracts-data/Marketplace-address.json'
+import Marketplace from '../../../../assets/contracts-data/Marketplace.json';
+import nFT from '../../../../assets/contracts-data/NFT-address.json';
+import NFT from '../../../../assets/contracts-data/NFT.json'; */
 
+
+import JamTokenAbi from '../../../../assets/contracts-data/JamToken.json';
+import JamTokenAddress from '../../../../assets/contracts-data/JamToken-address.json';
+
+import StellartTokenAbi from '../../../../assets/contracts-data/StellartToken.json';
+import StellartTokenAddress from '../../../../assets/contracts-data/StellartToken-address.json';
+
+import TokenFarmAbi from '../../../../assets/contracts-data/TokenFarm.json';
+import TokenFarmAddress from '../../../../assets/contracts-data/TokenFarm-address.json';
 
 @Component({
   selector: 'app-buy-token',
@@ -26,9 +35,18 @@ export default class BuyTokenComponent implements OnInit{
   // contract: any;
   private contract: ethers.Contract | undefined;
 
-  private contractAddress = marketplace.address;
+/*   private contractAddress = marketplace.address;
+  private nftAddress = nFT.address; */
 
-  private nftAddress = nFT.address;
+  private jamTokenAddress = JamTokenAddress.address;
+  private jamTokenAbi = JamTokenAbi;
+
+  private stellartTokenAddress = StellartTokenAddress.address;
+  private stellartTokenAbi = StellartTokenAbi;
+
+  private farmTokenAddress = TokenFarmAddress.address;
+  private farmTokenAbi = TokenFarmAbi;
+
 
   constructor(
     private contractService: ContractService,
@@ -39,16 +57,16 @@ export default class BuyTokenComponent implements OnInit{
 
   async ngOnInit() {
 
-    console.log('contractAddress ', this.contractAddress);
-    console.log('nftAddress', this.nftAddress);
+    // console.log('contractAddress ', this.contractAddress);
+    // console.log('nftAddress', this.nftAddress);
 
     // Obtengo el contrato y lo asigno a contract
     try {
-      this.contract = await this.contractService.getContract(this.nftAddress, NFT.abi);
+      this.contract = await this.contractService.getContract(this.jamTokenAddress, this.jamTokenAbi.abi);
 
       if (this.contract) {
-        console.log('Contract loaded:', this.contract);
-        console.log('Contract address:', this.contract.address);
+        // console.log('Contract loaded:', this.contract);
+        // console.log('Contract address:', this.contract.address);
       } else {
         console.log('Failed to load contract');
       }
@@ -61,22 +79,30 @@ export default class BuyTokenComponent implements OnInit{
 
   }
 
+  async getBalance() {
+
+    const address = this.contractService.getBalance();
+    console.log('Address:', address);
+
+  }
+
   async buyToken() {
-    const amount = 1; // Cambia esto al monto de tokens que deseas comprar
+    const amount = 1000; // Cambia esto al monto de tokens que deseas comprar
 
     console.log('contract 3', this.contract)
 
     // instancio la funcion del smart contract
     // let contractFunction = this.contract?.functions['transferFrom'];
 
-    const addressFrom = '0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f';
-    const addressTo = '0x04C4DfAa7E1C6fa175c833Ec7e8820D31d621381';
+    const addressFrom = '0x028cA896C15D7c8DC2d2c03efe5f779DE590295a';
 
-    const transfer = this.contractService.tranferFrom(addressFrom, addressTo, amount);
-    // console.log('contractFunction', contractFunction)
+    const addressTo = '0x347699eC786C516AB007ffDEC0b9409a324cf007';
 
-    // console.log('buyToken', amount);
 
+    // this.getBalance();
+
+    console.log('Funcion transfer from')
+    const transfer = this.contractService.transferFrom(addressFrom, addressTo, amount);
 
   }
 }
