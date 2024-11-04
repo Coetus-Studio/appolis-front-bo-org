@@ -4,6 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { StorageService } from '../storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-auth',
@@ -20,6 +21,7 @@ export class AuthComponent {
   email: FormControl = new FormControl('contacto@appolis.net');
   password: FormControl = new FormControl('password');
   isLoading: boolean = false;
+  errorMessage:String = '';
 
   constructor(
     private authService: AuthService,
@@ -37,16 +39,11 @@ export class AuthComponent {
 
   async login() {
     try {
+      this.errorMessage = ''
       let emailFormControl : string = this.email.value;
       let passwordFormControl : string = this.password.value;
 
-      console.log('emailFormControl',emailFormControl)
-      console.log('passwordFormControl',passwordFormControl)
-
-      if(emailFormControl === ' ' || passwordFormControl === ' ') {
-        console.log('****AMBOS VACIOS*****');
-        console.log('emailFormControl', emailFormControl);
-        console.log('passwordFormControl', passwordFormControl);
+      if(emailFormControl === '' || passwordFormControl === '') {        
         return;
       }
 
@@ -62,7 +59,9 @@ export class AuthComponent {
       await this.router.navigate(['/home']);
 
     } catch (error) {
-      console.error('error',error);
+      console.error('erroasdr',(error as HttpErrorResponse).statusText);
+
+      this.errorMessage = (error as HttpErrorResponse).statusText;
       this.isLoading = false; // Set loading to false on success
     }
   }

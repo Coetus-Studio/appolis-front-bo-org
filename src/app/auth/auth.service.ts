@@ -38,8 +38,6 @@ export class AuthService {
           password,
         })
       );
-
-      console.log('response',response);
       
       await this.storageService.setItem('authToken', response.accessToken);
       
@@ -47,7 +45,7 @@ export class AuthService {
 
       return true; 
     } catch (error) {      
-      return false;
+      throw error;
     }          
   }
 
