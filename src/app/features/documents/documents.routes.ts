@@ -4,7 +4,7 @@ export const DOCS_ROUTES: Routes = [
 
   {
     path: '',
-    loadComponent: () => import('./documents.components'),
+    loadComponent: () => import('./documents.component'),
   },
   {
     path: 'create',

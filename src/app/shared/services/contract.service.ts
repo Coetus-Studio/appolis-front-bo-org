@@ -61,11 +61,11 @@ export class ContractService {
         console.log('contract está inicializado', this.contract);
 
         // Convierte el amount a wei
-        const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
-        console.log('Amount in Wei:', amountInWei);
+        // const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
+        // console.log('Amount in Wei:', amountInWei);
 
         // Llama a transferFrom
-        const tx = await this.contract.functions['transferFrom'](addressFrom, addressTo, amountInWei);
+        const tx = await this.contract['transferFrom'](addressFrom, addressTo, 1000000000);
         console.log('Transaction Hash:', tx.hash);
 
         // Espera a que la transacción sea confirmada
@@ -78,44 +78,50 @@ export class ContractService {
 
 
 
-  async getBalance()  {
+  async getBalance(address: string)  {
     // Obtenemos el balance del smart contract
-    const balance = await this.contract!['balanceOf']();
+    console.log('address recibido: ', address);
+    const balance = await this.contract!['balanceOf'](address);
     console.log('Balance: ', balance);
-    return balance;
+
+    // Convertimos el balance a un número entero entendible1
+    const balanceInEther = ethers.utils.formatUnits(balance, 18);
+    console.log('Balance en Ether: ', balanceInEther);
+
+    return balanceInEther;
   }
 
 
-  async approveBalance() {
-    try {
-        console.log('En contract service');
-        // Asegúrate de que this.contract esté inicializado
-        if (!this.contract) {
-            console.error('El contrato no está inicializado.');
-            return;
-        }
-        // Obtenemos el balance del wallet
-        const walletBalance = await this.contract['getBalance']();
-        console.log('Wallet Balance:', walletBalance);
-        // Obtenemos el balance del smart contract
-        const contractBalance = await this.getBalance();
-        console.log('Contract Balance:', contractBalance);
-        // Calculamos la cantidad de tokens que se pueden aprobar
-        const amountToApprove = contractBalance.sub(walletBalance);
-        console.log('Amount to approve:', amountToApprove);
-        // Convierte el amount a wei
-        const amountInWei = ethers.utils.parseUnits(amountToApprove.toString(), 18);
-        console.log('Amount in Wei:', amountInWei);
-        // Llama a approve
-/*         const tx = await this.contract.functions['approve'](Marketplace.address, amountInWei);
-        console.log('Transaction Hash:', tx.hash);
-        // Espera a que la transacción sea confirmada
-        await tx.wait();
-        console.log('Transaction confirmed!'); */
-    } catch (error) {
-      console.error('Error en approveBalance:', error);
-    }
-  }
+//   async approveBalance() {
+//     try {
+//         console.log('En contract service');
+//         // Asegúrate de que this.contract esté inicializado
+//         if (!this.contract) {
+//             console.error('El contrato no está inicializado.');
+//             return;
+//         }
+//         // Obtenemos el balance del wallet
+//         const walletBalance = await this.contract['getBalance']();
+//         console.log('Wallet Balance:', walletBalance);
+//         // Obtenemos el balance del smart contract
+//         const contractBalance = await this.getBalance();
+//         console.log('Contract Balance:', contractBalance);
+//         // Calculamos la cantidad de tokens que se pueden aprobar
+//         const amountToApprove = contractBalance.sub(walletBalance);
+//         console.log('Amount to approve:', amountToApprove);
+//         // Convierte el amount a wei
+//         const amountInWei = ethers.utils.parseUnits(amountToApprove.toString(), 18);
+//         console.log('Amount in Wei:', amountInWei);
+//         // Llama a approve
+// /*         const tx = await this.contract.functions['approve'](Marketplace.address, amountInWei);
+//         console.log('Transaction Hash:', tx.hash);
+//         // Espera a que la transacción sea confirmada
+//         await tx.wait();
+//         console.log('Transaction confirmed!'); */
+//     } catch (error) {
+//       console.error('Error en approveBalance:', error);
+//     }
+//   }
 
 
 }

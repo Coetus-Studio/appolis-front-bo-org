@@ -9,5 +9,13 @@ export const AUTH_ROUTES: Routes = [
   // {
   //   path: 'login', component: LoginComponent
   // }
+  // {
+  //   path: '',
+  //   loadComponent: () => import('./components/auth-wallet/auth-wallet.component'),
+  // }
+  // {
+  //   path: '',
+  //   loadComponent: () => import('../features/home/components/home.component'),
+  // }
 
 ]

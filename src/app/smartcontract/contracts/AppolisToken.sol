@@ -9,7 +9,7 @@ pragma solidity ^0.8.4;
 // Persona 3: (Operador: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db)
 
 
-contract JamToken {
+contract AppolisToken {
 
     // Declaraciones
     // variables

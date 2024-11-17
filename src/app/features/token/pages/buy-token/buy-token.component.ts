@@ -14,8 +14,8 @@ import nFT from '../../../../assets/contracts-data/NFT-address.json';
 import NFT from '../../../../assets/contracts-data/NFT.json'; */
 
 
-import JamTokenAbi from '../../../../assets/contracts-data/JamToken.json';
-import JamTokenAddress from '../../../../assets/contracts-data/JamToken-address.json';
+import AppolisTokenAbi from '../../../../assets/contracts-data/AppolisToken.json';
+import AppolisTokenAddress from '../../../../assets/contracts-data/AppolisToken-address.json';
 
 import StellartTokenAbi from '../../../../assets/contracts-data/StellartToken.json';
 import StellartTokenAddress from '../../../../assets/contracts-data/StellartToken-address.json';
@@ -38,8 +38,8 @@ export default class BuyTokenComponent implements OnInit{
 /*   private contractAddress = marketplace.address;
   private nftAddress = nFT.address; */
 
-  private jamTokenAddress = JamTokenAddress.address;
-  private jamTokenAbi = JamTokenAbi;
+  private appolisTokenAddress = AppolisTokenAddress.address;
+  private appolisTokenAbi = AppolisTokenAbi;
 
   private stellartTokenAddress = StellartTokenAddress.address;
   private stellartTokenAbi = StellartTokenAbi;
@@ -47,6 +47,8 @@ export default class BuyTokenComponent implements OnInit{
   private farmTokenAddress = TokenFarmAddress.address;
   private farmTokenAbi = TokenFarmAbi;
 
+
+  addressUser: string = '';
 
   constructor(
     private contractService: ContractService,
@@ -62,32 +64,27 @@ export default class BuyTokenComponent implements OnInit{
 
     // Obtengo el contrato y lo asigno a contract
     try {
-      this.contract = await this.contractService.getContract(this.jamTokenAddress, this.jamTokenAbi.abi);
+      this.contract = await this.contractService.getContract(this.appolisTokenAddress, this.appolisTokenAbi.abi);
 
       if (this.contract) {
         // console.log('Contract loaded:', this.contract);
         // console.log('Contract address:', this.contract.address);
+
       } else {
         console.log('Failed to load contract');
       }
     } catch (error) {
       console.error('Error getting contract:', error);
     }
+
   }
 
   async getFeeAccount() {
 
   }
 
-  async getBalance() {
-
-    const address = this.contractService.getBalance();
-    console.log('Address:', address);
-
-  }
-
   async buyToken() {
-    const amount = 1000; // Cambia esto al monto de tokens que deseas comprar
+    const amount = 10; // Cambia esto al monto de tokens que deseas comprar
 
     console.log('contract 3', this.contract)
 
@@ -103,6 +100,8 @@ export default class BuyTokenComponent implements OnInit{
 
     console.log('Funcion transfer from')
     const transfer = this.contractService.transferFrom(addressFrom, addressTo, amount);
+
+    return transfer;
 
   }
 }

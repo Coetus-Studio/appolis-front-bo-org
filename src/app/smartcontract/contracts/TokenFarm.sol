@@ -9,7 +9,7 @@ pragma solidity ^0.8.4;
 // Persona 2: (Receptor: 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2)
 // Persona 3: (Operador: 0x4B20993Bc481177ec7E8f571ceCaE8A9e22C02db)
 
-import "./JamToken.sol";
+import "./AppolisToken.sol";
 import "./StellartToken.sol";
 
 
@@ -24,7 +24,7 @@ contract TokenFarm {
     // aqui instanciamos e importamos los archivos que no podemos heredar
     // JamToken lo asignamos a jamToken
     // StellartToken lo asignamos a stellartToken
-    JamToken public jamToken;
+    AppolisToken public appolisToken;
     StellartToken public stellartToken;
 
     // Estructura de datos
@@ -38,10 +38,10 @@ contract TokenFarm {
     mapping(address => bool) public isStaking;
 
     // Constructor
-    constructor(StellartToken _stellartToken, JamToken _jamToken) {
+    constructor(StellartToken _stellartToken, AppolisToken _appolisToken) {
         // establemos estas variables
         stellartToken = _stellartToken;
-        jamToken = _jamToken;
+        appolisToken = _appolisToken;
         // el propietario que cliquea el despliegue del smart contract
         owner = msg.sender;
     }
@@ -51,7 +51,7 @@ contract TokenFarm {
         // filtro: se requiere una cantidad superior a 0
         require(_amount > 0, "La cantidad no puede ser menor a 0");
         // Transferir unos tokens JAM al SmartContract principal
-        jamToken.transferFrom(msg.sender, address(this), _amount);
+        appolisToken.transferFrom(msg.sender, address(this), _amount);
         // actualizar el saldo del staking
         stakingBalance[msg.sender] += _amount;
         // guardamos el usuario
@@ -75,7 +75,7 @@ contract TokenFarm {
         // se requiere una cantidad superior a 0
         require(balance > 0, "El balance del staking es 0");
         // Transferencia de los tokens al usuario. Le devolvemos todo el balance, no por cantidad de entrada. Se puede recibir tambien por parametro la cantidad
-        jamToken.transfer(msg.sender, balance);
+        appolisToken.transfer(msg.sender, balance);
         // Reseta el balance de staking del usuario
         stakingBalance[msg.sender] = 0;
         // actualizar estado del staking

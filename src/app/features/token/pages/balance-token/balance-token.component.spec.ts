@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import BuyTokenComponent from './buy-token.component';
+import { BalanceTokenComponent } from './balance-token.component';
 
-describe('BuyTokenComponent', () => {
-  let component: BuyTokenComponent;
-  let fixture: ComponentFixture<BuyTokenComponent>;
+describe('BalanceTokenComponent', () => {
+  let component: BalanceTokenComponent;
+  let fixture: ComponentFixture<BalanceTokenComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BuyTokenComponent]
+      imports: [BalanceTokenComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BuyTokenComponent);
+    fixture = TestBed.createComponent(BalanceTokenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

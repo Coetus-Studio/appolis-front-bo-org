@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, signal } from '@angular/core';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { ethers, ContractFactory } from 'ethers';
 import { BehaviorSubject } from 'rxjs';
@@ -15,6 +15,12 @@ export class EthereumService {
   // mantiene el firmante actual (una instancia de JsonRpcSigner) y emite cambios a los suscriptores.
   private signer: BehaviorSubject<ethers.providers.JsonRpcSigner | undefined> = new BehaviorSubject<ethers.providers.JsonRpcSigner | undefined>(undefined);
 
+  // TODO
+  // behaviorSubject es una clase RxJS que emite valores a sus suscriptores. Requiere un valor inicial, en este caso string vacio
+  private userAddressSubject = new BehaviorSubject<string>('');
+  // crea una variable BehaviorSubject que emite el address del usuario y lo comparte con otros componentes que se suscriban
+  userAddress$ = this.userAddressSubject.asObservable();
+
   constructor(private ngZone: NgZone) {
 
     if (typeof window.ethereum !== 'undefined') {
@@ -23,20 +29,20 @@ export class EthereumService {
       this.provider = new ethers.providers.Web3Provider(metaMaskProvider as unknown as ethers.providers.ExternalProvider);
       this.signer.next(this.provider.getSigner());
 
-       // Define a custom type for the accountsChanged event callback
-       type AccountsChangedCallback = (accounts: string[]) => void;
+      // Define a custom type for the accountsChanged event callback
+      type AccountsChangedCallback = (accounts: string[]) => void;
 
-       // Use the custom type for the callback
-       (metaMaskProvider as any).on('accountsChanged', (accounts: unknown[]) => {
-         const accountArray = accounts as string[];
-         this.ngZone.run(() => {
-           if (accountArray.length === 0) {
-             this.handleMetaMaskDisconnect();
-           } else {
-             this.handleMetaMaskAccountsChanged(accountArray);
-           }
-         });
-       });
+      // Use the custom type for the callback
+      (metaMaskProvider as any).on('accountsChanged', (accounts: unknown[]) => {
+        const accountArray = accounts as string[];
+        this.ngZone.run(() => {
+          if (accountArray.length === 0) {
+            this.handleMetaMaskDisconnect();
+          } else {
+            this.handleMetaMaskAccountsChanged(accountArray);
+          }
+        });
+      });
 
     } else {
       console.error('MetaMask is not installed.');
@@ -68,42 +74,25 @@ export class EthereumService {
       this.provider = new ethers.providers.Web3Provider(metaMaskProvider as unknown as ethers.providers.ExternalProvider);
       this.signer.next(this.provider.getSigner());
 
+      // const address = await this.signer.getValue()!.getAddress();
       const address = await this.signer.getValue()!.getAddress();
-      console.log('conectado a metamask')
+      console.log('conectado a metamask: ', address)
+
+      this.userAddressSubject.next(address);
     } else {
       console.error('MetaMask is not installed.');
     }
-
-    await this.metodosRandomProviderEthersJs();
 
   }
 
   async metodosRandomProviderEthersJs() {
     const block = await this.provider?.getBlockNumber();
     console.log('Block Number:', block);
-
-    const balance = await this.provider?.getBalance('0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f');
+    const balance = await this.provider?.getBalance('0x028cA896C15D7c8DC2d2c03efe5f779DE590295a');
     console.log('Balance:', balance);
-
-    const balance2 = ethers.utils.formatEther('0x40dCA3fD4c7F6f7fE3265C4483f613265fd0CE0f')
+    const balance2 = ethers.utils.formatEther('0x028cA896C15D7c8DC2d2c03efe5f779DE590295a')
     console.log('Balance Ether:', balance2);
-
   }
-
-
-  // async getSigner() {
-  //   console.log('Getting signer...');
-  //   const address = await this.signer.getValue()!.getAddress();
-
-  //   // return this.signer.getValue();
-  //   return address;
-  // }
-
-  // async getSigner(): Promise<ethers.providers.JsonRpcSigner | undefined> {
-  //   console.log('Getting signer...');
-  //   return this.signer.getValue(); // Devuelve el signer en lugar de la dirección
-  // }
-
 
   async getSigner(): Promise<ethers.providers.JsonRpcSigner | undefined> {
     return this.signer.getValue(); // Devuelve el signer en lugar de la dirección

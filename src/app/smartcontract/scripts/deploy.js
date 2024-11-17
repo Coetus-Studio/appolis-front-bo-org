@@ -10,7 +10,7 @@ async function main() {
   // const Marketplace = await ethers.getContractFactory("Marketplace");
 
   console.log("jamtoken");
-  const JamToken = await ethers.getContractFactory("JamToken");
+  const AppolisToken = await ethers.getContractFactory("AppolisToken");
   console.log("Stellar");
   const StellartToken = await ethers.getContractFactory("StellartToken");
   console.log("TokenFarm");
@@ -23,13 +23,13 @@ async function main() {
 
   // nuevos smartcontract
   // JamToken sirve para hacer staking
-  const jamToken = await JamToken.deploy();
+  const appolisToken = await AppolisToken.deploy();
   console.log("deployado jamtoken")
   // smartcontract para recompenza a quuien haga staking
   const stellartToken = await StellartToken.deploy();
   console.log("deployado stellartToken")
-  // smartcontract principal, controla jamToken y stellartToken
-  const tokenFarm = await TokenFarm.deploy(stellartToken.address, jamToken.address);
+  // smartcontract principal, controla appolisToken y stellartToken
+  const tokenFarm = await TokenFarm.deploy(stellartToken.address, appolisToken.address);
   console.log("deployado tokenFarm")
 
 
@@ -37,13 +37,13 @@ async function main() {
   // estos ficheros se almacenaran en la carpeta contractsData
  /*  saveFrontendFiles(marketplace, "Marketplace");
   saveFrontendFiles(nft, "NFT"); */
-  saveFrontendFiles(jamToken, "JamToken");
+  saveFrontendFiles(appolisToken, "AppolisToken");
   saveFrontendFiles(stellartToken, "StellartToken");
   saveFrontendFiles(tokenFarm, "TokenFarm");
 
 /*   console.log('marketplace: ' + JSON.stringify(marketplace.address));
   console.log('nft: ' + JSON.stringify(nft.address)); */
-  console.log('jamToken: ' + JSON.stringify(jamToken.address));
+  console.log('appolisToken: ' + JSON.stringify(appolisToken.address));
   console.log('stellartToken: ' + JSON.stringify(stellartToken.address));
   console.log('tokenFarm: ' + JSON.stringify(tokenFarm.address));
 
