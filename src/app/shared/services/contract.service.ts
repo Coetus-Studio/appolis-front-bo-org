@@ -24,7 +24,9 @@ export class ContractService {
   // almaceno una instancial del smartcontract. Inicialmente es undefined
   public contract: ethers.Contract | undefined;
 
-  constructor(private ethereumService: EthereumService) { }
+  constructor(private ethereumService: EthereumService) {
+
+   }
 
   async getContract(address: string, abi: ethers.ContractInterface): Promise<ethers.Contract | undefined> {
     // obtenemos el signer
@@ -74,6 +76,37 @@ export class ContractService {
     } catch (error) {
         console.error('Error en transferFrom:', error);
     }
+}
+
+async transferTo(addressTo: string, amount: number) {
+  try {
+    console.log('transfer');
+    console.log('To', addressTo);
+    console.log('Amount', amount);
+
+    // Asegúrate de que this.contract esté inicializado
+    if (!this.contract) {
+        console.error('El contrato no está inicializado.');
+        return;
+    }
+    console.log('contract está inicializado', this.contract);
+
+    // Convierte el amount a wei
+    // const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
+    // console.log('Amount in Wei:', amountInWei);
+
+    // Llama a transfer
+    const tx = await this.contract['transfer'](addressTo, amount);
+    console.log('Transaction Hash:', tx.hash);
+
+    // Espera a que la transacción sea confirmada
+    await tx.wait();
+    console.log('Transaction confirmed!');
+
+  } catch (error) {
+    console.log('error: ', error)
+  }
+
 }
 
 

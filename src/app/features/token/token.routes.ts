@@ -14,6 +14,10 @@ export const BUYTOKEN_ROUTES: Routes = [
   {
     path: 'balance',
     loadComponent: () => import('./pages/balance-token/balance-token.component'),
+  },
+  {
+    path: 'transfer',
+    loadComponent: () => import('./pages/transfer-token/transfer-token.component'),
   }
 ]
 

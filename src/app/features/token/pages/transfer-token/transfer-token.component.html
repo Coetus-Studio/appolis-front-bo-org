@@ -1,0 +1,32 @@
+<div>
+  <h1>Transferencia de Tokens.</h1>
+</div>
+<br>
+<div>
+  <h4>
+    <span>Cuenta de Origen:</span>
+      {{ addressUser }}
+  </h4>
+</div>
+<br>
+<div>
+  <h4>
+    <span>Cuenta de Destino:</span>
+    <!-- aqui implemento nngModel para enlazar los valores de los input con las propiedades del component. Importar formsModule -->
+    <input type="text" [(ngModel)]="toAddress">
+  </h4>
+</div>
+<br>
+<div>
+  <h4>
+    <span>Cantidad token a transferir:</span>
+    <input type="number" [(ngModel)]="amount">
+  </h4>
+</div>
+<br>
+<div>
+  <button (click)="transfer(toAddress, amount)">Transferir</button>
+</div>
+<br>
+<app-error-message [message]="message"></app-error-message>
+
