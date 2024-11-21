@@ -60,7 +60,6 @@ contract TokenFarm {
         if(!hasStaked[msg.sender]) {
             stakers.push(msg.sender);
         }
-
         // Actualizar el estado del staking
         // hace staking este msg.sender?
         isStaking[msg.sender] = true;
