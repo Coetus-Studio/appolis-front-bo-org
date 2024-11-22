@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 
-
-export const BUYTOKEN_ROUTES: Routes = [
+export const TOKEN_ROUTES: Routes = [
 
   {
     path: '',
