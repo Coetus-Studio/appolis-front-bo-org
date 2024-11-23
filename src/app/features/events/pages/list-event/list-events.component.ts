@@ -26,7 +26,7 @@ export default class ListEventsComponent implements OnInit {
   }
 
   async getAllEvents() {
-    this.eventService.getAllEvents().subscribe({
+    (await this.eventService.getAllEvents()).subscribe({
       next: (events) => {
         console.log('Received events:', events);
         this.items = events;

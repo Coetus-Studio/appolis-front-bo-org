@@ -12,7 +12,11 @@ export const EVENT_ROUTES: Routes = [
   // },
   {
     path: 'list',
-    loadComponent: () => import('./pages/list-events/list-events.component')
+    loadComponent: () => import('./pages/list-event/list-events.component')
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./pages/create-event/create-event.component')
   },
 
 ]

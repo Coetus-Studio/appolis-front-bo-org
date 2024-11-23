@@ -1,8 +1,8 @@
 export interface EventOrgInterface {
   title: string;
   description: string;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   responsible_organization: string;
   messages: string[];
   event_type: string;
@@ -11,5 +11,5 @@ export interface EventOrgInterface {
   location: string;
   images: string[];
   status: string;
-  created_at: Date;
+  created_at: string;
 }

@@ -13,10 +13,15 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  // TODO: ver porque da error al dejar el observable como tipo <EventOrgInterface>. implemntar pipe si es necesario
-  getAllEvents(): Observable<any> {
+  // TODO: ver porque da error al dejar el observable como tipo <EventOrgInterface> y dejar funcion como async. implemntar pipe si es necesario
+  async getAllEvents(): Promise<Observable<any>> {
     console.log('Service list events');
     // return this.http.get(this.apiUrl).pipe(res => res);
     return this.http.get(this.apiUrl);
+  }
+
+  async createEvent(body: any): Promise<Observable<any>> {
+    console.log('Service create event');
+    return this.http.post(this.apiUrl, body);
   }
 }

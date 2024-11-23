@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } 
 @Component({
   selector: 'form-create-docs-residence',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css'
 })
