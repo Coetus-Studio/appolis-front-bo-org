@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { EventService } from '../../services/event.service';
-import { EventOrgInterface } from '../../interfaces/events.interface';
+import { EventForm } from '../../interfaces/events.interface';
 
 @Component({
   selector: 'app-list-events',
@@ -14,7 +14,7 @@ import { EventOrgInterface } from '../../interfaces/events.interface';
 export default class ListEventsComponent implements OnInit {
 
   // TODO: agregar tipo interface Event
-  items: EventOrgInterface[] = [];
+  items: EventForm[] = [];
   // items = [];
 
   constructor(private eventService: EventService) {
@@ -22,11 +22,11 @@ export default class ListEventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllEvents();
+    // this.getAllEvents();
   }
 
   async getAllEvents() {
-    (await this.eventService.getAllEvents()).subscribe({
+    (this.eventService.getAllEvents()).subscribe({
       next: (events) => {
         console.log('Received events:', events);
         this.items = events;

@@ -6,7 +6,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'shared-nav-bar',
   standalone: true,
-  imports: [AuthWalletComponent, BalanceTokenComponent, RouterLink, RouterOutlet],
+  imports: [AuthWalletComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
