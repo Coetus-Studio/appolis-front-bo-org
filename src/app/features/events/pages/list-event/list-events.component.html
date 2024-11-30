@@ -1,0 +1,22 @@
+<div>
+  <h1>Listar eventos...</h1>
+</div>
+
+<div class="container">
+  <button (click)="getAllEvents()" class="btn btn-primary">Listar Items</button>
+
+  <div class="card" *ngFor="let item of items">
+    <!-- <div class="card" @for (item of items(); track)> -->
+
+
+    <div class="card-header">
+      {{ item.title }}
+    </div>
+    <div class="card-body">
+      <!-- <p>{{ item.description }}</p> -->
+    </div>
+    <div class="card-body">
+      <!-- <img [src]="item.image" alt="{{ item.name }}"> -->
+    </div>
+  </div>
+</div>

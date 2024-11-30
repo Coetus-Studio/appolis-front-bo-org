@@ -17,7 +17,11 @@ export const routes: Routes = [
   },
   {
     path: 'token',
-    loadChildren: () => import('./features/token/token.routes').then(m => m.BUYTOKEN_ROUTES)
+    loadChildren: () => import('./features/token/token.routes').then(m => m.TOKEN_ROUTES)
+  },
+  {
+    path: 'events',
+    loadChildren: () => import('./features/events/events.routes').then(m => m.EVENT_ROUTES)
   },
 
 

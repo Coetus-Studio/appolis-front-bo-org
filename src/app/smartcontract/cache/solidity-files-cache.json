@@ -680,6 +680,117 @@
       "artifacts": [
         "NFT"
       ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\StellartToken.sol": {
+      "lastModificationDate": 1730257670814,
+      "contentHash": "5a38bc36dbff9fab394e34e75205143f",
+      "sourceName": "src/app/smartcontract/contracts/StellartToken.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "StellartToken"
+      ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\TokenFarm.sol": {
+      "lastModificationDate": 1730585507125,
+      "contentHash": "d040164a68a6b449da8844eda05f1062",
+      "sourceName": "src/app/smartcontract/contracts/TokenFarm.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./AppolisToken.sol",
+        "./StellartToken.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "TokenFarm"
+      ]
+    },
+    "C:\\Repo\\02-Coetus-studio\\appolis-front-bo-org\\src\\app\\smartcontract\\contracts\\AppolisToken.sol": {
+      "lastModificationDate": 1730498832315,
+      "contentHash": "1d5860be5accd095cdb6ce0f77704273",
+      "sourceName": "src/app/smartcontract/contracts/AppolisToken.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "AppolisToken"
+      ]
     }
   }
 }

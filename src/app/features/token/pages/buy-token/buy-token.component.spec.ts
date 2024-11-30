@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BuyTokenComponent } from './buy-token.component';
+import BuyTokenComponent from './buy-token.component';
 
 describe('BuyTokenComponent', () => {
   let component: BuyTokenComponent;

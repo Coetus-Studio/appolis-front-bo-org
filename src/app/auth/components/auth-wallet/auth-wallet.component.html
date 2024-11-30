@@ -1,2 +1,4 @@
-<button *ngIf="!isConnected" (click)="connectToWallet()" class="btn btn-primary">Conectar con MetaMask</button>
-<p *ngIf="isConnected">Cuenta conectada: {{ addressUser }}</p>
+<div class="content">
+  <button *ngIf="!isConnected" (click)="connectToWallet()" class="btn btn-primary">Conectar con MetaMask</button>
+  <p *ngIf="isConnected">Cuenta conectada: {{ addressUser }}</p>
+</div>
