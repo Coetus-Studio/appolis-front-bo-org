@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../../auth/auth.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import BalanceTokenComponent from '../../../features/token/pages/balance-token/balance-token.component';
 
@@ -10,5 +11,11 @@ import BalanceTokenComponent from '../../../features/token/pages/balance-token/b
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
+  constructor(
+    private authService: AuthService,
+  ){}
 
+  async logout() {
+    await this.authService.logout()
+  }
 }
