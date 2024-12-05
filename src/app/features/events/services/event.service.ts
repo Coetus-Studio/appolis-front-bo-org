@@ -1,29 +1,44 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { EventForm } from '../interfaces/events.interface';
+import { StorageService } from '../../../storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
 
-  // TODO: verificar como se debe manejar la url del API, ya que por ahora está en duro
-  private apiUrl: string = 'http://localhost:3000/v1/events';
+  private authToken: string | undefined | null = '';
 
-  constructor(private http: HttpClient) { }
+  private readonly apiUrl: string = 'http://localhost:3000/v1/events';
 
-  // TODO: ver porque da error al dejar el observable como tipo <EventOrgInterface> y dejar funcion como async. implemntar pipe si es necesario
-  // async getAllEvents(): Promise<Observable<any>> {
-  //   console.log('Service list events');
-  //   // return this.http.get(this.apiUrl).pipe(res => res);
-  //   return this.http.get<EventOrgInterface>(this.apiUrl);
-  // }
+  constructor(
+    private http: HttpClient,
+    private storage: StorageService,
+  ) {
+    this.initAuthToken();
+  }
+
+  // Inicializo authToken
+  private async initAuthToken() {
+    this.authToken = await this.storage.getItem('authToken');
+
+    if (!this.authToken) {
+      console.error('No se encontró el authToken');
+    }
+
+    console.log('authToken: ', this.authToken);
+  }
 
   getAllEvents(): Observable<EventForm[]> {
-    console.log('Service list events');
+    console.log('Service list events', this.authToken);
 
-    return this.http.get<EventForm[]>(this.apiUrl)
+    const headers = {
+      Authorization: `Bearer ${this.authToken}`,
+    }
+
+    return this.http.get<EventForm[]>(this.apiUrl, { headers })
       .pipe(map(res => res))
   }
 

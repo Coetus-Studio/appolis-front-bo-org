@@ -9,8 +9,8 @@ import { StorageService } from '../storage.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {    
-  private apiUrl = 'http://localhost:3000';  
+export class AuthService {
+  private apiUrl = 'http://localhost:3000';
 
   constructor(
     private storageService: StorageService,
@@ -20,42 +20,42 @@ export class AuthService {
 
 
   async login(
-    { email, password } : 
+    { email, password } :
     { email: string; password: string }
   ): Promise<any> {
-    try { 
+    try {
       if (!email || !password) {
         return false;
       }
-      
+
       if (await this.storageService?.getItem('isAuthenticated') === 'true') {
         return true;
       }
-     
+
       let response = await lastValueFrom(
         this.http.post<any>(`${this.apiUrl}/v1/auth/signin`, {
           email,
           password,
         })
       );
-      
+
       await this.storageService.setItem('authToken', response.accessToken);
-      
+
       await this.storageService?.setItem('isAuthenticated', 'true');
 
-      return true; 
-    } catch (error) {      
+      return true;
+    } catch (error) {
       throw error;
-    }          
+    }
   }
 
-  async logout() {    
+  async logout() {
     await this.storageService?.clear();
 
     this.router.navigate(['/']);
   }
 
-  async checkAuthentication(): Promise<boolean> {    
+  async checkAuthentication(): Promise<boolean> {
     return await this.storageService?.getItem('isAuthenticated') === 'true';
   }
 }
