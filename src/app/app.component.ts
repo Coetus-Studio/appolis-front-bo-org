@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { GoogleMapsModule } from '@angular/google-maps';
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';
 
@@ -9,11 +10,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterOutlet,
     IonicStorageModule,
+    GoogleMapsModule,
   ],
-  providers: [    
+  providers: [
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

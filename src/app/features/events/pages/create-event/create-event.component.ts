@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../../services/event.service';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+
 import { EventFormComponent } from '../../components/event-form/event-form.component';
-import { fromEvent } from 'rxjs';
+import { EventService } from '../../services/event.service';
+import { MapOrgComponent } from '../../../../shared/map-org/components/map-org.component';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [CommonModule, EventFormComponent],
+  imports: [CommonModule, EventFormComponent, RouterOutlet, MapOrgComponent],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.css'
 })
