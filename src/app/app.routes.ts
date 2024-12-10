@@ -5,7 +5,7 @@ export const routes: Routes = [
 
   {
     path: '',
-    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES),    
+    loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES),
   },
   {
     path: 'home',
@@ -22,6 +22,10 @@ export const routes: Routes = [
   {
     path: 'events',
     loadChildren: () => import('./features/events/events.routes').then(m => m.EVENT_ROUTES)
+  },
+  {
+    path: 'opportunities',
+    loadChildren: () => import('./features/opportunities/opportunities.routes').then(m => m.OPPORTUNITIES_ROUTES)
   },
 
 
