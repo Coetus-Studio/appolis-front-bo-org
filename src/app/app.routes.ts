@@ -27,6 +27,10 @@ export const routes: Routes = [
     path: 'opportunities',
     loadChildren: () => import('./features/opportunities/opportunities.routes').then(m => m.OPPORTUNITIES_ROUTES)
   },
+  {
+    path: 'organization',
+    loadChildren: () => import('./features/organizations/organization.routes').then(m => m.ORGANIZATION_ROUTES)
+  },
 
 
 

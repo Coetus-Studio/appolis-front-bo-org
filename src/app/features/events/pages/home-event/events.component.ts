@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [ RouterLink ],
+  imports: [ RouterLink, RouterOutlet ],
   templateUrl: './events.component.html',
   styleUrl: './events.component.css'
 })
