@@ -1,7 +1,13 @@
-<div class="alert alert-warning text-center">
-  No Hay Organizaciones.
+<h1>Organización</h1>
 
-</div>
-<div>
+<li *ngFor="let organization of organization()" class="list-group-item">
 
-</div>
+  {{ organization.name }}
+
+
+</li>
+
+<ul class="list-group-item">
+
+</ul>
+

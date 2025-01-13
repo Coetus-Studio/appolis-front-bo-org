@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import BalanceTokenComponent from '../../../features/token/pages/balance-token/balance-token.component';
+import { routes } from '../../../app.routes';
 
 @Component({
   selector: 'shared-side-bar',
@@ -11,9 +12,20 @@ import BalanceTokenComponent from '../../../features/token/pages/balance-token/b
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
+
+  // public menuItems = routes.map(( route ) => route.children ?? [])
+  // .flat()
+  // .filter((route) => route && route.path);
+
+
+
   constructor(
     private authService: AuthService,
-  ){}
+  ){
+
+
+
+  }
 
   async logout() {
     await this.authService.logout()

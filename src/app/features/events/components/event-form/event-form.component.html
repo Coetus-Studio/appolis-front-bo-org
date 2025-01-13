@@ -4,7 +4,8 @@
   </div>
   <hr>
 
-  <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+  <!-- <form [formGroup]="eventForm" (ngSubmit)="createEvent()"> -->
+    <form [formGroup]="eventForm()" (click)="createEvent()">
 
     <label for="">
       Título del Evento:
@@ -78,11 +79,17 @@
     </label>
 
     <!-- <button type="submit" [disabled]="form().invalid" (click)="onSubmit()">Guardar</button> -->
-    <button type="submit">Guardar</button>
+    <button type="submit" >Guardar</button>
 
   </form>
 
 </div>
 
-{{ eventForm.value | json}}
+<br>
+<b>_______________________________</b>
+<h2><b>Valores Form</b>  </h2>
+<pre>{{ eventForm().value | json}}</pre>
+
+
+
 

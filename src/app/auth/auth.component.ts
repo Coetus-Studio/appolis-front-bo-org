@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,  
+    CommonModule,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
@@ -22,6 +22,7 @@ export class AuthComponent {
   password: FormControl = new FormControl('password');
   isLoading: boolean = false;
   errorMessage:String = '';
+  rol: string = '';
 
   constructor(
     private authService: AuthService,
@@ -43,18 +44,22 @@ export class AuthComponent {
       let emailFormControl : string = this.email.value;
       let passwordFormControl : string = this.password.value;
 
-      if(emailFormControl === '' || passwordFormControl === '') {        
+      if(emailFormControl === '' || passwordFormControl === '') {
         return;
       }
 
       this.isLoading = true; // Set loading to true
 
-      await this.authService.login({
+      const response = await this.authService.login({
         email: emailFormControl,
         password: passwordFormControl,
       });
 
       this.isLoading = false; // Set loading to false on success
+
+      this.rol = this.rol,
+      console.log('ROL', response.roles);
+      console.log('ID', this);
 
       await this.router.navigate(['/home']);
 

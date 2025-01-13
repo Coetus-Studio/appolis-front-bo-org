@@ -3,20 +3,30 @@
 </div>
 
 <div class="container">
+  <!-- Botón para listar los eventos -->
   <button (click)="getAllEvents()" class="btn btn-primary">Listar Items</button>
 
-  <div class="card" *ngFor="let item of items">
-    <!-- <div class="card" @for (item of items(); track)> -->
+  <!-- Verificación de si hay eventos -->
+  <div *ngIf="eventOrg.length > 0; else noEvents">
+    <div *ngFor="let event of eventOrg" class="card mb-3">
+      <!-- Encabezado del evento -->
+      <div class="card-header">
+        {{ event.title }}
+      </div>
 
-
-    <div class="card-header">
-      {{ item.title }}
-    </div>
-    <div class="card-body">
-      <!-- <p>{{ item.description }}</p> -->
-    </div>
-    <div class="card-body">
-      <!-- <img [src]="item.image" alt="{{ item.name }}"> -->
+      <!-- Cuerpo del evento -->
+      <div class="card-body">
+        <p>{{ event.description }}</p>
+        <!-- Aquí puedes agregar una imagen si está disponible -->
+        <img [src]="event.images" alt="{{ event.title }}" class="img-fluid">
+      </div>
     </div>
   </div>
+
+  <!-- Mensaje en caso de que no haya eventos -->
+  <ng-template #noEvents>
+    <p>No hay eventos para mostrar.</p>
+  </ng-template>
 </div>
+
+<!-- <router-outlet></router-outlet> -->

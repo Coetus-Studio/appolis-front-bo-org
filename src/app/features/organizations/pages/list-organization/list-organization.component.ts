@@ -11,26 +11,12 @@ import { OrganizationTableComponent } from '../../components/organization-table/
 })
 export default class ListOrganizationComponent {
 
-  organization: Signal<Organization[]> = signal([
-    {
-      id: 1,
-      name: 'Coetus Studio',
-      address: '123 Main St',
-      phone: '555-555-5555'
-    }
-  ]);
+
 
 
   constructor() {
-
   }
 
-  listOrganizations() {
-    console.log('listOrganizations');
 
-
-
-
-  }
 
 }

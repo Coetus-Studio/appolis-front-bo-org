@@ -43,8 +43,14 @@ export class EventService {
   }
 
   createEvent(body: EventForm): Observable<any> {
+
+    const headers = {
+      Authorization: `Bearer ${this.authToken}`,
+    }
+
+
     console.log('Service create event', body);
-    return this.http.post<EventForm[]>(this.apiUrl, body).pipe(map(res => res))
+    return this.http.post<EventForm[]>(this.apiUrl, body, {headers}).pipe(map(res => res))
   }
 
 }
