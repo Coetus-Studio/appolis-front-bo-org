@@ -1,16 +1,18 @@
-export interface GeoPoint {
-  type: string;
-  coordinates: string;
-}
+import { Location } from '../../../shared/interfaces/locations.interface'
 
-export interface Location {
-  address: string;
-  description: string;
-  category: string;
-  is_public: string;
-  city_code: string;
-  geo_point: GeoPoint;
-}
+// export interface GeoPoint {
+//   type: string;
+//   coordinates: string;
+// }
+
+// export interface Location {
+//   address: string;
+//   description: string;
+//   category: string;
+//   is_public: string;
+//   city_code: string;
+//   geo_point: GeoPoint;
+// }
 
 export interface EventForm {
   title: string;

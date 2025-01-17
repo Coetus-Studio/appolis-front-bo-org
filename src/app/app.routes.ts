@@ -31,6 +31,10 @@ export const routes: Routes = [
     path: 'organization',
     loadChildren: () => import('./features/organizations/organization.routes').then(m => m.ORGANIZATION_ROUTES)
   },
+  {
+    path: 'locations',
+    loadChildren: () => import('./shared/shared.routes').then(m => m.LOCATIONS_ROUTES)
+  },
 
 
 
