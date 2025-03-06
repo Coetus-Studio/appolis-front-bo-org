@@ -3,31 +3,26 @@ import { AuthService } from '../../../auth/auth.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import BalanceTokenComponent from '../../../features/token/pages/balance-token/balance-token.component';
 import { routes } from '../../../app.routes';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'shared-side-bar',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, BalanceTokenComponent],
+  imports: [RouterLink, RouterOutlet, CommonModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
 
-  // public menuItems = routes.map(( route ) => route.children ?? [])
-  // .flat()
-  // .filter((route) => route && route.path);
+  // isAuthenticated: boolean = false;
 
+  // constructor(
+  //   private authService: AuthService,
+  // ){
+  //   this.isLoggedIn();
+  // }
 
-
-  constructor(
-    private authService: AuthService,
-  ){
-
-
-
-  }
-
-  async logout() {
-    await this.authService.logout()
-  }
+  // async isLoggedIn() {
+  //   this.isAuthenticated = await this.authService.checkAuthentication();
+  // }
 }

@@ -1,6 +1,9 @@
 export interface GeoPoint {
-  type: string;
-  coordinates: string;
+  type: "Point";
+  coordinates: [
+    number,
+    number
+  ];
 }
 
 export interface Location {

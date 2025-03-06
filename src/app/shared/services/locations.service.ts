@@ -35,4 +35,21 @@ export class LocationsService {
 
   }
 
+  createLocation() {
+    // TODO: implement creating a new location
+    console.log('Creating a new location...');
+    return this.http.post<Location>(this.apiUrl, {
+      address: 'New Location',
+      description: 'A new location description',
+      category: 'New Location Category',
+      url_icon: 'https://example.com/location-icon.png',
+      is_public: true,
+      city_code: 'new-location-city-code',
+      geo_point: {
+        lat: 0,
+        lng: 0,
+      },
+    });
+  }
+
 }

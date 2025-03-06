@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { SideBarComponent } from './shared/components/side-bar/side-bar.component';
+import { AuthService } from './auth/auth.service';
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';
 
@@ -23,4 +24,16 @@ import { SideBarComponent } from './shared/components/side-bar/side-bar.componen
 
 export class AppComponent {
   title = 'backoffice-org';
+
+  isAuthenticated: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+  ) {
+    this.isLoggedIn();
+  }
+
+  async isLoggedIn() {
+    this.isAuthenticated = await this.authService.checkAuthentication();
+  }
 }
