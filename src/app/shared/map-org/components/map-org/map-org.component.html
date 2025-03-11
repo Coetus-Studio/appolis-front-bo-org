@@ -1,0 +1,5 @@
+<div class="w-full h-[40rem]">
+  <google-map [center]="center()" [zoom]="zoom()" [options]="options" (mapClick)="moveMap($event)"
+    (mapMousemove)="move($event)" style="height: 100%; width: 100%">
+  </google-map>
+</div>
