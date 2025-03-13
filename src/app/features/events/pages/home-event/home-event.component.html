@@ -1,0 +1,13 @@
+<!-- event.component.html -->
+<div class="bg-slate-100 text-black overflow-y-scroll w-screen h-screen antialiased selection:bg-blue-600 selection:text-white">
+  <div class="flex flex-col relative w-screen items-center justify-center p-10">
+    <h2 class="text-3xl font-bold mb-4">Eventos</h2>
+    <p class="mb-6">Listar eventos</p>
+
+    <div class="flex space-x-4">
+      <button [routerLink]="['list']" routerLinkActive="router-link-active" class="btn-primary">Ver</button>
+      <button [routerLink]="['create']" routerLinkActive="router-link-active" class="btn-primary">Crear</button>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

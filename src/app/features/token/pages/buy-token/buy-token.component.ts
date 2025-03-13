@@ -6,8 +6,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { Fragment } from 'ethers/lib/utils';
 import { Contract, ethers } from 'ethers';
 
-import { ContractService } from '../../../../shared/services/contract.service';
-import { EthereumService } from '../../../../shared/services/etherum.service';
+import { ContractService } from '../../../../shared/smartcontract/services/contract.service';
+import { EthereumService } from '../../../../shared/smartcontract/services/etherum.service';
 /* import marketplace from '../../../../assets/contracts-data/Marketplace-address.json'
 import Marketplace from '../../../../assets/contracts-data/Marketplace.json';
 import nFT from '../../../../assets/contracts-data/NFT-address.json';

@@ -9,13 +9,14 @@ import { EventForm } from '../../interfaces/events.interface';
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [CommonModule, EventFormComponent],
+  imports: [CommonModule, EventFormComponent, RouterOutlet],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.css'
 })
 export default class CreateEventComponent implements OnInit {
 
   public eventsOrg = signal<EventForm[]>([]);
+
 
   constructor(private eventService: EventService) {
     console.log('create event');

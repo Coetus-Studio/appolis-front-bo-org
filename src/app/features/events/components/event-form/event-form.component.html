@@ -1,95 +1,133 @@
-<div>
-  <div>
-    <h1>Formulario Creacion Eventos...</h1>
+<!-- event-form.component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header text-center">
+          <h1>Formulario Creación Eventos</h1>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="eventForm()" (ngSubmit)="createEvent()">
+            <!-- Título del Evento -->
+            <div class="form-group mb-3">
+              <label for="title">Título del Evento:</label>
+              <input type="text" id="title" class="form-control" formControlName="title" required>
+            </div>
+
+            <!-- Descripción del Evento -->
+            <div class="form-group mb-3">
+              <label for="description">Descripción del Evento:</label>
+              <textarea id="description" class="form-control" rows="3" formControlName="description" required></textarea>
+            </div>
+
+            <!-- Fecha del Evento -->
+            <div class="form-group mb-3">
+              <label for="start_date">Fecha del Evento:</label>
+              <input type="date" id="start_date" class="form-control" formControlName="start_date" required>
+            </div>
+
+            <!-- Término del Evento -->
+            <div class="form-group mb-3">
+              <label for="end_date">Término del Evento:</label>
+              <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
+            </div>
+
+            <!-- Lugar del Evento -->
+            <!-- <button type="button" class="btn btn-secondary" [routerLink]="['create-location']" routerLinkActive="router-link-active">Agregar Ubicación</button> -->
+
+
+
+            <!-- Modal para Agregar Ubicación -->
+            <!-- Lugar del Evento -->
+            <button type="button" class="btn btn-secondary" (click)="openLocationModal()">Agregar Ubicación</button>
+
+              <!-- Modal para Agregar Ubicación -->
+              <div *ngIf="isModalOpen" class="modal" tabindex="-1" id="locationModal" [ngClass]="{'show': isModalOpen}" style="display: block;">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Agregar Ubicación</h5>
+                      <button type="button" class="btn-close" (click)="closeLocationModal()" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <location-form (locationSaved)="onLocationSaved($event)"></location-form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+            <!-- Imagen del Evento -->
+            <div class="form-group mb-3">
+              <label for="image">Imagen del Evento:</label>
+              <input type="file" id="image" class="form-control-file" formControlName="images" required>
+            </div>
+
+            <!-- Mensajes -->
+            <div class="form-group mb-3">
+              <label for="messages">Mensajes:</label>
+              <textarea id="messages" class="form-control" rows="2" formControlName="messages"></textarea>
+            </div>
+
+            <!-- Autor del Evento -->
+            <div class="form-group mb-3">
+              <label for="author">Autor del Evento:</label>
+              <input type="text" id="author" class="form-control" formControlName="created_by" required>
+            </div>
+
+            <!-- Categoría del Evento -->
+            <div class="form-group mb-3">
+              <label for="category">Categoría del Evento:</label>
+              <select id="category" class="form-control" formControlName="event_type" required>
+                <option value="0">Seleccione una categoría</option>
+                <option value="1">Deporte</option>
+                <option value="2">Entretenimiento</option>
+                <option value="3">Cultura</option>
+                <option value="4">Educación</option>
+                <option value="5">Salud</option>
+              </select>
+            </div>
+
+            <!-- Organización Responsable -->
+            <div class="form-group mb-3">
+              <label for="organizer">Organización responsable:</label>
+              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization" required>
+            </div>
+
+            <!-- Asistentes -->
+            <div class="form-group mb-3">
+              <label for="assistants">Asistentes:</label>
+              <input type="number" id="assistants" class="form-control" formControlName="assistents" required>
+            </div>
+
+            <!-- Estado -->
+            <div class="form-group mb-3">
+              <label for="status">Estado:</label>
+              <select id="status" class="form-control" formControlName="status" required>
+                <option value="0">Pendiente</option>
+                <option value="1">Confirmado</option>
+                <option value="2">Cancelado</option>
+              </select>
+            </div>
+
+            <!-- Botón de Guardar -->
+            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <hr>
-
-  <!-- <form [formGroup]="eventForm" (ngSubmit)="createEvent()"> -->
-    <form [formGroup]="eventForm()" (click)="createEvent()">
-
-    <label for="">
-      Título del Evento:
-      <input type="text" id="title" name="title" required formControlName="title">
-    </label>
-
-    <label for="">
-      Descripción del Evento:
-      <textarea id="description" name="description" required formControlName="description"></textarea>
-    </label>
-
-    <label for="">
-      Fecha del Evento:
-      <input type="date" id="start_date" name="date" required formControlName="start_date">
-    </label>
-
-    <label for="">
-      Termino del Evento:
-      <input type="date" id="end_date" name="date" required formControlName="end_date">
-    </label>
-
-    <label for="">
-      Lugar del Evento:
-      <input type="text" id="location" name="location" required formArrayName="location">
-    </label>
-
-    <label for="">
-      Imagen del Evento:
-      <input type="file" id="image" name="image" required formControlName="images">
-    </label>
-
-    <label for="">
-      Mensajes:
-      <textarea id="messages" name="messages" formControlName="messages"></textarea>
-    </label>
-
-    <label for="">
-      Autor del Evento:
-      <input type="text" id="author" name="author" required formControlName="created_by">
-    </label>
-
-    <label for="">
-      Categoría del Evento:
-      <select id="category" name="category" required formControlName="event_type">
-        <option value="0">Seleccione una categoría</option>
-        <option value="1">Deporte</option>
-        <option value="2">Entretenimiento</option>
-        <option value="3">Cultura</option>
-        <option value="4">Educación</option>
-        <option value="5">Salud</option>
-      </select>
-    </label>
-
-    <label for="">
-      Organización responsable:
-      <input type="text" id="organizer" name="organizer" required formControlName="responsible_organization">
-    </label>
-
-    <label for="">
-      Asistentes:
-      <input type="number" id="assistants" name="assistants" required formControlName="assistents">
-    </label>
-
-    <label for="">
-      Estado:
-      <select id="status" name="status" required formControlName="status">
-        <option value="0">Pendiente</option>
-        <option value="1">Confirmado</option>
-        <option value="2">Cancelado</option>
-      </select>
-    </label>
-
-    <!-- <button type="submit" [disabled]="form().invalid" (click)="onSubmit()">Guardar</button> -->
-    <button type="submit" >Guardar</button>
-
-  </form>
+<!-- <router-outlet></router-outlet> -->
 
 </div>
 
 <br>
 <b>_______________________________</b>
-<h2><b>Valores Form</b>  </h2>
+<h2><b>Valores Form</b></h2>
 <pre>{{ eventForm().value | json}}</pre>
-
-
-
-

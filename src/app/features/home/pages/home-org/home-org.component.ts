@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './home-org.component.html',
+  styleUrls: ['./home-org.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomeOrgComponent { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ContractService } from '../../../../shared/services/contract.service';
-import { EthereumService } from '../../../../shared/services/etherum.service';
+import { ContractService } from '../../../../shared/smartcontract/services/contract.service';
+import { EthereumService } from '../../../../shared/smartcontract/services/etherum.service';
 import { FormsModule } from '@angular/forms';
 
 import AppolisTokenAbi from '../../../../assets/contracts-data/AppolisToken.json';

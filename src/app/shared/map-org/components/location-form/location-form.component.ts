@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'location-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterOutlet],
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
@@ -25,6 +26,7 @@ export class LocationFormComponent implements OnInit {
   });
 
   addressSuggestions: any[] = []; // Sugerencias de dirección
+  locationSaved = signal<any>(null); // Signal para emitir los datos
 
   constructor(private locationService: LocationsService) { }
 
@@ -36,14 +38,14 @@ export class LocationFormComponent implements OnInit {
   }
 
   onAddressInput() {
-    const addressValue = this.locationForm.get('address')?.value;
-    if (addressValue && addressValue.length > 2) {
-      this.locationService.getAddressSuggestions(addressValue).subscribe((suggestions) => {
-        this.addressSuggestions = suggestions;
-      });
-    } else {
-      this.addressSuggestions = [];
-    }
+    // const addressValue = this.locationForm.get('address')?.value;
+    // if (addressValue && addressValue.length > 2) {
+    //   this.locationService.getAddressSuggestions(addressValue).subscribe((suggestions) => {
+    //     this.addressSuggestions = suggestions;
+    //   });
+    // } else {
+    //   this.addressSuggestions = [];
+    // }
   }
 
   selectAddress(suggestion: any) {
@@ -53,9 +55,11 @@ export class LocationFormComponent implements OnInit {
     this.addressSuggestions = [];
   }
 
-  onSubmit() {
+  createLocation() {
     if (this.locationForm.valid) {
       console.log('Form Submitted!', this.locationForm.value);
+      // this.locationService.createLocation
+
       // Aquí puedes agregar la lógica para enviar los datos del formulario a tu servidor
     } else {
       console.log('Form not valid');

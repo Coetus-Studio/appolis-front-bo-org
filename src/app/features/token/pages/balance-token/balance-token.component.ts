@@ -1,7 +1,7 @@
 import { Component, input, Input, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
-import { ContractService } from '../../../../shared/services/contract.service';
+import { ContractService } from '../../../../shared/smartcontract/services/contract.service';
 
 
 import AppolisTokenAbi from '../../../../assets/contracts-data/AppolisToken.json';
@@ -13,7 +13,7 @@ import StellartTokenAddress from '../../../../assets/contracts-data/StellartToke
 import TokenFarmAbi from '../../../../assets/contracts-data/TokenFarm.json';
 import TokenFarmAddress from '../../../../assets/contracts-data/TokenFarm-address.json';
 import { ethers } from 'ethers';
-import { EthereumService } from '../../../../shared/services/etherum.service';
+import { EthereumService } from '../../../../shared/smartcontract/services/etherum.service';
 import AuthWalletComponent from '../../../../auth/components/auth-wallet/auth-wallet.component';
 import { CommonModule } from '@angular/common';
 

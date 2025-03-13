@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { SideBarComponent } from './shared/components/side-bar/side-bar.component';
+import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { AuthService } from './auth/auth.service';
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';

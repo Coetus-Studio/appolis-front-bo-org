@@ -1,8 +1,16 @@
 import { Routes } from "@angular/router";
 
-export const LOCATIONS_ROUTES: Routes = [
+export const SHARED_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./components/map-org/locations.component'),
+    loadComponent: () => import('./map-org/pages/home-locations/home-locations.component'),
+  },
+  {
+    path: 'list',
+    loadComponent: () => import('./map-org/pages/list-locations/list-locations.component'),
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./map-org/pages/create-locations/create-locations.component'),
   }
 ]

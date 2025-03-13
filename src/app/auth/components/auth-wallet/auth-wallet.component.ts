@@ -1,13 +1,15 @@
 import { Component, EventEmitter, OnInit, output, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EthereumService } from '../../../shared/services/etherum.service';
+import { EthereumService } from '../../../shared/smartcontract/services/etherum.service';
 import BalanceTokenComponent from "../../../features/token/pages/balance-token/balance-token.component";
 import { RouterOutlet } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-auth-wallet',
   standalone: true,
-  imports: [CommonModule, BalanceTokenComponent, RouterOutlet],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './auth-wallet.component.html',
   styleUrl: './auth-wallet.component.css'
 })

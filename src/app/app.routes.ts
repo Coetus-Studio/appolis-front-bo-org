@@ -33,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: 'locations',
-    loadChildren: () => import('./shared/shared.routes').then(m => m.LOCATIONS_ROUTES)
+    loadChildren: () => import('./shared/shared.routes').then(m => m.SHARED_ROUTES)
   },
 
 

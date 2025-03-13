@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import AuthWalletComponent from '../../../auth/components/auth-wallet/auth-wallet.component';
-import BalanceTokenComponent from '../../../features/token/pages/balance-token/balance-token.component';
+import AuthWalletComponent from '../../auth/components/auth-wallet/auth-wallet.component';
+import BalanceTokenComponent from '../../features/token/pages/balance-token/balance-token.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({

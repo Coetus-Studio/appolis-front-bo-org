@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import BalanceTokenComponent from '../../../features/token/pages/balance-token/balance-token.component';
-import { routes } from '../../../app.routes';
+import BalanceTokenComponent from '../../features/token/pages/balance-token/balance-token.component';
+import { routes } from '../../app.routes';
 import { CommonModule } from '@angular/common';
 
 @Component({

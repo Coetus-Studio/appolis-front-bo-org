@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ContractService } from '../../../../shared/services/contract.service';
-import { EthereumService } from '../../../../shared/services/etherum.service';
+import { ContractService } from '../../../../shared/smartcontract/services/contract.service';
+import { EthereumService } from '../../../../shared/smartcontract/services/etherum.service';
 
 import TokenFarmAbi from '../../../../assets/contracts-data/TokenFarm.json';
 import TokenFarmAddress from '../../../../assets/contracts-data/TokenFarm-address.json';

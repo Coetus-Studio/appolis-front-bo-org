@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="locationForm" (ngSubmit)="createLocation()">
     <div>
       <label for="address">Dirección:</label>
       <input id="address" formControlName="address" (input)="onAddressInput()" />
@@ -41,3 +41,4 @@
     <button type="submit">Crear Evento</button>
   </form>
 </div>
+<!-- <router-outlet></router-outlet> -->
