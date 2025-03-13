@@ -63,15 +63,16 @@ export class LocationsService {
     });
   }
 
-  createLocation(value: any) {
+  createLocation(value: any): Observable<Location> {
+
     console.log('Creating a new location...');
     return this.http.post<Location>(this.apiUrl, {
-      address: 'New Location',
-      description: 'A new location description',
-      category: 'New Location Category',
-      url_icon: 'https://example.com/location-icon.png',
+      address: value.address,
+      description: value.description,
+      category: value.category,
+      url_icon: value.url_icon,
       is_public: true,
-      city_code: 'new-location-city-code',
+      city_code: value.city_code,
       geo_point: {
         lat: 0,
         lng: 0,

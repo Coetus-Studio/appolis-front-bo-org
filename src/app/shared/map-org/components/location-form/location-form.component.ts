@@ -56,9 +56,21 @@ export class LocationFormComponent implements OnInit {
   }
 
   createLocation() {
+    console.log("ingresando a creacion locacion");
     if (this.locationForm.valid) {
       console.log('Form Submitted!', this.locationForm.value);
-      // this.locationService.createLocation
+      // llamando a metodo en service
+      this.locationService.createLocation(this.locationForm.value).subscribe(
+        response => {
+          console.log('Location created successfully', response);
+          // despues mostrar mensaje de exito si locacion fue creada exitosamente
+        },
+        error => {
+          console.error('Error creating location:', error);
+          // despues mostrar mensaje de error si hubo algun problema en la creacion de la locacion
+        }
+      )
+
 
       // Aquí puedes agregar la lógica para enviar los datos del formulario a tu servidor
     } else {
