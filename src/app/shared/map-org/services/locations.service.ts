@@ -69,13 +69,13 @@ export class LocationsService {
     return this.http.post<Location>(this.apiUrl, {
       address: value.address,
       description: value.description,
-      category: value.category,
+      category: value.category, // enviar id 633e3cf17393d8d6eeefc15c
       url_icon: value.url_icon,
       is_public: true,
-      city_code: value.city_code,
+      city_code: value.city_code, // enviar id 634f4abfbfbdf714ae0509cc
       geo_point: {
-        lat: 0,
-        lng: 0,
+        type: 'Point',
+        coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
       },
     });
   }

@@ -8,7 +8,7 @@ import { LocationFormComponent } from '../../../../shared/map-org/components/loc
 @Component({
   selector: 'event-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, JsonPipe, RouterLink, RouterOutlet, LocationFormComponent],
+  imports: [CommonModule, ReactiveFormsModule, JsonPipe, LocationFormComponent],
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.css'
 })
