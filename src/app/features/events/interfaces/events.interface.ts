@@ -20,12 +20,12 @@ export interface EventForm {
   start_date: string;
   end_date: string;
   responsible_organization: string;
-  messages: string[];
-  event_type: string;
-  assistents: string;
+  // messages: string[];
+  // event_type: string;
+  // assistents: string;
   created_by: string;
   location: Location;
-  images: string[];
-  status: string;
-  created_at: string;
+  // images: string[];
+  // status: string;
+  // created_at: string;
 }

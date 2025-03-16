@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { EventService } from '../../services/event.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { LocationFormComponent } from '../../../../shared/map-org/components/location-form/location-form.component';
+import { LocationsService } from '../../../../shared/map-org/services/locations.service';
 
 @Component({
   selector: 'event-form',
@@ -16,76 +17,31 @@ export class EventFormComponent implements OnInit {
 
   isUpdate: boolean = false;
   public isMapVisible: boolean = false; // Controla la visibilidad del mapa y formulario adicional
-  // eventForm: FormGroup = new FormGroup({});
 
-  eventForm = signal<FormGroup>(
-    new FormGroup({
-      title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      description: new FormControl('', [Validators.required]),
-      start_date: new FormControl('', ),
-      end_date: new FormControl(''),
-      responsible_organization: new FormControl(''),
-      messages: new FormControl('', []),
-      event_type: new FormControl(''),
-      assistents: new FormControl(''),
-      created_by: new FormControl(''),
-      location: new FormGroup({
-        address: new FormControl(''),
-        description: new FormControl(''),
-        category: new FormControl('', ),
-        is_public: new FormControl(''),
-        city_code: new FormControl(''),
-        geo_point: new FormGroup({
-          type: new FormControl(''),
-          coordinates: new FormControl('')
-        })
-      }),
-      images: new FormControl('', []),
-      status: new FormControl('active', []),
-      created_at: new FormControl(new Date().toISOString(), [])
-    })
-  )
+  eventForm = new FormGroup({
+    title: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    description: new FormControl('', [Validators.required]),
+    start_date: new FormControl(''),
+    end_date: new FormControl(''),
+    responsible_organization: new FormControl(''),
+    created_by: new FormControl(''),
+  });
 
+  // Objeto para almacenar la ubicación seleccionada
+  location: any;  // Aquí almacenas la ubicación seleccionada
 
-
-
-  // eventForm = new FormGroup({
-  //   title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-  //   description: new FormControl('', [Validators.required]),
-  //   start_date: new FormControl(''),
-  //   end_date: new FormControl(''),
-  //   responsible_organization: new FormControl(''),
-  //   messages: new FormControl(''),
-  //   event_type: new FormControl(''),
-  //   assistents: new FormControl(''),
-  //   created_by: new FormControl(''),
-  //   location: new FormGroup({
-  //     address: new FormControl(''),
-  //     description: new FormControl(''),
-  //     category: new FormControl(''),
-  //     is_public: new FormControl(''),
-  //     city_code: new FormControl(''),
-  //     geo_point: new FormGroup({
-  //       type: new FormControl(''),
-  //       coordinates: new FormControl('')
-  //     })
-  //   }),
-  //   images: new FormControl(''),
-  //   status: new FormControl('active'),
-  //   created_at: new FormControl(new Date().toISOString())
-  // });
-
-  // listEvent: EventForm[] = [];
-
-  // Signal para almacenar los datos de la ubicación
-  locationSaved = signal<any>(null);
   isModalOpen = false;
+  isLocationSaved = false; // Controla si la ubicación fue guardada o no
+  eventLocationSaved = signal<any>(false); //
+    // Signal que contendrá la información de la ubicación
+  // locationData = signal<any>({});
 
   constructor(
     private eventService: EventService,
+    private locationService: LocationsService
   ) {}
 
-  ngOnInit() { this.closeLocationModal(); }
+  ngOnInit() { }
 
   // Abrir el modal de ubicación
   openLocationModal() {
@@ -98,37 +54,47 @@ export class EventFormComponent implements OnInit {
     // this.eventForm.get('location')?.reset(); // Limpia los datos del formulario de ubicación al cerrar el modal
   }
 
-  // Manejar la recepción de los datos de la ubicación desde el componente de ubicación
-  onLocationSaved(locationData: any) {
-    // Asignamos los datos de la ubicación al formulario principal
-    // this.eventForm.get('location')?.setValue(locationData);
-    // Cerrar el modal
-    this.closeLocationModal();
-  }
-
-
+  // envia el formulario de evento y guarda la ubicación
   createEvent() {
-    console.log('create event', this.eventForm().value);
+    // voy al service a buscar la señal y la asigno a this.location
+    this.location = this.locationService.locationData();
 
-    this.eventService.createEvent(this.eventForm().value).subscribe(res=> {
-      if(res.success) {
-        console.log('Event created successfully');
-      }
-    })
+    if (this.eventForm.valid && this.location) {
+      const eventData = {
+        ...this.eventForm.value,
+        // location: this.locationService.locationData() // accedo a datos del servicio CONFIRMAR
+        location: this.location // accedo a datos obtenido desde la señal
+
+      };
+      console.log('Datos listos para enviar al backend:', eventData);
+
+      // TODO: comprobar si esto se puede hacer de otra forma
+      // Si algún campo puede ser null o undefined, asignamos un valor predeterminado
+      const sanitizedEventData = {
+        title: eventData.title || '', // Asignar un valor por defecto si es null o undefined
+        description: eventData.description || '', // Lo mismo para otros campos
+        start_date: eventData.start_date || '',
+        end_date: eventData.end_date || '',
+        responsible_organization: eventData.responsible_organization || '',
+        created_by: eventData.created_by || '',
+        location: eventData.location,
+      };
+
+      console.log('Datos listos para enviar al backend:', sanitizedEventData);
+
+       // Llamamos al servicio para enviar los datos al backend
+    this.eventService.createEvent(sanitizedEventData).subscribe(res => {
+      console.log('Event created successfully', res);
+    });
+
+    } else {
+      console.log('El formulario o los datos de ubicación no están completos.');
+    }
   }
 
-
-
-
-
+  // Muestra el mapa y el formulario adicional
   showMap(): void {
-    this.isMapVisible = true; // Muestra el mapa y el formulario adicional
+    this.isMapVisible = true;
   }
-
-
-  // async updateEvent() {
-  //   // this.formEvent.setValue('testing');
-  // }
-
 
 }

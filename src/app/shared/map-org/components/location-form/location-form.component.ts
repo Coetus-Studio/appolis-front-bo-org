@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -14,6 +14,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class LocationFormComponent implements OnInit {
 
+  // formulario location
   locationForm: FormGroup = new FormGroup({
     address: new FormControl('', [Validators.required, Validators.minLength(5)]),
     description: new FormControl('', [Validators.required]),
@@ -21,20 +22,24 @@ export class LocationFormComponent implements OnInit {
     url_icon: new FormControl('', [Validators.required]),
     is_public: new FormControl(false),
     city_code: new FormControl(''),
-    geo_point_lat: new FormControl(''),
-    geo_point_lng: new FormControl(''),
+    geo_point: new FormGroup({
+      type: new FormControl('Point'),  // Se asume que siempre será un tipo 'Point'
+      coordinates: new FormArray([new FormControl(''), new FormControl('')], [Validators.required]) // Usamos un FormArray para las coordenadas
+    })
   });
 
   addressSuggestions: any[] = []; // Sugerencias de dirección
-  locationSaved = signal<any>(null); // Signal para emitir los datos
+  // locationSaved = signal<any>(null); // Signal para emitir los datos
+  // eventLocationSaved = signal<any>(false); //
+  // isLocationSaved = false; // Controla si la ubicación fue guardada o no
+
+  // señal donde guardo la info de location enviada desde event
+  locationData = signal<any>(null);
 
   constructor(private locationService: LocationsService) { }
 
   ngOnInit(): void {
-    const addressInput = document.getElementById('address') as HTMLInputElement;
-    if (addressInput) {
-      this.locationService.initAutocomplete(addressInput);
-    }
+
   }
 
   onAddressInput() {
@@ -48,33 +53,34 @@ export class LocationFormComponent implements OnInit {
     // }
   }
 
-  selectAddress(suggestion: any) {
-    this.locationForm.get('address')?.setValue(suggestion.description);
-    this.locationForm.get('geo_point_lat')?.setValue(suggestion.geometry.location.lat());
-    this.locationForm.get('geo_point_lng')?.setValue(suggestion.geometry.location.lng());
-    this.addressSuggestions = [];
-  }
+  // selectAddress(suggestion: any) {
+  //   this.locationForm.get('address')?.setValue(suggestion.description);
+  //   this.locationForm.get('geo_point_lat')?.setValue(suggestion.geometry.location.lat());
+  //   this.locationForm.get('geo_point_lng')?.setValue(suggestion.geometry.location.lng());
+  //   this.addressSuggestions = [];
+  // }
 
-  createLocation() {
-    console.log("ingresando a creacion locacion");
+
+  // Guardar datos en la señal
+  saveLocation() {
     if (this.locationForm.valid) {
-      console.log('Form Submitted!', this.locationForm.value);
-      // llamando a metodo en service
-      this.locationService.createLocation(this.locationForm.value).subscribe(
-        response => {
-          console.log('Location created successfully', response);
-          // despues mostrar mensaje de exito si locacion fue creada exitosamente
-        },
-        error => {
-          console.error('Error creating location:', error);
-          // despues mostrar mensaje de error si hubo algun problema en la creacion de la locacion
+      console.log("locationForm", this.locationForm.value);
+      this.locationData.set({
+        ...this.locationForm.value,
+        geo_point: {
+          type: 'Point',
+          coordinates: [
+            this.locationForm.value.geo_point_lng,
+            this.locationForm.value.geo_point_lat
+          ]
         }
-      )
-
-
-      // Aquí puedes agregar la lógica para enviar los datos del formulario a tu servidor
+      });
+      this.locationService.setLocationData(this.locationData());
+      console.log('Datos de ubicación guardados en la señal:', this.locationData());
     } else {
-      console.log('Form not valid');
+      console.log('El formulario de ubicación no es válido.');
     }
   }
+
+
 }

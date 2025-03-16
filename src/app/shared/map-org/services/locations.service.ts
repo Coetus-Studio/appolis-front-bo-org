@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { Location } from "../interfaces/locations.interface";
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +11,16 @@ export class LocationsService {
   private readonly apiUrl: string = 'http://localhost:3000/v1/locations';
   private autocomplete: any;
 
+  // Señal para almacenar los datos de ubicación
+  locationData = signal<any>(null);
+
+  // private locationSource = new BehaviorSubject<any>(null);  // Usamos BehaviorSubject para compartir el estado
+  // currentLocation = this.locationSource.asObservable();  // Hacemos observable la ubicación actual
+
+
   constructor(
     private http: HttpClient,
-  ) { }
+  ) { console.log('inicializando signal', this.locationData()) }
 
   initAutocomplete(inputElement: HTMLInputElement) {
     console.log('Initializing autocomplete for:', inputElement);
@@ -27,27 +34,6 @@ export class LocationsService {
   get googleMaps(): any {
     return typeof google !== 'undefined' ? google : null;
   }
-
-  // getAddressSuggestions(query: string): Observable<any[]> {
-  //   return new Observable<any[]>((observer) => {
-  //     if (!this.googleMaps) {
-  //       observer.error('Google Maps API no está cargada.');
-  //       return;
-  //     }
-
-  //     console.log('pasando');
-  //     const service = new this.googleMaps.places.AutocompleteService();
-  //     console.log('pasando2');
-
-  //     service.getPlacePredictions({ input: query }, (predictions: any[] | undefined, status: any) => {
-  //       if (status === this.googleMaps.places.PlacesServiceStatus.OK && predictions) {
-  //         observer.next(predictions);
-  //       } else {
-  //         observer.next([]);
-  //       }
-  //     });
-  //   });
-  // }
 
   getAutocomplete() {
     return this.autocomplete;
@@ -75,8 +61,27 @@ export class LocationsService {
       city_code: value.city_code, // enviar id 634f4abfbfbdf714ae0509cc
       geo_point: {
         type: 'Point',
-        coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
+        // coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
+        coordinates: [value.geo_point_lat, value.geo_point]
       },
     });
   }
+
+
+    // Método para actualizar los datos
+    setLocationData(data: any) {
+      this.locationData.set(data);
+
+    }
+
+    // Método para obtener los datos
+    getLocationData() {
+      return this.locationData();
+    }
+
+
+    // updateLocation(location: any) {
+    //   this.locationSource.next(location);  // Actualiza la ubicación
+    // }
+
 }

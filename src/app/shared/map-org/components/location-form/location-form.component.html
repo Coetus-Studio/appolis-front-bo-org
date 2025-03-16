@@ -1,13 +1,14 @@
 <div>
-  <form [formGroup]="locationForm" (ngSubmit)="createLocation()">
+  <!-- <form [formGroup]="locationForm" (ngSubmit)="createLocation()"> -->
+    <form [formGroup]="(locationForm)" (ngSubmit)="saveLocation()">
     <div>
       <label for="address">Dirección:</label>
       <input id="address" formControlName="address" (input)="onAddressInput()" />
       <!-- Aquí se agregarán las sugerencias -->
       <ul *ngIf="addressSuggestions.length > 0" class="suggestions-list">
-        <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">
+        <!-- <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">
           {{ suggestion.description }}
-        </li>
+        </li> -->
       </ul>
     </div>
     <div>
@@ -38,7 +39,9 @@
       <label for="geo_point_lng">Longitud del GeoPoint:</label>
       <input id="geo_point_lng" formControlName="geo_point_lng" />
     </div>
-    <button type="submit">Crear Evento</button>
+    <!-- <button type="submit">Crear Evento</button> -->
+    <br>
+    <button type="submit">Guardar Evento</button>
   </form>
 </div>
 <!-- <router-outlet></router-outlet> -->

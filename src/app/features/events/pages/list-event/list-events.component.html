@@ -12,7 +12,7 @@
       <!-- Encabezado del evento -->
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">{{ event.title }}</h5>
-        <span class="badge bg-primary">{{ event.status }}</span>
+        <!-- <span class="badge bg-primary">{{ event.status }}</span> -->
       </div>
 
       <!-- Cuerpo del evento -->
@@ -20,15 +20,15 @@
         <p class="card-text">{{ event.description }}</p>
         <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
         <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
-        <p><strong>Tipo:</strong> {{ event.event_type }}</p>
-        <p><strong>Asistentes:</strong> {{ event.assistents }}</p>
-        <p><strong>Creado por:</strong> {{ event.created_by }} el {{ event.created_at }}</p>
+        <!-- <p><strong>Tipo:</strong> {{ event.event_type }}</p> -->
+        <!-- <p><strong>Asistentes:</strong> {{ event.assistents }}</p> -->
+        <!-- <p><strong>Creado por:</strong> {{ event.created_by }} el {{ event.created_at }}</p> -->
         <div>
-          <p><strong>Ubicación:</strong> {{ event.location.address }}, {{ event.location.city_code }}</p>
-          <p><em>{{ event.location.description }}</em></p>
+          <!-- <p><strong>Ubicación:</strong> {{ event.location.address }}, {{ event.location.city_code }}</p>
+          <p><em>{{ event.location.description }}</em></p> -->
         </div>
         <!-- Mostrar imagen si está disponible -->
-        <img *ngIf="event.images.length > 0" [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid mt-3">
+        <!-- <img *ngIf="event.images.length > 0" [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid mt-3"> -->
       </div>
     </div>
   </div>

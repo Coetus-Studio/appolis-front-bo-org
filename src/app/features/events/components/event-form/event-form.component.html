@@ -7,7 +7,8 @@
           <h1>Formulario Creación Eventos</h1>
         </div>
         <div class="card-body">
-          <form [formGroup]="eventForm()" (ngSubmit)="createEvent()">
+          <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
+
             <!-- Título del Evento -->
             <div class="form-group mb-3">
               <label for="title">Título del Evento:</label>
@@ -32,13 +33,7 @@
               <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
             </div>
 
-            <!-- Lugar del Evento -->
-            <!-- <button type="button" class="btn btn-secondary" [routerLink]="['create-location']" routerLinkActive="router-link-active">Agregar Ubicación</button> -->
-
-
-
             <!-- Modal para Agregar Ubicación -->
-            <!-- Lugar del Evento -->
             <button type="button" class="btn btn-secondary" (click)="openLocationModal()">Agregar Ubicación</button>
 
               <!-- Modal para Agregar Ubicación -->
@@ -50,24 +45,18 @@
                       <button type="button" class="btn-close" (click)="closeLocationModal()" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <location-form (locationSaved)="onLocationSaved($event)"></location-form>
+                      <!-- <location-form (ngSubmit)="onLocationSaved($event)"></location-form> -->
+                       <location-form></location-form>
                     </div>
                   </div>
                 </div>
               </div>
 
-
             <!-- Imagen del Evento -->
-            <div class="form-group mb-3">
+            <!-- <div class="form-group mb-3">
               <label for="image">Imagen del Evento:</label>
               <input type="file" id="image" class="form-control-file" formControlName="images" required>
-            </div>
-
-            <!-- Mensajes -->
-            <div class="form-group mb-3">
-              <label for="messages">Mensajes:</label>
-              <textarea id="messages" class="form-control" rows="2" formControlName="messages"></textarea>
-            </div>
+            </div> -->
 
             <!-- Autor del Evento -->
             <div class="form-group mb-3">
@@ -76,7 +65,7 @@
             </div>
 
             <!-- Categoría del Evento -->
-            <div class="form-group mb-3">
+            <!-- <div class="form-group mb-3">
               <label for="category">Categoría del Evento:</label>
               <select id="category" class="form-control" formControlName="event_type" required>
                 <option value="0">Seleccione una categoría</option>
@@ -86,7 +75,7 @@
                 <option value="4">Educación</option>
                 <option value="5">Salud</option>
               </select>
-            </div>
+            </div> -->
 
             <!-- Organización Responsable -->
             <div class="form-group mb-3">
@@ -95,20 +84,20 @@
             </div>
 
             <!-- Asistentes -->
-            <div class="form-group mb-3">
+            <!-- <div class="form-group mb-3">
               <label for="assistants">Asistentes:</label>
               <input type="number" id="assistants" class="form-control" formControlName="assistents" required>
-            </div>
+            </div> -->
 
             <!-- Estado -->
-            <div class="form-group mb-3">
+            <!-- <div class="form-group mb-3">
               <label for="status">Estado:</label>
               <select id="status" class="form-control" formControlName="status" required>
                 <option value="0">Pendiente</option>
                 <option value="1">Confirmado</option>
                 <option value="2">Cancelado</option>
               </select>
-            </div>
+            </div> -->
 
             <!-- Botón de Guardar -->
             <button type="submit" class="btn btn-primary btn-block">Guardar</button>
@@ -117,11 +106,10 @@
       </div>
     </div>
   </div>
-<!-- <router-outlet></router-outlet> -->
 
 </div>
 
 <br>
 <b>_______________________________</b>
 <h2><b>Valores Form</b></h2>
-<pre>{{ eventForm().value | json}}</pre>
+<pre>{{ eventForm.value | json}}</pre>
