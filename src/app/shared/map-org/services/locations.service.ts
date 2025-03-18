@@ -7,6 +7,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationsService {
+  getAddressSuggestions(addressValue: any) {
+    throw new Error('Method not implemented.');
+  }
 
   private readonly apiUrl: string = 'http://localhost:3000/v1/locations';
   private autocomplete: any;

@@ -3,13 +3,13 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventService } from '../../services/event.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { LocationFormComponent } from '../../../../shared/map-org/components/location-form/location-form.component';
+import  LocationFormComponent  from '../../../../shared/map-org/components/location-form/location-form.component';
 import { LocationsService } from '../../../../shared/map-org/services/locations.service';
 
 @Component({
   selector: 'event-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, JsonPipe, LocationFormComponent],
+  imports: [LocationFormComponent, CommonModule, ReactiveFormsModule, JsonPipe],
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.css'
 })

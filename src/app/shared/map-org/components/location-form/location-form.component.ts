@@ -4,6 +4,7 @@ import { LocationsService } from '../../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import CitizenMapFormComponent from '../citizen-map-form/citizen-map-form.component';
 
 declare var google: any;
 
@@ -12,11 +13,11 @@ declare var google: any;
 @Component({
   selector: 'location-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, CitizenMapFormComponent],
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
-export class LocationFormComponent implements OnInit {
+export default class LocationFormComponent implements OnInit {
 
   // formulario location
   locationForm: FormGroup = new FormGroup({
@@ -34,9 +35,8 @@ export class LocationFormComponent implements OnInit {
       ])
 
     }),
-    // latitude: new FormControl('', [Validators.required]),  // Latitud
-    // longitude: new FormControl('', [Validators.required]),  // Longitud
   });
+
 
   addressSuggestions: any[] = []; // Sugerencias de dirección
   // locationSaved = signal<any>(null); // Signal para emitir los datos
@@ -62,7 +62,7 @@ export class LocationFormComponent implements OnInit {
 
 
   // Inicializar Google Places Autocomplete
-  // Inicializar Google Places Autocomplete
+  // // Inicializar Google Places Autocomplete
   initializeAutocomplete() {
     const input = document.getElementById('address') as HTMLInputElement;
     const autocomplete = new google.maps.places.Autocomplete(input);
