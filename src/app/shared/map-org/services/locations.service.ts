@@ -20,7 +20,9 @@ export class LocationsService {
 
   constructor(
     private http: HttpClient,
-  ) { console.log('inicializando signal', this.locationData()) }
+  ) {
+    // console.log('inicializando signal', this.locationData())
+  }
 
   initAutocomplete(inputElement: HTMLInputElement) {
     console.log('Initializing autocomplete for:', inputElement);
@@ -59,12 +61,17 @@ export class LocationsService {
       url_icon: value.url_icon,
       is_public: true,
       city_code: value.city_code, // enviar id 634f4abfbfbdf714ae0509cc
-      geo_point: {
-        type: 'Point',
-        // coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
-        coordinates: [value.geo_point_lat, value.geo_point]
-      },
+        geo_point: {
+          type: 'Point',
+          coordinates: [value.geo_point_lat, value.geo_point_lng]
+      }
+
     });
+      // geo_point: {
+      //   type: 'Point',
+      //   // coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
+      //   coordinates: [value.geo_point_lat, value.geo_point_lng]
+      // },
   }
 
 
