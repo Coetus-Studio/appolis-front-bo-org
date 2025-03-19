@@ -82,7 +82,8 @@ export class LocationsService {
   createCitizenMap(citizenMap: CitizenMap): Observable<any> {
     console.log('Creando mapa para la ubicación:', citizenMap);
     return this.http.post(`${this.apiUrl}/create-citizen-map`, {
-      location_id: citizenMap // Aquí deberías tener el `id` que el servidor espera
+      name: citizenMap.name,
+      location: citizenMap.location
     });
   }
 

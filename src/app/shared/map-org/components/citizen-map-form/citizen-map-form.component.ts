@@ -131,19 +131,34 @@ export default class CitizenMapFormComponent implements OnInit {
         location: formData.location
       };
 
-      // Llamamos al servicio para enviar los datos
-      this.locationService.createCitizenMap(citizenMap).subscribe(
-        response => {
-          console.log('Mapa ciudadano creado con éxito', response);
-        },
-        error => {
-          console.log('Error al crear el mapa ciudadano', error);
-        }
-      );
+      // Llamamos al servicio para enviar los datos usando el nuevo formato de subscribe()
+      // this.locationService.createCitizenMap(citizenMap).subscribe({
+      //   next: (response) => {
+      //     console.log('Mapa ciudadano creado con éxito', response);
+      //   },
+      //   error: (error) => {
+      //     console.log('Error al crear el mapa ciudadano', error);
+      //   },
+      //   complete: () => {
+      //     console.log('Proceso completado');
+      //   }
+      // });
+
+
+
+      this.locationService.createCitizenMap(citizenMap).subscribe(res => {
+        console.log('Citizen map created successfully', res);
+
+
+      })
+
+
+
     } else {
       console.log('Formulario inválido');
     }
   }
+
 }
 
 
