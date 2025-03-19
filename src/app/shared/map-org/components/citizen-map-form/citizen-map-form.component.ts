@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
+import { CitizenMap } from '../../interfaces/citizen-map.interface';
 
 @Component({
   selector: 'citizen-map-form',
@@ -19,20 +20,22 @@ export default class CitizenMapFormComponent implements OnInit {
   // formulario mapa ciudadano
   citizenMapForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.minLength(5)]),
-    address: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    description: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required]),
-    url_icon: new FormControl('', [Validators.required]),
-    is_public: new FormControl(false),
-    city_code: new FormControl('', [Validators.required]),
-    geo_point: new FormGroup({
-      type: new FormControl('Point'),
-      coordinates: new FormArray([
-        new FormControl('-30.0000'), // Latitud
-        new FormControl('-10.000')  // Longitud
-      ])
-    }),
-  })
+    location: new FormGroup({
+      address: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      description: new FormControl('', [Validators.required]),
+      category: new FormControl('', [Validators.required]),
+      url_icon: new FormControl('', [Validators.required]),
+      is_public: new FormControl(false),
+      city_code: new FormControl('', [Validators.required]),
+      geo_point: new FormGroup({
+        type: new FormControl('Point'),
+        coordinates: new FormArray([
+          new FormControl('-30.0000'), // Latitud
+          new FormControl('-10.000')  // Longitud
+        ])
+      }),
+    })
+  });
 
   // guardo valores del form
   citizenMapData = signal<any>(null);
@@ -67,8 +70,8 @@ export default class CitizenMapFormComponent implements OnInit {
       if (place.geometry && place.geometry.location) {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
-        console.log('lat', lat)
-        console.log('lng', lng)
+        console.log('lat 1', lat)
+        console.log('lng 1', lng)
 
 
         // Actualizar el formulario con la latitud y longitud
@@ -116,10 +119,33 @@ export default class CitizenMapFormComponent implements OnInit {
   }
 
 
+  // create citizen map
   createCitizenMap() {
+    console.log('citizenMapData:', this.citizenMapForm.value);
+    if (this.citizenMapForm.valid) {
+      const formData = this.citizenMapForm.value;
 
+      // Aquí creamos el objeto CitizenMap a partir del formulario
+      const citizenMap: CitizenMap = {
+        name: formData.name,
+        location: formData.location
+      };
+
+      // Llamamos al servicio para enviar los datos
+      this.locationService.createCitizenMap(citizenMap).subscribe(
+        response => {
+          console.log('Mapa ciudadano creado con éxito', response);
+        },
+        error => {
+          console.log('Error al crear el mapa ciudadano', error);
+        }
+      );
+    } else {
+      console.log('Formulario inválido');
+    }
   }
-
-
-
 }
+
+
+
+

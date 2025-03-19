@@ -77,6 +77,7 @@ export default class LocationFormComponent implements OnInit {
         console.log('lng', lng)
 
 
+        // coordenadas reales de la direccion ingresada
         // Actualizar el formulario con la latitud y longitud
         this.locationForm.get('latitude')?.setValue(lat);
         this.locationForm.get('longitude')?.setValue(lng);

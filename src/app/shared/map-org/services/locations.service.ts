@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, signal } from "@angular/core";
 import { Location } from "../interfaces/locations.interface";
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CitizenMap } from "../interfaces/citizen-map.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,14 @@ export class LocationsService {
       //   // coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
       //   coordinates: [value.geo_point_lat, value.geo_point_lng]
       // },
+  }
+
+  // crear citizen map
+  createCitizenMap(citizenMap: CitizenMap): Observable<any> {
+    console.log('Creando mapa para la ubicación:', citizenMap);
+    return this.http.post(`${this.apiUrl}/create-citizen-map`, {
+      location_id: citizenMap // Aquí deberías tener el `id` que el servidor espera
+    });
   }
 
 

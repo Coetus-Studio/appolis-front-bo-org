@@ -1,50 +1,58 @@
-<div>
-  <!-- <form [formGroup]="locationForm" (ngSubmit)="createLocation()"> -->
-    <form [formGroup]="citizenMapForm" (ngSubmit)="createCitizenMap()">
-      <div>
-        <label for="name">Nombre:</label>
-        <input id="name" formControlName="name" />
-      </div>
-      <div>
-        <label for="address">Dirección:</label>
-        <input id="address" formControlName="address" (input)="onAddressInput()" />
-        <!-- Aquí se agregarán las sugerencias -->
-        <ul *ngIf="addressSuggestions.length > 0" class="suggestions-list">
-          <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">
-            {{ suggestion.description }}
-          </li>
-        </ul>
-      </div>
+<form [formGroup]="citizenMapForm" (ngSubmit)="createCitizenMap()">
+  <div>
+    <label for="name">Nombre:</label>
+    <input id="name" formControlName="name" />
+  </div>
+
+  <div formGroupName="location">
+    <div>
+      <label for="address">Dirección:</label>
+      <input id="address" formControlName="address" (input)="onAddressInput()" />
+      <!-- Aquí se agregarán las sugerencias -->
+      <ul *ngIf="addressSuggestions.length > 0" class="suggestions-list">
+        <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">
+          {{ suggestion.description }}
+        </li>
+      </ul>
+    </div>
+
     <div>
       <label for="description">Descripción:</label>
       <input id="description" formControlName="description" />
     </div>
+
     <div>
       <label for="category">Categoría:</label>
       <input id="category" formControlName="category" />
     </div>
+
     <div>
       <label for="url_icon">URL Icono:</label>
       <input id="url_icon" formControlName="url_icon" />
     </div>
+
     <div>
       <label for="is_public">¿Es público?:</label>
       <input id="is_public" type="checkbox" formControlName="is_public" />
     </div>
+
     <div>
       <label for="city_code">Código de Ciudad:</label>
       <input id="city_code" formControlName="city_code" />
     </div>
-    <div>
-      <label for="latitude">Latitud:</label>
-      <input id="latitude" formControlName="latitude" />
+
+    <div formGroupName="geo_point">
+      <div>
+        <label for="latitude">Latitud:</label>
+        <input id="latitude" formControlName="coordinates.0" />
+      </div>
+      <div>
+        <label for="longitude">Longitud:</label>
+        <input id="longitude" formControlName="coordinates.1" />
+      </div>
     </div>
-    <div>
-      <label for="longitude">Longitud:</label>
-      <input id="longitude" formControlName="longitude" />
-    </div>
-    <!-- <button type="submit">Crear Evento</button> -->
-    <br>
-    <button type="submit">Crear Evento</button>
-  </form>
-</div>
+  </div>
+
+  <br>
+  <button type="submit">Crear Evento</button>
+</form>
