@@ -3,7 +3,7 @@
     <form [formGroup]="locationForm" (ngSubmit)="saveLocation()">
       <div>
         <label for="address">Dirección:</label>
-        <input id="address" formControlName="address" (input)="onAddressInput()" />
+        <input id="address" formControlName="address" (input)="onAddressInput(searchBox.value)" />
         <!-- Aquí se agregarán las sugerencias -->
         <ul *ngIf="addressSuggestions.length > 0" class="suggestions-list">
           <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">

@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { Form, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
 import { CitizenMap } from '../../interfaces/citizen-map.interface';
+import MapOrgComponent from "../map-org/map-org.component";
+import { GoogleMap, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'citizen-map-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MapOrgComponent, GoogleMap, MapMarker],
   templateUrl: './citizen-map-form.component.html',
   styleUrl: './citizen-map-form.component.css'
 })
@@ -15,6 +17,18 @@ import { CitizenMap } from '../../interfaces/citizen-map.interface';
 // declare var google: any;
 
 export default class CitizenMapFormComponent implements OnInit {
+
+  // @Output() coordinatesUpdated = new EventEmitter<{ lat: number; lng: number }>();
+  // @Output() addressUpdated = new EventEmitter<string>();
+
+
+  @Output() locationSelected = new EventEmitter<{ lat: number; lng: number; address: string }>();
+  @ViewChild('searchBox', { static: true }) searchBox!: any;
+
+  center: google.maps.LatLngLiteral = { lat: -33.4725, lng: -70.6043 };
+  zoom = 14;
+  selectedLocation: google.maps.LatLngLiteral | null = null;
+  selectedAddress: string = '';
 
 
   // formulario mapa ciudadano
@@ -30,18 +44,12 @@ export default class CitizenMapFormComponent implements OnInit {
       geo_point: new FormGroup({
         type: new FormControl('Point'),
         coordinates: new FormArray([
-          new FormControl('-30.0000'), // Latitud
-          new FormControl('-10.000')  // Longitud
+          new FormControl(''), // Latitud
+          new FormControl('')  // Longitud
         ])
       }),
     })
   });
-
-  // guardo valores del form
-  citizenMapData = signal<any>(null);
-
-  // Sugerencias de dirección
-  addressSuggestions: any[] = [];
 
   constructor(
     private locationService: LocationsService
@@ -51,71 +59,39 @@ export default class CitizenMapFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeAutocomplete();
+    // this.onAddressInput = this.onAddressInput.bind(this);
   }
-
-  // Método para obtener las coordenadas desde el formulario
-  get coordinates(): FormArray {
-    return (this.citizenMapForm.get('geo_point.coordinates') as FormArray);
-  }
-
 
 
   initializeAutocomplete() {
+    // obtengo el id de la direccion
     const input = document.getElementById('address') as HTMLInputElement;
+
+    // aplicamos funcionalidad autocompletado de google maps
     const autocomplete = new google.maps.places.Autocomplete(input);
 
-    // Escuchar el evento de selección de la sugerencia
+    // Escucha el evento de selección de la sugerencia
     autocomplete.addListener('place_changed', () => {
+      // Obtener el lugar seleccionado por el usuario y su coordenadas
       const place = autocomplete.getPlace();
+      // si el lugar tiene coordenadas obtenemos la latitud y logintud
       if (place.geometry && place.geometry.location) {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
         console.log('lat 1', lat)
         console.log('lng 1', lng)
 
+        // obtenemos el formArray de coordinates y actualizamos su valor
+        const coordinatesArray = this.citizenMapForm.get('location.geo_point.coordinates') as FormArray;
+        // actualizo coordenadas
+        coordinatesArray.setControl(0, new FormControl(lat));
+        coordinatesArray.setControl(1, new FormControl(lng));
 
-        // Actualizar el formulario con la latitud y longitud
-        this.citizenMapForm.get('latitude')?.setValue(lat);
-        this.citizenMapForm.get('longitude')?.setValue(lng);
+        // centramos el mapa en la ubicacion seleccionada
+        this.center = { lat, lng };  // Aquí actualizamos el mapa
+        this.selectedLocation = { lat, lng }; // También actualizamos el marcador
       }
     });
-  }
-
-  // TODO: ver que hace este metodo
-  // Detectar cambios en el input
-  onAddressInput() {
-    const addressValue = this.citizenMapForm.get('address')?.value;
-
-    if (addressValue && addressValue.length > 2) {
-      const service = new google.maps.places.AutocompleteService();
-      service.getPlacePredictions({ input: addressValue }, (predictions: google.maps.places.AutocompletePrediction[] | null, status: google.maps.places.PlacesServiceStatus) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          this.addressSuggestions = predictions || [];
-        } else {
-          this.addressSuggestions = [];
-        }
-      });
-    } else {
-      this.addressSuggestions = [];
-    }
-  }
-
-  // seleccion direccion
-  selectAddress(suggestion: any) {
-    this.citizenMapForm.get('address')?.setValue(suggestion.description);
-
-    const place = suggestion.place_id;
-    const geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode({ placeId: place }, (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
-      if (status === google.maps.GeocoderStatus.OK && results && results.length > 0) {
-        const location = results[0].geometry.location;
-        this.citizenMapForm.get('latitude')?.setValue(location.lat());
-        this.citizenMapForm.get('longitude')?.setValue(location.lng());
-      }
-    });
-
-    this.addressSuggestions = [];  // Limpiar las sugerencias
   }
 
 
@@ -131,32 +107,34 @@ export default class CitizenMapFormComponent implements OnInit {
         location: formData.location
       };
 
-      // Llamamos al servicio para enviar los datos usando el nuevo formato de subscribe()
-      // this.locationService.createCitizenMap(citizenMap).subscribe({
-      //   next: (response) => {
-      //     console.log('Mapa ciudadano creado con éxito', response);
-      //   },
-      //   error: (error) => {
-      //     console.log('Error al crear el mapa ciudadano', error);
-      //   },
-      //   complete: () => {
-      //     console.log('Proceso completado');
-      //   }
-      // });
-
-
-
       this.locationService.createCitizenMap(citizenMap).subscribe(res => {
         console.log('Citizen map created successfully', res);
-
-
       })
-
-
-
     } else {
       console.log('Formulario inválido');
     }
+  }
+
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      this.selectedLocation = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+      this.center = this.selectedLocation;
+
+      this.reverseGeocode(this.selectedLocation);
+    }
+  }
+
+  reverseGeocode(latlng: google.maps.LatLngLiteral) {
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === 'OK' && results && results.length > 0) {
+        this.selectedAddress = results[0].formatted_address;
+        this.searchBox.nativeElement.value = this.selectedAddress;
+      } else {
+        console.warn("⚠️ No se pudo obtener la dirección para las coordenadas.");
+      }
+    });
   }
 
 }

@@ -7,13 +7,7 @@
   <div formGroupName="location">
     <div>
       <label for="address">Dirección:</label>
-      <input id="address" formControlName="address" (input)="onAddressInput()" />
-      <!-- Aquí se agregarán las sugerencias -->
-      <ul *ngIf="addressSuggestions.length > 0" class="suggestions-list">
-        <li *ngFor="let suggestion of addressSuggestions" (click)="selectAddress(suggestion)">
-          {{ suggestion.description }}
-        </li>
-      </ul>
+      <input id="address" formControlName="address" (input)="initializeAutocomplete()" />
     </div>
 
     <div>
@@ -41,18 +35,15 @@
       <input id="city_code" formControlName="city_code" />
     </div>
 
-    <div formGroupName="geo_point">
-      <div>
-        <label for="latitude">Latitud:</label>
-        <input id="latitude" formControlName="coordinates.0" />
-      </div>
-      <div>
-        <label for="longitude">Longitud:</label>
-        <input id="longitude" formControlName="coordinates.1" />
-      </div>
-    </div>
+
+    <!-- 🌍 Google Map -->
+    <google-map [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)" width="100%" height="400px">
+      <map-marker *ngIf="selectedLocation" [position]="selectedLocation"
+        [title]="'Ubicación seleccionada'"></map-marker>
+    </google-map>
   </div>
 
   <br>
   <button type="submit">Crear Evento</button>
+
 </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -37,6 +37,10 @@ export default class LocationFormComponent implements OnInit {
     }),
   });
 
+  // evento para emitir la dirección
+  @Output() addressUpdated = new EventEmitter<string>();
+
+  @ViewChild('searchBox', { static: true }) searchBox!: any;
 
   addressSuggestions: any[] = []; // Sugerencias de dirección
   // locationSaved = signal<any>(null); // Signal para emitir los datos
@@ -88,7 +92,22 @@ export default class LocationFormComponent implements OnInit {
 
   // TODO: ver que hace este metodo
   // Detectar cambios en el input
-  onAddressInput() {
+  onAddressInput(query: string) {
+
+
+    if (!query) return;
+
+    console.log('query' + query);
+
+
+
+
+
+
+
+
+
+
     const addressValue = this.locationForm.get('address')?.value;
 
     if (addressValue && addressValue.length > 2) {
@@ -164,6 +183,33 @@ export default class LocationFormComponent implements OnInit {
       console.log('El formulario de ubicación no es válido.');
     }
   }
+
+
+
+    // // Convertir coordenadas a dirección usando Geocoder
+    // getAddressFromCoords(lat: number, lng: number) {
+    //   const geocoder = new google.maps.Geocoder();
+    //   const latlng = { lat, lng };
+
+    //   geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
+    //     if (status === 'OK' && results[0]) {
+    //       const formattedAddress = results[0].formatted_address;
+    //       this.addressUpdated.emit(formattedAddress);
+    //     }
+    //   });
+    // }
+
+    // // Buscar coordenadas a partir de una dirección
+    // searchAddress(address: string) {
+    //   const geocoder = new google.maps.Geocoder();
+    //   geocoder.geocode({ address }, (results: { geometry: { location: any; }; }[], status: string) => {
+    //     if (status === 'OK' && results[0].geometry) {
+    //       const location = results[0].geometry.location;
+    //       this.center.set({ lat: location.lat(), lng: location.lng() });
+    //       this.locationSelected.emit({ lat: location.lat(), lng: location.lng() });
+    //     }
+    //   });
+    // }
 
 
 }
