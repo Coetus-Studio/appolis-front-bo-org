@@ -26,7 +26,7 @@ export const EVENT_ROUTES: Routes = [
       children: [
         {
           path: 'create-location',
-          loadComponent: () => import('../../shared/map-org/pages/create-locations/create-locations.component'),
+          loadComponent: () => import('../../shared/map-org/pages/create-citizen-map/create-citizen-map.component'),
           // loadComponent: () => import('./pages/list-event/list-events.component')
 
         }

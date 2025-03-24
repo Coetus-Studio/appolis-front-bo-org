@@ -1,0 +1,109 @@
+/* Contenedor del formulario */
+.form-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del formulario */
+.form-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Grupos de formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/* Etiquetas */
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Campos de entrada */
+.form-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group input {
+  margin-left: 10px;
+}
+
+/* Botón de envío */
+.form-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #0056b3;
+}
+
+/* Contenedor del mapa */
+.map-container {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.address-modal {
+  position: fixed; /* Fijar el modal en la pantalla */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrar el modal */
+  background: white; /* Fondo blanco */
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para resaltar */
+  border-radius: 8px;
+  z-index: 1000; /* Asegura que esté sobre otros elementos */
+  width: 80%;
+  max-width: 500px; /* Limita el tamaño del modal */
+}
+
+.address-modal h3 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.address-modal .form-input {
+  width: 100%; /* Hace que el input ocupe todo el ancho */
+}
+
+.address-modal .form-button {
+  display: block;
+  margin: 10px auto 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  z-index: 999; /* Debe estar detrás del modal */
+}

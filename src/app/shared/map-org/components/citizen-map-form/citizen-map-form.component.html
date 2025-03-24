@@ -1,49 +1,49 @@
-<form [formGroup]="citizenMapForm" (ngSubmit)="createCitizenMap()">
-  <div>
+<form [formGroup]="citizenMapForm" (ngSubmit)="createCitizenMap()" class="form-container">
+  <h2 class="form-title">Crear Mapa Ciudadano</h2>
+
+  <div class="form-group">
     <label for="name">Nombre:</label>
-    <input id="name" formControlName="name" />
+    <input id="name" formControlName="name" class="form-input" />
   </div>
 
   <div formGroupName="location">
-    <div>
-      <label for="address">Dirección:</label>
-      <input id="address" formControlName="address" (input)="initializeAutocomplete()" />
+
+
+    <!-- TODO: mejorar logica, volver a mostrar btn y tambier mostrar selectedAddress -->
+    <div *ngIf="!isAddressModalOpen" class="address-container">
+      <input id="address" formControlName="address" class="form-input"
+        [value]="citizenMapForm.get('location.address')?.value" readonly />
+      <button type="button" class="form-button" (click)="openAddressModal()">Seleccionar Dirección</button>
     </div>
 
-    <div>
+
+
+    <div class="form-group">
       <label for="description">Descripción:</label>
-      <input id="description" formControlName="description" />
+      <input id="description" formControlName="description" class="form-input" />
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="category">Categoría:</label>
-      <input id="category" formControlName="category" />
+      <input id="category" formControlName="category" class="form-input" />
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="url_icon">URL Icono:</label>
-      <input id="url_icon" formControlName="url_icon" />
+      <input id="url_icon" formControlName="url_icon" class="form-input" />
     </div>
 
-    <div>
-      <label for="is_public">¿Es público?:</label>
+    <div class="form-group checkbox-group">
+      <label for="is_public">¿Es público?</label>
       <input id="is_public" type="checkbox" formControlName="is_public" />
     </div>
 
-    <div>
+    <div class="form-group">
       <label for="city_code">Código de Ciudad:</label>
-      <input id="city_code" formControlName="city_code" />
+      <input id="city_code" formControlName="city_code" class="form-input" />
     </div>
-
-
-    <!-- 🌍 Google Map -->
-    <google-map [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)" width="100%" height="400px">
-      <map-marker *ngIf="selectedLocation" [position]="selectedLocation"
-        [title]="'Ubicación seleccionada'"></map-marker>
-    </google-map>
   </div>
-
-  <br>
-  <button type="submit">Crear Evento</button>
-
+  <button type="submit" class="form-button">Crear Evento</button>
 </form>
+<div>
+</div>

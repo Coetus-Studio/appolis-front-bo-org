@@ -11,6 +11,6 @@ export const SHARED_ROUTES: Routes = [
   },
   {
     path: 'create',
-    loadComponent: () => import('./map-org/pages/create-locations/create-locations.component'),
+    loadComponent: () => import('./map-org/pages/create-citizen-map/create-citizen-map.component'),
   }
 ]

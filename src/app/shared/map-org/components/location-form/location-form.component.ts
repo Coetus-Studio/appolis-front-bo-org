@@ -5,6 +5,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import CitizenMapFormComponent from '../citizen-map-form/citizen-map-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalAddressComponent } from '../modal-address/modal-address.component';
 
 declare var google: any;
 
@@ -13,7 +15,7 @@ declare var google: any;
 @Component({
   selector: 'location-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, CitizenMapFormComponent],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
@@ -42,20 +44,23 @@ export default class LocationFormComponent implements OnInit {
 
   @ViewChild('searchBox', { static: true }) searchBox!: any;
 
+  selectedLocation: google.maps.LatLngLiteral | null = null;
+  center: google.maps.LatLngLiteral = { lat: -33.4725, lng: -70.6043 };
+
   addressSuggestions: any[] = []; // Sugerencias de dirección
-  // locationSaved = signal<any>(null); // Signal para emitir los datos
-  // eventLocationSaved = signal<any>(false); //
-  // isLocationSaved = false; // Controla si la ubicación fue guardada o no
 
   // señal donde guardo la info de location enviada desde event
   locationData = signal<any>(null);
 
-  // Declaramos google para usar la API de Google en el archivo
+  selectedAddress: string = ''; // Dirección ingresada manualmente
 
-  constructor(private locationService: LocationsService) { }
+  constructor(
+    private locationService: LocationsService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
-    this.initializeAutocomplete();
+    // this.initializeAutocomplete();
   }
 
   // Método para obtener las coordenadas desde el formulario
@@ -63,66 +68,39 @@ export default class LocationFormComponent implements OnInit {
     return (this.locationForm.get('geo_point.coordinates') as FormArray);
   }
 
-
-
   // Inicializar Google Places Autocomplete
-  // // Inicializar Google Places Autocomplete
-  initializeAutocomplete() {
-    const input = document.getElementById('address') as HTMLInputElement;
-    const autocomplete = new google.maps.places.Autocomplete(input);
+  // initializeAutocomplete() {
+  //   const input = document.getElementById('address') as HTMLInputElement;
+  //   const autocomplete = new google.maps.places.Autocomplete(input);
 
-    // Escuchar el evento de selección de la sugerencia
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
-      if (place.geometry && place.geometry.location) {
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        console.log('lat', lat)
-        console.log('lng', lng)
+  //   // Escuchar el evento de selección de la sugerencia
+  //   autocomplete.addListener('place_changed', () => {
+  //     const place = autocomplete.getPlace();
+  //     if (place.geometry && place.geometry.location) {
+  //       const lat = place.geometry.location.lat();
+  //       const lng = place.geometry.location.lng();
+  //       console.log('lat', lat)
+  //       console.log('lng', lng)
 
 
-        // coordenadas reales de la direccion ingresada
-        // Actualizar el formulario con la latitud y longitud
-        this.locationForm.get('latitude')?.setValue(lat);
-        this.locationForm.get('longitude')?.setValue(lng);
-      }
-    });
-  }
+  //       // coordenadas reales de la direccion ingresada
+  //       // Actualizar el formulario con la latitud y longitud
+  //       this.locationForm.get('latitude')?.setValue(lat);
+  //       this.locationForm.get('longitude')?.setValue(lng);
+  //     }
+  //   });
+  // }
 
 
   // TODO: ver que hace este metodo
   // Detectar cambios en el input
   onAddressInput(query: string) {
-
-
     if (!query) return;
+    const geocoder = new google.maps.Geocoder();
 
-    console.log('query' + query);
-
-
-
-
-
-
-
-
-
-
-    const addressValue = this.locationForm.get('address')?.value;
-
-    if (addressValue && addressValue.length > 2) {
-      const service = new google.maps.places.AutocompleteService();
-      service.getPlacePredictions({ input: addressValue }, (predictions: never[], status: any) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          this.addressSuggestions = predictions || [];
-        } else {
-          this.addressSuggestions = [];
-        }
-      });
-    } else {
-      this.addressSuggestions = [];
-    }
+    console.log("onAddressInput");
   }
+
 
   // Selección de dirección
   selectAddress(suggestion: any) {
@@ -185,31 +163,36 @@ export default class LocationFormComponent implements OnInit {
   }
 
 
+  // nuevo metodo para interactuar con modal address
+  openAddressModal() {
+    console.log("Open address modal");
 
-    // // Convertir coordenadas a dirección usando Geocoder
-    // getAddressFromCoords(lat: number, lng: number) {
-    //   const geocoder = new google.maps.Geocoder();
-    //   const latlng = { lat, lng };
+    const dialogRef = this.dialog.open(ModalAddressComponent, {
+      width: '50',
+      height: '60',
+      data: {
+        location: this.locationForm.get('location.geo_point.coordinates')?.value
+      }
+    });
 
-    //   geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
-    //     if (status === 'OK' && results[0]) {
-    //       const formattedAddress = results[0].formatted_address;
-    //       this.addressUpdated.emit(formattedAddress);
-    //     }
-    //   });
-    // }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Resultado del modal:", result);
 
-    // // Buscar coordenadas a partir de una dirección
-    // searchAddress(address: string) {
-    //   const geocoder = new google.maps.Geocoder();
-    //   geocoder.geocode({ address }, (results: { geometry: { location: any; }; }[], status: string) => {
-    //     if (status === 'OK' && results[0].geometry) {
-    //       const location = results[0].geometry.location;
-    //       this.center.set({ lat: location.lat(), lng: location.lng() });
-    //       this.locationSelected.emit({ lat: location.lat(), lng: location.lng() });
-    //     }
-    //   });
-    // }
+        // Actualizar los valores en el formulario
+        this.locationForm.get('location.address')?.setValue(result.address);
+        this.locationForm.get('location.geo_point.coordinates')?.setValue([
+          result.location.lat,
+          result.location.lng
+        ]);
+
+        // Actualizar los valores en el componente
+        this.selectedAddress = result.address;
+        this.selectedLocation = result.location;
+        this.center = result.location;
+      }
+    });
+  }
 
 
 }

@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
-import { Form, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { LocationsService } from '../../services/locations.service';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+
 import { CitizenMap } from '../../interfaces/citizen-map.interface';
-import MapOrgComponent from "../map-org/map-org.component";
-import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { LocationsService } from '../../services/locations.service';
+import { ModalAddressComponent } from "../modal-address/modal-address.component";
 
 @Component({
-  selector: 'citizen-map-form',
+  selector: 'shared-citizen-map-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MapOrgComponent, GoogleMap, MapMarker],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './citizen-map-form.component.html',
   styleUrl: './citizen-map-form.component.css'
 })
@@ -18,18 +19,16 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 
 export default class CitizenMapFormComponent implements OnInit {
 
-  // @Output() coordinatesUpdated = new EventEmitter<{ lat: number; lng: number }>();
-  // @Output() addressUpdated = new EventEmitter<string>();
-
-
   @Output() locationSelected = new EventEmitter<{ lat: number; lng: number; address: string }>();
   @ViewChild('searchBox', { static: true }) searchBox!: any;
 
   center: google.maps.LatLngLiteral = { lat: -33.4725, lng: -70.6043 };
   zoom = 14;
   selectedLocation: google.maps.LatLngLiteral | null = null;
-  selectedAddress: string = '';
+  selectedAddress: string = ''; // Dirección ingresada manualmente
 
+  // manejamos variable para saber estado de modal
+  isAddressModalOpen = false;
 
   // formulario mapa ciudadano
   citizenMapForm: FormGroup = new FormGroup({
@@ -52,48 +51,14 @@ export default class CitizenMapFormComponent implements OnInit {
   });
 
   constructor(
-    private locationService: LocationsService
+    private locationService: LocationsService,
+    private dialog: MatDialog
   ) {
 
   }
 
   ngOnInit(): void {
-    this.initializeAutocomplete();
-    // this.onAddressInput = this.onAddressInput.bind(this);
   }
-
-
-  initializeAutocomplete() {
-    // obtengo el id de la direccion
-    const input = document.getElementById('address') as HTMLInputElement;
-
-    // aplicamos funcionalidad autocompletado de google maps
-    const autocomplete = new google.maps.places.Autocomplete(input);
-
-    // Escucha el evento de selección de la sugerencia
-    autocomplete.addListener('place_changed', () => {
-      // Obtener el lugar seleccionado por el usuario y su coordenadas
-      const place = autocomplete.getPlace();
-      // si el lugar tiene coordenadas obtenemos la latitud y logintud
-      if (place.geometry && place.geometry.location) {
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        console.log('lat 1', lat)
-        console.log('lng 1', lng)
-
-        // obtenemos el formArray de coordinates y actualizamos su valor
-        const coordinatesArray = this.citizenMapForm.get('location.geo_point.coordinates') as FormArray;
-        // actualizo coordenadas
-        coordinatesArray.setControl(0, new FormControl(lat));
-        coordinatesArray.setControl(1, new FormControl(lng));
-
-        // centramos el mapa en la ubicacion seleccionada
-        this.center = { lat, lng };  // Aquí actualizamos el mapa
-        this.selectedLocation = { lat, lng }; // También actualizamos el marcador
-      }
-    });
-  }
-
 
   // create citizen map
   createCitizenMap() {
@@ -115,26 +80,40 @@ export default class CitizenMapFormComponent implements OnInit {
     }
   }
 
-  onMapClick(event: google.maps.MapMouseEvent) {
-    if (event.latLng) {
-      this.selectedLocation = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-      this.center = this.selectedLocation;
 
-      this.reverseGeocode(this.selectedLocation);
-    }
-  }
+  // nuevo metodo para interactuar con modal address
+  openAddressModal() {
+    this.isAddressModalOpen = true;
+    console.log("Open address modal");
 
-  reverseGeocode(latlng: google.maps.LatLngLiteral) {
-    const geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode({ location: latlng }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {
-        this.selectedAddress = results[0].formatted_address;
-        this.searchBox.nativeElement.value = this.selectedAddress;
-      } else {
-        console.warn("⚠️ No se pudo obtener la dirección para las coordenadas.");
+    const dialogRef = this.dialog.open(ModalAddressComponent, {
+      width: '600px',
+      data: {
+        location: this.citizenMapForm.get('location.geo_point.coordinates')?.value
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Resultado del modal:", result);
+
+        // Actualizar los valores en el formulario
+        this.citizenMapForm.get('location.address')?.setValue(result.address);
+        this.citizenMapForm.get('location.geo_point.coordinates')?.setValue([
+          result.location.lat,
+          result.location.lng
+        ]);
+
+        // Actualizar los valores en el componente
+        this.selectedAddress = result.address;
+        this.selectedLocation = result.location;
+        this.center = result.location;
+      }
+    });
+  }
+
+  closeAddressModal() {
+    this.isAddressModalOpen = false;
   }
 
 }
