@@ -3,12 +3,12 @@ import MapOrgComponent from "../../components/map-org/map-org.component";
 import { LocationsService } from '../../services/locations.service';
 import { Location } from '../../interfaces/locations.interface';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-list-locations',
   standalone: true,
-  imports: [MapOrgComponent, CommonModule, RouterOutlet],
+  imports: [MapOrgComponent, CommonModule, RouterLink],
   templateUrl: './list-locations.component.html',
   styleUrl: './list-locations.component.css'
 })
