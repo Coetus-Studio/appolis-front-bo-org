@@ -1,41 +1,41 @@
-<div>
-  <h1 class="mb-4">Listar eventos</h1>
-</div>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Listar Eventos</h1>
+    <button class="btn btn-primary" [routerLink]="['/events/create']">+ Crear Evento</button>
+  </div>
 
-<div class="container">
   <!-- Barra de búsqueda -->
-  <input type="text" class="form-control mb-3" placeholder="Buscar eventos..." (input)="searchEvents($event)">
+  <input
+    type="text"
+    class="form-control mb-3"
+    placeholder="Buscar eventos..."
+    (input)="searchEvents($event)">
 
-  <!-- Verificación de si hay eventos -->
+  <!-- Lista de eventos -->
   <div *ngIf="filteredEvents.length > 0; else noEvents">
-    <div *ngFor="let event of filteredEvents" class="card mb-3">
-      <!-- Encabezado del evento -->
+    <div *ngFor="let event of filteredEvents" class="card mb-4 shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">{{ event.title }}</h5>
-        <!-- <span class="badge bg-primary">{{ event.status }}</span> -->
       </div>
 
-      <!-- Cuerpo del evento -->
       <div class="card-body">
         <p class="card-text">{{ event.description }}</p>
         <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
         <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
-        <!-- <p><strong>Tipo:</strong> {{ event.event_type }}</p> -->
-        <!-- <p><strong>Asistentes:</strong> {{ event.assistents }}</p> -->
-        <!-- <p><strong>Creado por:</strong> {{ event.created_by }} el {{ event.created_at }}</p> -->
-        <div>
-          <!-- <p><strong>Ubicación:</strong> {{ event.location.address }}, {{ event.location.city_code }}</p>
-          <p><em>{{ event.location.description }}</em></p> -->
-        </div>
-        <!-- Mostrar imagen si está disponible -->
-        <!-- <img *ngIf="event.images.length > 0" [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid mt-3"> -->
+
+        <!-- Imagen del evento -->
+        <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
+          <img [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid rounded" style="max-height: 200px;">
+        </div> -->
       </div>
     </div>
   </div>
 
-  <!-- Mensaje en caso de que no haya eventos -->
+  <!-- Mensaje si no hay eventos -->
   <ng-template #noEvents>
-    <p>No hay eventos para mostrar.</p>
+    <div class="text-center mt-4">
+      <p class="text-muted">No hay eventos disponibles.</p>
+    </div>
   </ng-template>
 </div>
-<router-outlet></router-outlet>
+

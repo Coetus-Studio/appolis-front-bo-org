@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { EventForm } from '../interfaces/events.interface';
 import { StorageService } from '../../../storage.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,31 +16,22 @@ export class EventService {
 
   constructor(
     private http: HttpClient,
-    private storage: StorageService,
+    private authService: AuthService,
   ) {
-    this.initAuthToken();
-  }
-
-  // Inicializo authToken
-  private async initAuthToken() {
-    this.authToken = await this.storage.getItem('authToken');
-
-    if (!this.authToken) {
-      console.error('No se encontró el authToken');
-    }
-
-    console.log('authToken: ', this.authToken);
   }
 
   getAllEvents(): Observable<EventForm[]> {
-    console.log('Service list events', this.authToken);
 
-    const headers = {
-      Authorization: `Bearer ${this.authToken}`,
-    }
+    this.authService.getToken().subscribe(token => console.log('Token obtenido:', token));
 
-    return this.http.get<EventForm[]>(this.apiUrl, { headers })
-      .pipe(map(res => res))
+    console.log('getAllEvents')
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<EventForm[]>(this.apiUrl, { headers });
+      })
+    );
   }
 
   createEvent(body: EventForm): Observable<any> {
