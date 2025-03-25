@@ -1,25 +1,26 @@
-<h2>Selecciona una ubicación</h2>
+<div class="modal-overlay">
+  <div class="modal-container">
+    <h2>Selecciona una ubicación</h2>
 
-<div style="width: 100%; height: 400px;">
-  <!-- Input de dirección -->
-  <div class="form-group">
-    <label for="address">Dirección:</label>
-    <input id="addressInput" #addressInput [(ngModel)]="selectedAddress" class="form-input"
-      (input)="initializeAutocomplete()" />
+    <div class="form-group">
+      <label for="address">Dirección:</label>
+      <input id="addressInput" #addressInput [(ngModel)]="selectedAddress" class="form-input"
+        (input)="initializeAutocomplete()" placeholder="Escribe una dirección..." />
+    </div>
+
+    <!-- Google Maps -->
+    <div class="map-container">
+      <google-map [center]="center" [zoom]="15" (mapClick)="onMapClick($event)">
+        <map-marker *ngIf="selectedLocation" [position]="selectedLocation" title="Ubicación seleccionada"></map-marker>
+      </google-map>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="modal-actions">
+      <button mat-button (click)="dialogRef.close()">Cancelar</button>
+      <button mat-raised-button color="primary" (click)="saveLocation()" [disabled]="!selectedLocation">
+        Guardar
+      </button>
+    </div>
   </div>
-
-  <!-- Google Maps -->
-  <google-map [center]="center" [zoom]="15" (mapClick)="onMapClick($event)" width="100%" height="400px">
-    <map-marker *ngIf="selectedLocation" [position]="selectedLocation" title="Ubicación seleccionada"></map-marker>
-  </google-map>
-
-  <!-- Botones de acción -->
-  <div class="modal-actions">
-    <button mat-button (click)="dialogRef.close()">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="saveLocation()" [disabled]="!selectedLocation">
-      Guardar
-    </button>
-  </div>
-
-
 </div>
