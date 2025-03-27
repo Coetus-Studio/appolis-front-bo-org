@@ -20,7 +20,7 @@ export default class MapOrgComponent implements OnInit {
   @Output() addressUpdated = new EventEmitter<string>();
 
   // Recibe la dirección ingresada en el formulario
-  @Input() address: string = '';
+  @Input() gm_formatted_address: string = '';
 
   // coordenadas iniciales de carga del mapa
   center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
@@ -133,8 +133,8 @@ export default class MapOrgComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['address'] && this.address) {
-      this.updateMapPosition(this.address);
+    if (changes['address'] && this.gm_formatted_address) {
+      this.updateMapPosition(this.gm_formatted_address);
     }
   }
 

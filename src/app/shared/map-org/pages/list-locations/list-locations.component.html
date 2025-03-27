@@ -15,7 +15,7 @@
 
       <div *ngFor="let location of filteredLocations()" class="location-item" (click)="selectLocation(location)">
         <div class="location-info">
-          <span class="location-address">{{ location.address }}</span>
+          <span class="location-address">{{ location.gm_formatted_address }}</span>
           <span class="location-coordinates">{{ location.geo_point.coordinates }}</span>
         </div>
       </div>

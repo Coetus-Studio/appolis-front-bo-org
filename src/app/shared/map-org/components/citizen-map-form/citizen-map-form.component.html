@@ -10,11 +10,33 @@
 
 
     <!-- TODO: mejorar logica, volver a mostrar btn y tambier mostrar selectedAddress -->
-    <div *ngIf="!isAddressModalOpen" class="address-container">
+    <!-- <div *ngIf="!isAddressModalOpen" class="address-container">
       <input id="address" formControlName="address" class="form-input"
         [value]="citizenMapForm.get('location.address')?.value" readonly />
       <button type="button" class="form-button" (click)="openAddressModal()">Seleccionar Dirección</button>
+    </div> -->
+
+    <!-- Se muestra solo si el modal está cerrado -->
+
+
+    <div *ngIf="isAddressModalOpen; else isAddressModalClosed" class="address-container" formControlName="gm_formatted_address">
+      <shared-modal-address></shared-modal-address>
     </div>
+
+    <ng-template #isAddressModalClosed>
+      <!-- <div *ngIf="!isAddressModalOpen" class="address-container"> -->
+        <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-input"
+          [value]="citizenMapForm.get('location.gm_formatted_address')?.value" placeholder="direccion..." readonly />
+        <button type="button" class="form-button" (click)="openAddressModal()" >
+          Seleccionar Dirección...
+        </button>
+      <!-- </div> -->
+    </ng-template>
+
+
+
+
+
 
 
 
@@ -23,24 +45,19 @@
       <input id="description" formControlName="description" class="form-input" />
     </div>
 
-    <div class="form-group">
+<!--     <div class="form-group">
       <label for="category">Categoría:</label>
       <input id="category" formControlName="category" class="form-input" />
-    </div>
+    </div> -->
 
-    <div class="form-group">
+<!--     <div class="form-group">
       <label for="url_icon">URL Icono:</label>
       <input id="url_icon" formControlName="url_icon" class="form-input" />
-    </div>
+    </div> -->
 
     <div class="form-group checkbox-group">
       <label for="is_public">¿Es público?</label>
       <input id="is_public" type="checkbox" formControlName="is_public" />
-    </div>
-
-    <div class="form-group">
-      <label for="city_code">Código de Ciudad:</label>
-      <input id="city_code" formControlName="city_code" class="form-input" />
     </div>
   </div>
   <button type="submit" class="form-button">Crear Evento</button>

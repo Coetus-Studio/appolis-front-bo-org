@@ -23,7 +23,9 @@ export class ModalAddressComponent {
 
   // form para address ingresada
   citizenMapForm: FormGroup = new FormGroup({
+    name: new FormControl(''),
     location: new FormGroup({
+      gm_formatted_address: new FormControl(''),
       geo_point: new FormGroup({
         coordinates: new FormArray([
           new FormControl(''), // Latitud
@@ -102,7 +104,7 @@ export class ModalAddressComponent {
     console.log("Saving location");
 
     this.dialogRef.close({
-      address: this.selectedAddress,
+      gm_formatted_address: this.selectedAddress,
       location: this.selectedLocation
     });
 

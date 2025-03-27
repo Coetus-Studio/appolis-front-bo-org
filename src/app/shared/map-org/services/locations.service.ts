@@ -31,7 +31,7 @@ export class LocationsService {
   initAutocomplete(inputElement: HTMLInputElement) {
     console.log('Initializing autocomplete for:', inputElement);
     const options = {
-      types: ['address'],
+      types: ['gm_formatted_address'],
     };
     this.autocomplete = new google.maps.places.Autocomplete(inputElement, options);
   }
@@ -59,23 +59,15 @@ export class LocationsService {
 
     console.log('Creating a new location...');
     return this.http.post<Location>(this.apiUrl, {
-      address: value.address,
+      gm_formatted_address: value.address,
       description: value.description,
-      category: value.category, // enviar id 633e3cf17393d8d6eeefc15c
-      url_icon: value.url_icon,
       is_public: true,
-      city_code: value.city_code, // enviar id 634f4abfbfbdf714ae0509cc
         geo_point: {
           type: 'Point',
           coordinates: [value.geo_point_lat, value.geo_point_lng]
       }
 
     });
-      // geo_point: {
-      //   type: 'Point',
-      //   // coordinates: `${value.geo_point_lat}, ${value.geo_point_lng}`,
-      //   coordinates: [value.geo_point_lat, value.geo_point_lng]
-      // },
   }
 
   // crear citizen map

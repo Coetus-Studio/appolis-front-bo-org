@@ -7,12 +7,9 @@ export interface GeoPoint {
 }
 
 export interface Location {
-  address: string;
+  gm_formatted_address: string;
   description: string;
-  category: string;
-  url_icon: string;
   is_public: boolean;
-  city_code: string;
   geo_point: GeoPoint;
 }
 

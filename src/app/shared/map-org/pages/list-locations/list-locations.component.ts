@@ -51,7 +51,7 @@ export default class ListLocationsComponent implements OnInit {
     const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
     const query = input.value.toLowerCase(); // Ahora puedes acceder a "value" sin errores
     const filtered = this.$locations().filter(location =>
-      location.address.toLowerCase().includes(query)
+      location.gm_formatted_address.toLowerCase().includes(query)
     );
     this.filteredLocations.set(filtered);
   }

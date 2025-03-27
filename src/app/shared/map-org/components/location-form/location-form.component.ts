@@ -15,25 +15,24 @@ declare var google: any;
 @Component({
   selector: 'location-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, CitizenMapFormComponent],
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.css']
 })
 export default class LocationFormComponent implements OnInit {
 
+  isAddressModalOpen = false;
+
   // formulario location
   locationForm: FormGroup = new FormGroup({
-    address: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    description: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required]),
-    url_icon: new FormControl('', [Validators.required]),
+    gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    description: new FormControl(''),
     is_public: new FormControl(false),
-    city_code: new FormControl('', [Validators.required]),
     geo_point: new FormGroup({
       type: new FormControl('Point'),
       coordinates: new FormArray([
-        new FormControl('-30.0000'), // Latitud
-        new FormControl('-10.000')  // Longitud
+        new FormControl(''), // Latitud
+        new FormControl('')  // Longitud
       ])
 
     }),
@@ -68,29 +67,6 @@ export default class LocationFormComponent implements OnInit {
     return (this.locationForm.get('geo_point.coordinates') as FormArray);
   }
 
-  // Inicializar Google Places Autocomplete
-  // initializeAutocomplete() {
-  //   const input = document.getElementById('address') as HTMLInputElement;
-  //   const autocomplete = new google.maps.places.Autocomplete(input);
-
-  //   // Escuchar el evento de selección de la sugerencia
-  //   autocomplete.addListener('place_changed', () => {
-  //     const place = autocomplete.getPlace();
-  //     if (place.geometry && place.geometry.location) {
-  //       const lat = place.geometry.location.lat();
-  //       const lng = place.geometry.location.lng();
-  //       console.log('lat', lat)
-  //       console.log('lng', lng)
-
-
-  //       // coordenadas reales de la direccion ingresada
-  //       // Actualizar el formulario con la latitud y longitud
-  //       this.locationForm.get('latitude')?.setValue(lat);
-  //       this.locationForm.get('longitude')?.setValue(lng);
-  //     }
-  //   });
-  // }
-
 
   // TODO: ver que hace este metodo
   // Detectar cambios en el input
@@ -104,7 +80,7 @@ export default class LocationFormComponent implements OnInit {
 
   // Selección de dirección
   selectAddress(suggestion: any) {
-    this.locationForm.get('address')?.setValue(suggestion.description);
+    this.locationForm.get('gm_formatted_address')?.setValue(suggestion.description);
 
     const place = suggestion.place_id;
     const geocoder = new google.maps.Geocoder();
@@ -167,6 +143,8 @@ export default class LocationFormComponent implements OnInit {
   openAddressModal() {
     console.log("Open address modal");
 
+    this.isAddressModalOpen = true;
+
     const dialogRef = this.dialog.open(ModalAddressComponent, {
       width: '50',
       height: '60',
@@ -177,17 +155,17 @@ export default class LocationFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Resultado del modal:", result);
+        console.log("Resultado del modal 2:", result);
 
         // Actualizar los valores en el formulario
-        this.locationForm.get('location.address')?.setValue(result.address);
+        this.locationForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
         this.locationForm.get('location.geo_point.coordinates')?.setValue([
           result.location.lat,
           result.location.lng
         ]);
 
         // Actualizar los valores en el componente
-        this.selectedAddress = result.address;
+        this.selectedAddress = result.gm_formatted_address;
         this.selectedLocation = result.location;
         this.center = result.location;
       }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, NgModule, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormControl, FormGroup, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { CitizenMap } from '../../interfaces/citizen-map.interface';
@@ -10,7 +10,7 @@ import { ModalAddressComponent } from "../modal-address/modal-address.component"
 @Component({
   selector: 'shared-citizen-map-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ModalAddressComponent],
   templateUrl: './citizen-map-form.component.html',
   styleUrl: './citizen-map-form.component.css'
 })
@@ -34,12 +34,9 @@ export default class CitizenMapFormComponent implements OnInit {
   citizenMapForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.minLength(5)]),
     location: new FormGroup({
-      address: new FormControl('', [Validators.required, Validators.minLength(5)]),
       description: new FormControl('', [Validators.required]),
-      category: new FormControl('', [Validators.required]),
-      url_icon: new FormControl('', [Validators.required]),
+      gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
       is_public: new FormControl(false),
-      city_code: new FormControl('', [Validators.required]),
       geo_point: new FormGroup({
         type: new FormControl('Point'),
         coordinates: new FormArray([
@@ -69,7 +66,7 @@ export default class CitizenMapFormComponent implements OnInit {
       // Aquí creamos el objeto CitizenMap a partir del formulario
       const citizenMap: CitizenMap = {
         name: formData.name,
-        location: formData.location
+        location: formData.location,
       };
 
       this.locationService.createCitizenMap(citizenMap).subscribe(res => {
@@ -95,17 +92,17 @@ export default class CitizenMapFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Resultado del modal:", result);
+        console.log("Resultado del modal 1:", result);
 
         // Actualizar los valores en el formulario
-        this.citizenMapForm.get('location.address')?.setValue(result.address);
+        this.citizenMapForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
         this.citizenMapForm.get('location.geo_point.coordinates')?.setValue([
           result.location.lat,
           result.location.lng
         ]);
 
         // Actualizar los valores en el componente
-        this.selectedAddress = result.address;
+        this.selectedAddress = result.gm_formatted_address;
         this.selectedLocation = result.location;
         this.center = result.location;
       }
