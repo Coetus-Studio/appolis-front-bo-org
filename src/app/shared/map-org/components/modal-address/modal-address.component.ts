@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, NgModuleRef, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, NgModel } from '@angular/forms';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule  } from '@angular/material/dialog';
 
 @Component({
   selector: 'shared-modal-address',
   standalone: true,
-  imports: [GoogleMap, MapMarker, CommonModule, FormsModule],
+  imports: [GoogleMap, MapMarker, CommonModule, FormsModule, MatDialogModule],
   templateUrl: './modal-address.component.html',
   styleUrl: './modal-address.component.css'
 })

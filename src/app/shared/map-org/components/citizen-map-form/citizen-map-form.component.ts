@@ -30,6 +30,9 @@ export default class CitizenMapFormComponent implements OnInit {
   // manejamos variable para saber estado de modal
   isAddressModalOpen = false;
 
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
   // formulario mapa ciudadano
   citizenMapForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.minLength(5)]),
@@ -57,6 +60,13 @@ export default class CitizenMapFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+   // Métodos para mostrar errores de validación en los campos
+   get name() { return this.citizenMapForm.get('name'); }
+   get description() { return this.citizenMapForm.get('description'); }
+   get address() { return this.citizenMapForm.get('location.gm_formatted_address'); }
+
+
+
   // create citizen map
   createCitizenMap() {
     console.log('citizenMapData:', this.citizenMapForm.value);
@@ -71,40 +81,41 @@ export default class CitizenMapFormComponent implements OnInit {
 
       this.locationService.createCitizenMap(citizenMap).subscribe(res => {
         console.log('Citizen map created successfully', res);
+
+
+        setTimeout(() => {
+          this.successMessage = 'Mapa ciudadano creado con éxito.';
+          this.errorMessage = null;
+          this.citizenMapForm.reset(); // Limpia el formulario
+        }, 1000);
       })
     } else {
       console.log('Formulario inválido');
+      this.errorMessage = 'Por favor, completa todos los campos obligatorios.';
+      this.successMessage = null;
     }
   }
 
 
   // nuevo metodo para interactuar con modal address
   openAddressModal() {
-    this.isAddressModalOpen = true;
-    console.log("Open address modal");
-
     const dialogRef = this.dialog.open(ModalAddressComponent, {
-      width: '600px',
-      data: {
-        location: this.citizenMapForm.get('location.geo_point.coordinates')?.value
-      }
+      width: '500px',
+      disableClose: false,
+      data: { location: { lat: -30.0000, lng: -10.000 } } // Puedes pasar datos opcionales
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Resultado del modal 1:", result);
-
-        // Actualizar los valores en el formulario
-        this.citizenMapForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
-        this.citizenMapForm.get('location.geo_point.coordinates')?.setValue([
-          result.location.lat,
-          result.location.lng
-        ]);
-
-        // Actualizar los valores en el componente
-        this.selectedAddress = result.gm_formatted_address;
-        this.selectedLocation = result.location;
-        this.center = result.location;
+        // Guarda los datos en el formulario
+        this.citizenMapForm.patchValue({
+          location: {
+            gm_formatted_address: result.gm_formatted_address,
+            geo_point: {
+              coordinates: [result.location.lat, result.location.lng]
+            }
+          }
+        });
       }
     });
   }
@@ -113,6 +124,9 @@ export default class CitizenMapFormComponent implements OnInit {
     this.isAddressModalOpen = false;
   }
 
+  setAddress(selectedAddress: string) {
+    this.citizenMapForm.get('location.gm_formatted_address')?.setValue(selectedAddress);
+  }
 }
 
 
