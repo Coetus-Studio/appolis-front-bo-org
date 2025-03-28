@@ -1,23 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal, Signal } from '@angular/core';
+import { Component, OnInit, signal, Signal, ViewChild } from '@angular/core';
 
 import { EventService } from '../../services/event.service';
 import { EventForm } from '../../interfaces/events.interface';
 import { RouterModule } from '@angular/router';
+import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
+
 
 @Component({
   selector: 'app-list-events',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MapOrgComponent],
   templateUrl: './list-events.component.html',
   styleUrl: './list-events.component.css'
 })
 export default class ListEventsComponent implements OnInit {
 
   // // TODO: agregar tipo interface Event
-  public eventOrg: EventForm[] = [];
-  public filteredEvents: EventForm[] = [];
-  public page: number = 1;
+  eventOrg: EventForm[] = [];
+  // filteredEvents = signal<EventForm[]>([]);
+  filteredEvents: EventForm[] = [];
+
+  page: number = 1;
+
+  center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
+
+  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
 
   constructor(private eventService: EventService) {
     console.log('Initializing ListEventsComponent');
@@ -30,7 +38,10 @@ export default class ListEventsComponent implements OnInit {
   async getAllEvents() {
     console.log('Getting all events')
 
-    this.eventService.getAllEvents().subscribe({
+    const centerValue = this.center();
+
+
+    this.eventService.getAllEvents(centerValue).subscribe({
       next: (eventOrg) => {
         this.eventOrg = eventOrg;
         this.filteredEvents = eventOrg;
@@ -51,5 +62,11 @@ export default class ListEventsComponent implements OnInit {
     );
   }
 
+  focusOnEvent(event: any) {
+    if (this.mapComponent) {
+      console.log('event', event);
+      this.mapComponent.updateMapPosition(event);
+    }
+  }
 
 }

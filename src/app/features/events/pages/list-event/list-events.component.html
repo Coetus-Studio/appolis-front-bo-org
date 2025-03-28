@@ -1,41 +1,62 @@
 <div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Listar Eventos</h1>
-    <button class="btn btn-primary" [routerLink]="['/events/create']">+ Crear Evento</button>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-primary">Listar Eventos</h1>
+    <button class="btn btn-success shadow-sm" [routerLink]="['/events/create']">+ Crear Evento</button>
   </div>
 
   <!-- Barra de búsqueda -->
-  <input
-    type="text"
-    class="form-control mb-3"
-    placeholder="Buscar eventos..."
-    (input)="searchEvents($event)">
+  <div class="input-group mb-4">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar eventos..."
+      (input)="searchEvents($event)">
+    <span class="input-group-text">
+      <i class="bi bi-search"></i>
+    </span>
+  </div>
 
-  <!-- Lista de eventos -->
-  <div *ngIf="filteredEvents.length > 0; else noEvents">
-    <div *ngFor="let event of filteredEvents" class="card mb-4 shadow-sm">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">{{ event.title }}</h5>
+  <div class="row">
+    <!-- Lista de eventos -->
+    <div class="col-lg-8">
+      <div *ngIf="filteredEvents.length > 0; else noEvents">
+        <div
+          *ngFor="let event of filteredEvents"
+          class="card mb-4 shadow-sm border-0 event-card"
+          (click)="focusOnEvent(event)"
+          style="cursor: pointer;"
+        >
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ event.title }}</h5>
+          </div>
+
+          <div class="card-body">
+            <p class="card-text">{{ event.description }}</p>
+            <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
+            <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
+
+            <!-- Imagen del evento -->
+            <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
+              <img [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid rounded shadow" style="max-height: 200px;">
+            </div> -->
+          </div>
+        </div>
       </div>
 
-      <div class="card-body">
-        <p class="card-text">{{ event.description }}</p>
-        <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
-        <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
+      <!-- Mensaje si no hay eventos -->
+      <ng-template #noEvents>
+        <div class="text-center mt-4">
+          <p class="text-muted">No hay eventos disponibles.</p>
+        </div>
+      </ng-template>
+    </div>
 
-        <!-- Imagen del evento -->
-        <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
-          <img [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid rounded" style="max-height: 200px;">
-        </div> -->
+    <!-- Mapa de organización -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm p-3">
+        <h5 class="text-center text-secondary">Ubicación de Eventos</h5>
+        <map-org #mapComponent></map-org>
       </div>
     </div>
   </div>
-
-  <!-- Mensaje si no hay eventos -->
-  <ng-template #noEvents>
-    <div class="text-center mt-4">
-      <p class="text-muted">No hay eventos disponibles.</p>
-    </div>
-  </ng-template>
 </div>
-

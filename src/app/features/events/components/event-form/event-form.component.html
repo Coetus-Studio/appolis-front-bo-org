@@ -9,6 +9,7 @@
         <div class="card-body">
           <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
 
+
             <!-- Título del Evento -->
             <div class="form-group mb-3">
               <label for="title">Título del Evento:</label>
@@ -18,7 +19,8 @@
             <!-- Descripción del Evento -->
             <div class="form-group mb-3">
               <label for="description">Descripción del Evento:</label>
-              <textarea id="description" class="form-control" rows="3" formControlName="description" required></textarea>
+              <textarea id="description" class="form-control" rows="3" formControlName="description"
+                required></textarea>
             </div>
 
             <!-- Fecha del Evento -->
@@ -34,29 +36,23 @@
             </div>
 
             <!-- Modal para Agregar Ubicación -->
-            <button type="button" class="btn btn-secondary" (click)="openLocationModal()">Agregar Ubicación</button>
 
-              <!-- Modal para Agregar Ubicación -->
-              <div *ngIf="isModalOpen" class="modal" tabindex="-1" id="locationModal" [ngClass]="{'show': isModalOpen}" style="display: block;">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Agregar Ubicación</h5>
-                      <button type="button" class="btn-close" (click)="closeLocationModal()" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <!-- <location-form (ngSubmit)="onLocationSaved($event)"></location-form> -->
-                       <location-form></location-form>
-                    </div>
-                  </div>
-                </div>
+            <div formGroupName="location">
+              <div class="address-container">
+                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-input"
+                  [value]="eventForm.get('location.gm_formatted_address')?.value" placeholder="Dirección..." readonly />
+                <button type="button" class="form-button" (click)="openAddressModal()">
+                  Seleccionar Dirección...
+                </button>
               </div>
 
-            <!-- Imagen del Evento -->
-            <!-- <div class="form-group mb-3">
-              <label for="image">Imagen del Evento:</label>
-              <input type="file" id="image" class="form-control-file" formControlName="images" required>
-            </div> -->
+
+            </div>
+
+            <div>
+
+            </div>
+
 
             <!-- Autor del Evento -->
             <div class="form-group mb-3">
@@ -80,7 +76,8 @@
             <!-- Organización Responsable -->
             <div class="form-group mb-3">
               <label for="organizer">Organización responsable:</label>
-              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization" required>
+              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization"
+                required>
             </div>
 
             <!-- Asistentes -->
@@ -100,7 +97,7 @@
             </div> -->
 
             <!-- Botón de Guardar -->
-            <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+            <button type="submit" class="form-button">Guardar</button>
           </form>
         </div>
       </div>
@@ -108,8 +105,3 @@
   </div>
 
 </div>
-
-<br>
-<b>_______________________________</b>
-<h2><b>Valores Form</b></h2>
-<pre>{{ eventForm.value | json}}</pre>

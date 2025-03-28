@@ -6,8 +6,9 @@ export interface GeoPoint {
 }
 
 export interface Location {
-  address: string;
-  is_public: string;
+  gm_formatted_address: string;
+  description: string | null;
+  is_public: boolean;
   geo_point: GeoPoint;
 }
 

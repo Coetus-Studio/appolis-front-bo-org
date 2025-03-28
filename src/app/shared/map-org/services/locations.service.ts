@@ -8,9 +8,9 @@ import { CitizenMap } from "../interfaces/citizen-map.interface";
   providedIn: 'root'
 })
 export class LocationsService {
-  getAddressSuggestions(addressValue: any) {
-    throw new Error('Method not implemented.');
-  }
+  // getAddressSuggestions(addressValue: any) {
+  //   throw new Error('Method not implemented.');
+  // }
 
   private readonly apiUrl: string = 'http://localhost:3000/v1/locations';
   private autocomplete: any;
@@ -28,13 +28,13 @@ export class LocationsService {
     // console.log('inicializando signal', this.locationData())
   }
 
-  initAutocomplete(inputElement: HTMLInputElement) {
-    console.log('Initializing autocomplete for:', inputElement);
-    const options = {
-      types: ['gm_formatted_address'],
-    };
-    this.autocomplete = new google.maps.places.Autocomplete(inputElement, options);
-  }
+  // initAutocomplete(inputElement: HTMLInputElement) {
+  //   console.log('Initializing autocomplete for:', inputElement);
+  //   const options = {
+  //     types: ['gm_formatted_address'],
+  //   };
+  //   this.autocomplete = new google.maps.places.Autocomplete(inputElement, options);
+  // }
 
   // Asegúrate de que el objeto google esté disponible
   get googleMaps(): any {

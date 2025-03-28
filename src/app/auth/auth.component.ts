@@ -59,7 +59,7 @@ export class AuthComponent {
 
       this.rol = this.rol,
       console.log('ROL', response.roles);
-      console.log('ID', this);
+      console.log('ID', this.rol);
 
       await this.router.navigate(['/home']);
 

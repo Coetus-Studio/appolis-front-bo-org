@@ -20,29 +20,41 @@ export class EventService {
   ) {
   }
 
-  getAllEvents(): Observable<EventForm[]> {
-
-    this.authService.getToken().subscribe(token => console.log('Token obtenido:', token));
+  getAllEvents(center: { lat: number; lng: number }): Observable<EventForm[]> {
 
     console.log('getAllEvents')
     return this.authService.getToken().pipe(
       filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        return this.http.get<EventForm[]>(this.apiUrl, { headers });
+        return this.http.get<EventForm[]>(this.apiUrl, {
+          params: {
+            origin: `${center.lat}, ${center.lng}`,
+            size: 10,
+          },
+          headers });
       })
     );
   }
 
   createEvent(body: EventForm): Observable<any> {
+    // const headers = {
+    //   Authorization: `Bearer ${this.authToken}`,
+    //   'Content-Type': 'application/json'
+    // }
 
-    const headers = {
-      Authorization: `Bearer ${this.authToken}`,
-    }
+    console.log('body', body);
 
-
+    return this.authService.getToken().pipe(
+      filter(token =>!!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.post<EventForm[]>(this.apiUrl, body, { headers });
+      })
+    )
+/*
+    console.log('createEvent.json', this.authToken);
     console.log('Service create event', body);
-    return this.http.post<EventForm[]>(this.apiUrl, body, {headers}).pipe(map(res => res))
+    return this.http.post<EventForm[]>(this.apiUrl, body, {headers}).pipe(map(res => res)) */
   }
-
 }

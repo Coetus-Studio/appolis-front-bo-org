@@ -141,7 +141,7 @@ export default class LocationFormComponent implements OnInit {
 
   // nuevo metodo para interactuar con modal address
   openAddressModal() {
-    console.log("Open address modal");
+    console.log("Open address modal in location");
 
     this.isAddressModalOpen = true;
 
