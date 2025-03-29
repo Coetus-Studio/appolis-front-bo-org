@@ -16,4 +16,5 @@ export interface Location {
 export interface CitizenMap {
   name: string;
   location: Location;
+  icon_url: string;
 }

@@ -12,7 +12,7 @@ export class LocationsService {
   //   throw new Error('Method not implemented.');
   // }
 
-  private readonly apiUrl: string = 'http://localhost:3000/v1/locations';
+  private readonly apiUrl: string = 'http://localhost:3000/v1';
   private autocomplete: any;
 
   // Señal para almacenar los datos de ubicación
@@ -73,9 +73,10 @@ export class LocationsService {
   // crear citizen map
   createCitizenMap(citizenMap: CitizenMap): Observable<any> {
     console.log('Creando mapa para la ubicación:', citizenMap);
-    return this.http.post(`${this.apiUrl}/create-citizen-map`, {
+    return this.http.post(`${this.apiUrl}/citizen-points`, {
       name: citizenMap.name,
-      location: citizenMap.location
+      location: citizenMap.location,
+      icon_url: citizenMap.icon_url
     });
   }
 

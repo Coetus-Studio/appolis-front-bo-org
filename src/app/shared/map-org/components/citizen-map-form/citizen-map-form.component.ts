@@ -36,6 +36,7 @@ export default class CitizenMapFormComponent implements OnInit {
   // formulario mapa ciudadano
   citizenMapForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.minLength(5)]),
+    icon_url: new FormControl('', [Validators.required]),
     location: new FormGroup({
       description: new FormControl('', [Validators.required]),
       gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -47,7 +48,7 @@ export default class CitizenMapFormComponent implements OnInit {
           new FormControl('')  // Longitud
         ])
       }),
-    })
+    }),
   });
 
   constructor(
@@ -76,7 +77,8 @@ export default class CitizenMapFormComponent implements OnInit {
       // Aquí creamos el objeto CitizenMap a partir del formulario
       const citizenMap: CitizenMap = {
         name: formData.name,
-        location: formData.location,
+        icon_url: formData.icon_url,
+        location: formData.location
       };
 
       this.locationService.createCitizenMap(citizenMap).subscribe(res => {
