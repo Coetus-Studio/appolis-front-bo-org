@@ -2,106 +2,73 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card shadow-sm">
-        <div class="card-header text-center">
-          <h1>Formulario Creación Eventos</h1>
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+          <h2 class="mb-0">Formulario Creación de Eventos</h2>
         </div>
         <div class="card-body">
           <form [formGroup]="eventForm" (ngSubmit)="createEvent()">
 
-
             <!-- Título del Evento -->
-            <div class="form-group mb-3">
-              <label for="title">Título del Evento:</label>
+            <div class="mb-3">
+              <label for="title" class="form-label">Título del Evento:</label>
               <input type="text" id="title" class="form-control" formControlName="title" required>
             </div>
 
             <!-- Descripción del Evento -->
-            <div class="form-group mb-3">
-              <label for="description">Descripción del Evento:</label>
-              <textarea id="description" class="form-control" rows="3" formControlName="description"
-                required></textarea>
+            <div class="mb-3">
+              <label for="description" class="form-label">Descripción del Evento:</label>
+              <textarea id="description" class="form-control" rows="3" formControlName="description" required></textarea>
             </div>
 
             <!-- Fecha del Evento -->
-            <div class="form-group mb-3">
-              <label for="start_date">Fecha del Evento:</label>
-              <input type="date" id="start_date" class="form-control" formControlName="start_date" required>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="start_date" class="form-label">Fecha de Inicio:</label>
+                <input type="date" id="start_date" class="form-control" formControlName="start_date" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="end_date" class="form-label">Fecha de Término:</label>
+                <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
+              </div>
             </div>
 
-            <!-- Término del Evento -->
-            <div class="form-group mb-3">
-              <label for="end_date">Término del Evento:</label>
-              <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
-            </div>
-
-            <!-- Modal para Agregar Ubicación -->
-
-            <div formGroupName="location">
-              <div class="address-container">
-                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-input"
-                  [value]="eventForm.get('location.gm_formatted_address')?.value" placeholder="Dirección..." readonly />
-                <button type="button" class="form-button" (click)="openAddressModal()">
-                  Seleccionar Dirección...
+            <!-- Ubicación -->
+            <div formGroupName="location" class="mb-3">
+              <label class="form-label">Ubicación:</label>
+              <div class="input-group">
+                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-control" placeholder="Dirección..." readonly />
+                <button type="button" class="btn btn-outline-secondary" (click)="openAddressModal()">
+                  Seleccionar Dirección
                 </button>
               </div>
-
-
             </div>
 
-            <div>
-
+            <!-- Checkbox Publicación Dirección -->
+            <div class="form-check mb-3">
+              <input type="checkbox" id="is_public" class="form-check-input" formControlName="is_public">
+              <label for="is_public" class="form-check-label">Publicar la dirección</label>
             </div>
-
 
             <!-- Autor del Evento -->
-            <div class="form-group mb-3">
-              <label for="author">Autor del Evento:</label>
+            <div class="mb-3">
+              <label for="author" class="form-label">Autor del Evento:</label>
               <input type="text" id="author" class="form-control" formControlName="created_by" required>
             </div>
 
-            <!-- Categoría del Evento -->
-            <!-- <div class="form-group mb-3">
-              <label for="category">Categoría del Evento:</label>
-              <select id="category" class="form-control" formControlName="event_type" required>
-                <option value="0">Seleccione una categoría</option>
-                <option value="1">Deporte</option>
-                <option value="2">Entretenimiento</option>
-                <option value="3">Cultura</option>
-                <option value="4">Educación</option>
-                <option value="5">Salud</option>
-              </select>
-            </div> -->
-
             <!-- Organización Responsable -->
-            <div class="form-group mb-3">
-              <label for="organizer">Organización responsable:</label>
-              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization"
-                required>
+            <div class="mb-3">
+              <label for="organizer" class="form-label">Organización Responsable:</label>
+              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization" required>
             </div>
 
-            <!-- Asistentes -->
-            <!-- <div class="form-group mb-3">
-              <label for="assistants">Asistentes:</label>
-              <input type="number" id="assistants" class="form-control" formControlName="assistents" required>
-            </div> -->
-
-            <!-- Estado -->
-            <!-- <div class="form-group mb-3">
-              <label for="status">Estado:</label>
-              <select id="status" class="form-control" formControlName="status" required>
-                <option value="0">Pendiente</option>
-                <option value="1">Confirmado</option>
-                <option value="2">Cancelado</option>
-              </select>
-            </div> -->
-
             <!-- Botón de Guardar -->
-            <button type="submit" class="form-button">Guardar</button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-success px-4">Guardar</button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-
 </div>
