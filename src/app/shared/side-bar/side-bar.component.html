@@ -1,42 +1,21 @@
-<!-- app.component.html -->
 <div class="container">
   <aside class="sidebar">
     <nav>
       <ul>
-        <li>
-          <a routerLink="/home">Home</a>
-        </li>
-        <!-- <li>
-          <a routerLink="/documents">Documents</a>
-        </li>
-        <li>
-          <a routerLink="/nosotros">Nosotros</a>
-        </li>
-        <li>
-          <a routerLink="/token">Token</a>
-        </li> -->
-        <li>
-          <a routerLink="/events">Eventos</a>
-        </li>
-        <li>
-          <a routerLink="/opportunities">Oportunidades</a>
-        </li>
-        <!-- <li>
-          <a routerLink="/organization">Organizacion</a>
-        </li> -->
-        <li>
-          <a routerLink="/locations">Mapa Ciudadano</a>
-        </li>
-
-        <li>
-          <a routerLink="/logout">Logout</a>
-        </li>
-        <li>
+        <br>
+        <li><a routerLink="/home">Home</a></li>
+        <!-- <li><a routerLink="/documents">Documents</a></li> -->
+        <!-- <li><a routerLink="/token">Token</a></li> -->
+        <li><a routerLink="/events">Eventos</a></li>
+        <li><a routerLink="/opportunities">Oportunidades</a></li>
+        <!-- <li><a routerLink="/organization">Organizacion</a></li> -->
+        <li><a routerLink="/locations">Mapa Ciudadano</a></li>
+        <li><a routerLink="/logout">Logout</a></li>
       </ul>
     </nav>
   </aside>
   <main class="content">
-    <!-- con este routeroutlet mantengo las page -->
     <router-outlet></router-outlet>
   </main>
 </div>
+

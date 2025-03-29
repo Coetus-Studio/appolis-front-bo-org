@@ -27,12 +27,12 @@ export default class CreateEventComponent implements OnInit {
     // throw new Error('Method not implemented.');
   }
 
-  async createEvent() {
-    console.log('create event', this.eventsOrg);
+  // async createEvent() {
+  //   console.log('create event', this.eventsOrg);
 
 
 
-  }
+  // }
 
 
 

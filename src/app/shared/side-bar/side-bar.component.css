@@ -8,11 +8,12 @@ body {
 .container {
   display: flex;
   height: 100vh;
+  margin-top: 56px; /* Esto ajusta la altura del navbar */
 }
 
 .sidebar {
   width: 250px;
-  height: 100vh; /* Ocupar toda la altura de la pantalla */
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
   position: fixed; /* Se queda fijo en la pantalla */
   left: 0;
   top: 0;
@@ -20,6 +21,7 @@ body {
   color: #fff;
   padding: 20px;
   overflow-y: auto; /* Permitir scroll si hay demasiados elementos */
+  z-index: 900; /* Asegura que esté por debajo del navbar */
 }
 
 .sidebar nav ul {
@@ -49,8 +51,7 @@ body {
   flex-grow: 1;
   padding: 20px;
   background-color: #fff;
-  margin-left: 250px; /* Evitar que el contenido quede debajo del sidebar */
-  min-height: 100vh; /* Asegurar que crezca según el contenido */
+  margin-left: 250px; /* Asegura que el contenido no quede debajo del sidebar */
+  min-height: 100vh; /* Asegura que crezca según el contenido */
   overflow-y: auto;
 }
-

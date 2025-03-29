@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 import { AuthService } from './auth/auth.service';
+import { NavBarComponent } from "./shared/nav-bar/nav-bar.component";
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';
 
@@ -14,8 +15,9 @@ import { AuthService } from './auth/auth.service';
     CommonModule,
     RouterOutlet,
     IonicStorageModule,
-    SideBarComponent
-  ],
+    SideBarComponent,
+    NavBarComponent
+],
   providers: [
   ],
   templateUrl: './app.component.html',

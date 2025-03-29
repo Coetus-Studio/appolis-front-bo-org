@@ -9,4 +9,13 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./home-org.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class HomeOrgComponent { }
+export default class HomeOrgComponent {
+
+  constructor() { }
+
+
+  ngOnInit(): void {
+  }
+
+
+}

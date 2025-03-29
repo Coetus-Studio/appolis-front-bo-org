@@ -15,6 +15,9 @@ export class AuthService {
   //
   private authToken$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
+  private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+
+  private orgUser$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
 
   constructor(
     private storageService: StorageService,
@@ -22,17 +25,34 @@ export class AuthService {
     private router: Router
   ) {
     this.loadToken();
+    this.loadUserData();
 
   }
 
    // Método público para obtener el token como un Observable
-   getToken(): Observable<string | null> {
+  getToken(): Observable<string | null> {
     return this.authToken$.asObservable();
+  }
+
+  getRoles(): Observable<string | null> {
+    return this.roles$.asObservable();
+  }
+
+  getOrgUser(): Observable<string | null> {
+    return this.orgUser$.asObservable();
   }
 
   private async loadToken() {
     const token = await this.storageService.getItem('authToken');
     this.authToken$.next(token ?? null); // Si es undefined, lo convierte en null
+  }
+
+  private async loadUserData() {
+    const roles = await this.storageService.getItem('roles');
+    this.roles$.next(roles?? null); // Si es undefined, lo convierte en null
+
+    const orgUser = await this.storageService.getItem('org');
+    this.orgUser$.next(orgUser?? null); // Si es undefined, lo convierte en null
   }
 
   async login(
@@ -55,7 +75,16 @@ export class AuthService {
         })
       );
 
+      console.log('response', response);
+
+
       await this.storageService.setItem('authToken', response.accessToken);
+
+      await this.storageService.setItem('roles', response.user.email);
+
+      // dado que roles es un array, lo convertimos primero a string para setear en local storage
+      await this.storageService.setItem('roles', JSON.stringify(response.user.rolesByOrganization[0].rol));
+      await this.storageService.setItem('org', JSON.stringify(response.user.rolesByOrganization[0].org));
 
       await this.storageService?.setItem('isAuthenticated', 'true');
 

@@ -23,7 +23,7 @@ export class StorageService {
   }
 
   async setItem(key: string, value: string): Promise<void> {
-    console.log(`Guardando ${key}: ${value}`);
+    console.log(`Guardando 1 ${key}: ${value}`);
     await this._storage?.set(key, value);
   }
 
