@@ -40,9 +40,11 @@ export class AuthComponent {
 
   async login() {
     try {
+
       this.errorMessage = ''
       let emailFormControl : string = this.email.value;
       let passwordFormControl : string = this.password.value;
+
 
       if(emailFormControl === '' || passwordFormControl === '') {
         return;

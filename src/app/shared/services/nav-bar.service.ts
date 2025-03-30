@@ -11,7 +11,5 @@ export class NavBarService {
   ) {}
 
   getUserInfo() {
-
   }
-
 }

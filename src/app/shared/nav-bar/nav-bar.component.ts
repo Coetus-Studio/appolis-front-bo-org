@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import AuthWalletComponent from '../../auth/components/auth-wallet/auth-wallet.component';
 import BalanceTokenComponent from '../../features/token/pages/balance-token/balance-token.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -12,13 +12,20 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './nav-bar.component.css'
 })
 
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
 
-  orgUserRegistered: string | null = '';
-  rolUserRegistered: string | null = '';
 
-  constructor( private authService: AuthService) {
+  registeredOrgUser: string | null = '';
+  registeredOrgName: string | null = '';
+  registeredUserName: string | null = '';
+  registeredUserRole: string | null = '';
 
+
+  constructor(private authService: AuthService) {
+
+  }
+
+  ngOnInit(): void {
     this.guardaInfoGlobal();
   }
 
@@ -27,19 +34,22 @@ export class NavBarComponent {
     // Obtiene la información global y la almacena en el local storage
     // await this.globalService.fetchGlobalData();
 
-    this.authService.getOrgUser().subscribe(orgUser => {
-      this.orgUserRegistered = orgUser;
-      console.log('orgUserRegistered 1: ', this.orgUserRegistered);
+    this.authService.getUserOrg().subscribe(orgUser => {
+      this.registeredOrgUser = orgUser;
+      console.log('orgUserRegistered 1: ', this.registeredOrgUser);
 
     });
 
     this.authService.getRoles().subscribe(rolUser => {
-      this.rolUserRegistered = rolUser;
-      console.log('rolUserRegistered: ', this.rolUserRegistered);
-  });
+      this.registeredUserRole = rolUser;
+      console.log('roles usuario registrado: ', this.registeredUserRole);
+    });
+
+    this.authService.getOrgName().subscribe(orgName => {
+      this.registeredOrgName = orgName;
+      console.log('nombre organizacion logeada: ', this.registeredOrgName);
+    });
 
   }
-
-
 
 }

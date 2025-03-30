@@ -17,7 +17,10 @@ export class AuthService {
 
   private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
 
-  private orgUser$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private userOrg$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+
+  private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+
 
   constructor(
     private storageService: StorageService,
@@ -38,8 +41,12 @@ export class AuthService {
     return this.roles$.asObservable();
   }
 
-  getOrgUser(): Observable<string | null> {
-    return this.orgUser$.asObservable();
+  getUserOrg(): Observable<string | null> {
+    return this.userOrg$.asObservable();
+  }
+
+  getOrgName(): Observable<string | null> {
+    return this.orgName$.asObservable();
   }
 
   private async loadToken() {
@@ -52,7 +59,10 @@ export class AuthService {
     this.roles$.next(roles?? null); // Si es undefined, lo convierte en null
 
     const orgUser = await this.storageService.getItem('org');
-    this.orgUser$.next(orgUser?? null); // Si es undefined, lo convierte en null
+    this.userOrg$.next(orgUser?? null); // Si es undefined, lo convierte en null
+
+    const orgName = await this.storageService.getItem('name');
+    this.orgName$.next(orgName ?? null); // Si es undefined, lo convierte en null
   }
 
   async login(
@@ -60,6 +70,7 @@ export class AuthService {
     { email: string; password: string }
   ): Promise<any> {
     try {
+
       if (!email || !password) {
         return false;
       }
@@ -75,16 +86,13 @@ export class AuthService {
         })
       );
 
-      console.log('response', response);
-
-
       await this.storageService.setItem('authToken', response.accessToken);
-
-      await this.storageService.setItem('roles', response.user.email);
+      await this.storageService.setItem('email', response.user.email);
 
       // dado que roles es un array, lo convertimos primero a string para setear en local storage
       await this.storageService.setItem('roles', JSON.stringify(response.user.rolesByOrganization[0].rol));
       await this.storageService.setItem('org', JSON.stringify(response.user.rolesByOrganization[0].org));
+      await this.storageService.setItem('name', JSON.stringify(response.user.rolesByOrganization[0].orgName)); // revisar no se graba
 
       await this.storageService?.setItem('isAuthenticated', 'true');
 

@@ -1,11 +1,16 @@
-<nav class="">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
   <div class="container">
-    <div class="navbar-nav">
-      <div class="org-user-text">
-        {{ rolUserRegistered }} |
-        {{ orgUserRegistered }}
+    <div class="d-flex justify-content-between w-100">
+      <div class="org-user-text text-white">
+
+        ROL USUARIO: {{ registeredUserRole }} |
+        ID ORGANIZACION {{ registeredOrgUser }}
+        <!-- {{ registeredUserName }} | -->
+        <!-- {{ registeredOrgName }} -->
+      </div>
+      <div class="ml-auto">
+        <!-- <app-auth-wallet></app-auth-wallet> -->
       </div>
     </div>
   </div>
 </nav>
-

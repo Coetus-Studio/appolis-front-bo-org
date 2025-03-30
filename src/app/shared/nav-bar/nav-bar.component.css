@@ -1,39 +1,16 @@
-:host {
-  display: block;
-  background-color: #3c00ff; /* Color de fondo de la navbar */
-  width: 100%;
-  position: fixed; /* Asegura que el navbar esté fijo en la parte superior */
-  top: 0;
-  left: 0;
-  z-index: 1000; /* Asegura que esté por encima del sidebar */
+.navbar {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra para darle un efecto de profundidad */
   height: 56px; /* Ajusta la altura de la navbar */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar un efecto de profundidad */
 }
 
-.container {
-  padding-top: 16px; /* Da espacio para que no se solape con el contenido */
+.app-auth-wallet {
+  background-color: #ffcc00; /* Color de fondo del componente de la billetera */
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.navbar-nav {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-nav .org-user-text {
-  margin-right: 10px;
-  color: #ffffff; /* Color blanco para el texto de orgUserRegistered */
-  font-size: 16px; /* Tamaño de fuente adecuado */
-}
-
-.navbar-nav a {
-  color: #100453; /* Cambia el color de los enlaces del navbar */
-  text-decoration: none; /* Evita que los enlaces tengan subrayado */
-}
-
-.navbar-nav a:hover {
-  color: #ffcc00; /* Color al pasar el ratón por encima */
-}
-
-.org-user-text a {
-  color: inherit; /* Cambia el color de los enlaces del navbar a como están en el orgUserRegistered */
+.app-auth-wallet:hover {
+  background-color: #ff9900; /* Color al pasar el ratón por encima */
 }
