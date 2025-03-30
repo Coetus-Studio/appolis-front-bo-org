@@ -19,33 +19,28 @@ export default class MapOrgComponent implements AfterViewInit {
   // Nuevo Output para actualizar la dirección
   @Output() addressUpdated = new EventEmitter<string>();
   // Recibe la dirección ingresada en el formulario
-  @Input() gm_formatted_address: string = '';
+  // @Input() gm_formatted_address: string = '';
 
   // coordenadas iniciales de carga del mapa
   center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
   zoom = signal<number>(12);
 
-  // Opciones del mapa
-  options: google.maps.MapOptions = {
-    disableDefaultUI: true, // Desactiva controles por defecto (opcional)
-    fullscreenControl: true,
-  };
-
   // @ViewChild('mapContainer', { static: false }) mapElement!: ElementRef;
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+
   map!: google.maps.Map;
   marker!: google.maps.marker.AdvancedMarkerElement;
   geocoder!: google.maps.Geocoder;
   mapContainer: any;
 
+  options: google.maps.MapOptions = {
+    disableDefaultUI: true, // Desactiva controles por defecto (opcional)
+    fullscreenControl: true,
+  };
+
   constructor(private googleMapsService: GoogleMapsService) {
     console.log('constructor map-org inicializado')
   }
-
-  // ngOnInit() {
-  //   this.initMap();
-  // }
-
 
   ngAfterViewInit() {
     this.initMap();
@@ -93,7 +88,6 @@ export default class MapOrgComponent implements AfterViewInit {
   }
 
   centerMap(lat: number, lng: number) {
-
     // TODO ver si este initMap aplica aqui, no esta funcionando el ngAfterViewInit
     this.initMap();
     console.log('Centrando el mapa a:', lat, lng);
@@ -102,9 +96,6 @@ export default class MapOrgComponent implements AfterViewInit {
     this.map.setCenter(newCenter);
     this.map.setZoom(14); // cambiar a signal
     // this.marker.position?(newCenter) //ver error
-
-
-
   }
 
   // Método para mover el mapa

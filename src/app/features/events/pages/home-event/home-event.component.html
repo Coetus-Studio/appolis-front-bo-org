@@ -1,14 +1,14 @@
 <div class="container">
-  <h2 class="title">Listado de Eventos</h2>
+  <h2 class="title">Listado de Puntos Ciudadanos</h2>
 
-  <div class="row">
+  <div class="content-layout">
     <!-- Listado de ubicaciones -->
-    <div class="col-md-4 sidebar">
+    <div class="sidebar">
       <app-list-events (eventClicked)="onEventClicked($event)"></app-list-events>
     </div>
 
     <!-- Mapa de ubicación -->
-    <div class="col-md-8 map-container">
+    <div class="map-container">
       <map-org #mapComponent></map-org>
     </div>
   </div>

@@ -28,7 +28,7 @@ export default class HomeEventComponent implements AfterViewInit {
 
   onEventClicked(eventCoordinates: { lat: number; lng: number }): void {
     // Usamos la referencia mapComponent para llamar al método centerMap del MapOrgComponent
-    console.log('onEventClicked: ' + JSON.stringify(eventCoordinates))
+    console.log('onEventClicked 2: ' + JSON.stringify(eventCoordinates))
 
     if (this.mapComponent) {
       this.mapComponent.centerMap(eventCoordinates.lat, eventCoordinates.lng);
