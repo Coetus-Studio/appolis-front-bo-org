@@ -1,4 +1,4 @@
-<div class="w-full h-[40rem]">
+<div #mapComponent id="map" style="width: 100px; height: 400px;" class="w-full h-[40rem]">
   <google-map [center]="center()" [zoom]="zoom()" [options]="options" (mapClick)="moveMap($event)"
     (mapMousemove)="moveMap($event)" style="height: 100%; width: 100%">
   </google-map>

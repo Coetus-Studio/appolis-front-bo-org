@@ -8,9 +8,6 @@ import { CitizenMap } from "../interfaces/citizen-map.interface";
   providedIn: 'root'
 })
 export class LocationsService {
-  // getAddressSuggestions(addressValue: any) {
-  //   throw new Error('Method not implemented.');
-  // }
 
   private readonly apiUrl: string = 'http://localhost:3000/v1';
   private autocomplete: any;
@@ -18,23 +15,9 @@ export class LocationsService {
   // Señal para almacenar los datos de ubicación
   locationData = signal<any>(null);
 
-  // private locationSource = new BehaviorSubject<any>(null);  // Usamos BehaviorSubject para compartir el estado
-  // currentLocation = this.locationSource.asObservable();  // Hacemos observable la ubicación actual
-
-
   constructor(
     private http: HttpClient,
-  ) {
-    // console.log('inicializando signal', this.locationData())
-  }
-
-  // initAutocomplete(inputElement: HTMLInputElement) {
-  //   console.log('Initializing autocomplete for:', inputElement);
-  //   const options = {
-  //     types: ['gm_formatted_address'],
-  //   };
-  //   this.autocomplete = new google.maps.places.Autocomplete(inputElement, options);
-  // }
+  ) {}
 
   // Asegúrate de que el objeto google esté disponible
   get googleMaps(): any {
@@ -45,13 +28,13 @@ export class LocationsService {
     return this.autocomplete;
   }
 
-  getAllLocations(center: { lat: number; lng: number }) {
-    console.log('Locations 1: ', center);
-    return this.http.get<Location[]>(this.apiUrl, {
-      params: {
-        origin: `${center.lat}, ${center.lng}`,
+  getAllLocations() {
+    // console.log('Locations 1: ', center);
+    return this.http.get<Location[]>(`${this.apiUrl}/locations`, {
+/*       params: {
+        // origin: `${center.lat}, ${center.lng}`,
         size: 10,
-      }
+      } */
     });
   }
 
@@ -91,10 +74,5 @@ export class LocationsService {
     getLocationData() {
       return this.locationData();
     }
-
-
-    // updateLocation(location: any) {
-    //   this.locationSource.next(location);  // Actualiza la ubicación
-    // }
 
 }

@@ -1,32 +1,25 @@
-<div class="container">
-  <h2 class="title">Eventos y Locaciones</h2>
+<!-- <div class="container"> -->
+  <h2 class="title">Listado de Puntos Ciudadanos</h2>
 
   <div class="main-layout">
     <!-- Barra lateral -->
     <div class="sidebar">
-      <button class="create-button" [routerLink]="['/locations/create']" routerLinkActive="router-link-active">+ Crear</button>
+      <button class="create-button" [routerLink]="['/locations/create']" routerLinkActive="router-link-active">
+        + Crear
+      </button>
 
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Buscar locaciones..."
-        (input)="filterLocations($event)"
-      />
-
-      <div *ngFor="let location of filteredLocations()" class="location-item" (click)="selectLocation(location)">
+      <div *ngFor="let citizenPoint of filteredLocations()" class="location-item" (click)="focusOnEvent(citizenPoint)">
         <div class="location-info">
-          <span class="location-address">{{ location.gm_formatted_address }}</span>
-          <span class="location-coordinates">{{ location.geo_point.coordinates }}</span>
+          <span class="location-address">{{ citizenPoint.gm_formatted_address }}</span>
+          <span class="location-coordinates">{{ citizenPoint.geo_point.coordinates }}</span>
         </div>
       </div>
     </div>
 
-    <!-- Mapa -->
-    <div class="map-container">
-      <map-org></map-org>
-    </div>
+
   </div>
-</div>
+<!-- </div> -->
+
 
 
 

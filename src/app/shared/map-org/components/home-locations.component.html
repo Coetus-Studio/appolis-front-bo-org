@@ -1,0 +1,17 @@
+<!-- aqui nos aseguramos de que el map-org tenga la referencia adecuada
+     eventClicked es  @Output() eventClicked -->
+<div class="container">
+  <h2 class="title">Listado de Puntos Ciudadanos</h2>
+
+  <div class="row">
+    <!-- Listado de ubicaciones -->
+    <div class="col-md-4 sidebar">
+      <list-locations (eventClicked)="onEventClicked($event)"></list-locations>
+    </div>
+
+    <!-- Mapa de ubicación -->
+    <div class="col-md-8 map-container">
+      <map-org #mapComponent></map-org>
+    </div>
+  </div>
+</div>

@@ -42,12 +42,12 @@ export class NavBarComponent implements OnInit {
 
     this.authService.getRoles().subscribe(rolUser => {
       this.registeredUserRole = rolUser;
-      console.log('roles usuario registrado: ', this.registeredUserRole);
+      // console.log('roles usuario registrado: ', this.registeredUserRole);
     });
 
     this.authService.getOrgName().subscribe(orgName => {
       this.registeredOrgName = orgName;
-      console.log('nombre organizacion logeada: ', this.registeredOrgName);
+      // console.log('nombre organizacion logeada: ', this.registeredOrgName);
     });
 
   }

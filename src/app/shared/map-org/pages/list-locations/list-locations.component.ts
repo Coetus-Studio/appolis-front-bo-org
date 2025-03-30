@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import MapOrgComponent from "../../components/map-org/map-org.component";
 import { LocationsService } from '../../services/locations.service';
 import { Location } from '../../interfaces/locations.interface';
@@ -6,24 +6,17 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-list-locations',
+  selector: 'list-locations',
   standalone: true,
-  imports: [MapOrgComponent, CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './list-locations.component.html',
   styleUrl: './list-locations.component.css'
 })
 export default class ListLocationsComponent implements OnInit {
 
-  center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
-  $locations = signal<Location[]>([]);
-  filteredLocations = signal<Location[]>([]);
+  @Output() eventClicked = new EventEmitter<{lat: number; lng: number}>();
 
-  // Opciones del mapa
-  options: google.maps.MapOptions = {
-    mapId: 'YOUR_MAP_ID', // Reemplaza con tu Map ID
-    disableDefaultUI: true, // Desactiva controles por defecto (opcional)
-    fullscreenControl: true,
-  };
+  filteredLocations = signal<Location[]>([]);
 
   constructor(private locationsService: LocationsService) {}
 
@@ -32,12 +25,9 @@ export default class ListLocationsComponent implements OnInit {
   }
 
   getAllLocations() {
-    const centerValue = this.center();
-    console.log('Center value:', centerValue);
-    this.locationsService.getAllLocations(centerValue).subscribe({
+    this.locationsService.getAllLocations().subscribe({
       next: (fetchedLocations) => {
         console.log('locations:', fetchedLocations);
-        this.$locations.set(fetchedLocations);
         this.filteredLocations.set(fetchedLocations);
       },
       error: (error) => {
@@ -50,17 +40,19 @@ export default class ListLocationsComponent implements OnInit {
   filterLocations(event: Event) {
     const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
     const query = input.value.toLowerCase(); // Ahora puedes acceder a "value" sin errores
-    const filtered = this.$locations().filter(location =>
+    const filtered = this.filteredLocations().filter(location =>
       location.gm_formatted_address.toLowerCase().includes(query)
     );
     this.filteredLocations.set(filtered);
   }
 
-  // Seleccionar locación y centrar el mapa
-  selectLocation(location: Location) {
-    this.center.set({
-      lat: location.geo_point.coordinates[0],
-      lng: location.geo_point.coordinates[1],
-    });
+  focusOnEvent(event: any) {
+    // extraemos las coordenadas del evento
+    console.log('ingresando: ' + JSON.stringify(event))
+    const lat = event.geo_point.coordinates[0];
+    const lng = event.geo_point.coordinates[1];
+
+    // Emitimos las coordenadas al MapOrgComponent
+    this.eventClicked.emit({ lat, lng });
   }
 }

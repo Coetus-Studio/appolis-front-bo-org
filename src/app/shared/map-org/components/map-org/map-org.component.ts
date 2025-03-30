@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, signal, SimpleChanges, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { CommonModule } from '@angular/common';
+import { GoogleMapsService } from '../../services/google-maps.service';
 
 declare var google: any; // Asegúrate de que Google esté disponible
 
@@ -11,51 +12,63 @@ declare var google: any; // Asegúrate de que Google esté disponible
   templateUrl: './map-org.component.html',
   styleUrl: './map-org.component.css'
 })
-export default class MapOrgComponent implements OnInit {
+export default class MapOrgComponent implements AfterViewInit {
 
   // Output para guardar la locacion seleccionada
   @Output() locationSelected = new EventEmitter<{ lat: number; lng: number }>();
-
   // Nuevo Output para actualizar la dirección
   @Output() addressUpdated = new EventEmitter<string>();
-
   // Recibe la dirección ingresada en el formulario
   @Input() gm_formatted_address: string = '';
 
   // coordenadas iniciales de carga del mapa
   center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
-  zoom = signal<number>(10);
-  // display = signal<google.maps.LatLngLiteral | null>(null);
+  zoom = signal<number>(12);
 
   // Opciones del mapa
   options: google.maps.MapOptions = {
-    mapId: 'AIzaSyDggZWuCu532Dqp1KWDGy28_3GlRSiRfek', // Reemplaza con tu Map ID
     disableDefaultUI: true, // Desactiva controles por defecto (opcional)
     fullscreenControl: true,
   };
 
+  // @ViewChild('mapContainer', { static: false }) mapElement!: ElementRef;
+  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
   map!: google.maps.Map;
   marker!: google.maps.marker.AdvancedMarkerElement;
   geocoder!: google.maps.Geocoder;
   mapContainer: any;
 
-  ngOnInit() {
+  constructor(private googleMapsService: GoogleMapsService) {
+    console.log('constructor map-org inicializado')
+  }
+
+  // ngOnInit() {
+  //   this.initMap();
+  // }
+
+
+  ngAfterViewInit() {
     this.initMap();
   }
 
   initMap() {
-    this.geocoder = new google.maps.Geocoder();
+    // verifico si el elemento mapa esta presente
+    if (!this.mapComponent) {
+      console.error('Error: map element not found');
+      return
+    }
 
-    const initialPosition = { lat: -34.397, lng: 150.644 }; // Coordenadas iniciales (puedes cambiarlas)
+    const mapOptions: google.maps.MapOptions = {
+      center: this.center(), // Coordenadas iniciales
+      zoom: this.zoom()
+    };
 
-    this.map = new google.maps.Map(this.mapContainer.nativeElement, {
-      center: initialPosition,
-      zoom: 14
-    });
+    this.map = new google.maps.Map(document.getElementById('map')!, mapOptions);
 
-    this.marker = new google.maps.marker.AdvancedMarkerElement({
-      position: initialPosition,
-      map: this.map
+    // Marcador inicial
+    this.marker = new google.maps.Marker({
+      position: mapOptions.center,
+      map: this.mapComponent
     });
   }
 
@@ -79,16 +92,19 @@ export default class MapOrgComponent implements OnInit {
     });
   }
 
-  updateMapPosition(address: string) {
-    this.geocoder.geocode({ address: address }, (results: any, status: any) => {
-      if (status === 'OK' && results[0]) {
-        const location = results[0].geometry.location;
-        this.map.setCenter(location);
-        this.marker.position = location; // Nueva forma de asignar la posición
-      } else {
-        console.error('Geocoding failed:', status);
-      }
-    });
+  centerMap(lat: number, lng: number) {
+
+    // TODO ver si este initMap aplica aqui, no esta funcionando el ngAfterViewInit
+    this.initMap();
+    console.log('Centrando el mapa a:', lat, lng);
+
+    const newCenter = new google.maps.LatLng(lat, lng); // creamos una instancia de LatLng
+    this.map.setCenter(newCenter);
+    this.map.setZoom(14); // cambiar a signal
+    // this.marker.position?(newCenter) //ver error
+
+
+
   }
 
   // Método para mover el mapa
@@ -132,21 +148,14 @@ export default class MapOrgComponent implements OnInit {
     this.addressUpdated.emit(address);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['address'] && this.gm_formatted_address) {
-      this.updateMapPosition(this.gm_formatted_address);
-    }
-  }
-
-  // geocodeAddress(address: string) {
-  //   // Usando un servicio de geocodificación (Ej: Google Maps API)
-  //   this.geocoder.geocode({ address: address }, (results, status) => {
-  //     if (status === 'OK' && results[0]) {
-  //       const location = results[0].geometry.location;
-  //       this.map.setCenter(location);
-  //       this.marker.setPosition(location);
-  //     }
-  //   });
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['address'] && this.gm_formatted_address) {
+  //     this.centerMap(this.gm_formatted_address);
+  //   }
   // }
+
+
+
+
 
 }

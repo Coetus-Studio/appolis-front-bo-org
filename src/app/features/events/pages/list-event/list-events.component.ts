@@ -28,7 +28,7 @@ export default class ListEventsComponent implements OnInit {
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
 
   constructor(private eventService: EventService) {
-    console.log('Initializing ListEventsComponent');
+    // console.log('Initializing ListEventsComponent');
   }
 
   ngOnInit() {
@@ -63,9 +63,17 @@ export default class ListEventsComponent implements OnInit {
   }
 
   focusOnEvent(event: any) {
-    if (this.mapComponent) {
-      console.log('event', event);
-      this.mapComponent.updateMapPosition(event);
+
+
+    console.log('evento' + JSON.stringify(event.location.geo_point.coordinates));
+    const lat = event.location.geo_point.coordinates[1];
+    const lng = event.location.geo_point.coordinates[0];
+
+
+
+    if (this.mapComponent && event.location) {
+      console.log('event', event.location.gm_formatted_address);
+      this.mapComponent.centerMap(lat, lng);
     }
   }
 
