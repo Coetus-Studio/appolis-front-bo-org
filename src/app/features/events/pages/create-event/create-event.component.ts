@@ -9,7 +9,7 @@ import { EventForm } from '../../interfaces/events.interface';
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [CommonModule, EventFormComponent, RouterOutlet],
+  imports: [CommonModule, EventFormComponent],
   templateUrl: './create-event.component.html',
   styleUrl: './create-event.component.css'
 })
@@ -23,19 +23,8 @@ export default class CreateEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('implement');
+    console.log('implement CreateEventComponent');
     // throw new Error('Method not implemented.');
   }
-
-  // async createEvent() {
-  //   console.log('create event', this.eventsOrg);
-
-
-
-  // }
-
-
-
-
 
 }

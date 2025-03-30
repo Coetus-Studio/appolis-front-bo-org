@@ -10,7 +10,6 @@ import { CitizenMap } from "../interfaces/citizen-map.interface";
 export class LocationsService {
 
   private readonly apiUrl: string = 'http://localhost:3000/v1';
-  private autocomplete: any;
 
   // Señal para almacenar los datos de ubicación
   locationData = signal<any>(null);
@@ -19,22 +18,12 @@ export class LocationsService {
     private http: HttpClient,
   ) {}
 
-  // Asegúrate de que el objeto google esté disponible
-  get googleMaps(): any {
-    return typeof google !== 'undefined' ? google : null;
-  }
-
   getAutocomplete() {
-    return this.autocomplete;
   }
 
   getAllLocations() {
     // console.log('Locations 1: ', center);
     return this.http.get<Location[]>(`${this.apiUrl}/locations`, {
-/*       params: {
-        // origin: `${center.lat}, ${center.lng}`,
-        size: 10,
-      } */
     });
   }
 

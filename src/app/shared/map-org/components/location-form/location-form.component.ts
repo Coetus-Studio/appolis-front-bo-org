@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
+/* import { Component, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { LocationsService } from '../../services/locations.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -102,7 +102,6 @@ export default class LocationFormComponent implements OnInit {
     console.log('Centrándose en:', lat, lng);
   }
 
-
   // Guardar datos en la señal
   saveLocation() {
 
@@ -174,3 +173,4 @@ export default class LocationFormComponent implements OnInit {
 
 
 }
+ */

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal, Signal, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal, Signal, ViewChild } from '@angular/core';
 
 import { EventService } from '../../services/event.service';
 import { EventForm } from '../../interfaces/events.interface';
@@ -10,38 +10,34 @@ import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-o
 @Component({
   selector: 'app-list-events',
   standalone: true,
-  imports: [CommonModule, RouterModule, MapOrgComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './list-events.component.html',
   styleUrl: './list-events.component.css'
 })
 export default class ListEventsComponent implements OnInit {
 
-  // // TODO: agregar tipo interface Event
+  @Output() eventClicked = new EventEmitter<{lat: number; lng: number}>();
+
+  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+
+
   eventOrg: EventForm[] = [];
-  // filteredEvents = signal<EventForm[]>([]);
   filteredEvents: EventForm[] = [];
 
   page: number = 1;
 
-  center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
-
-  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
-
-  constructor(private eventService: EventService) {
-    // console.log('Initializing ListEventsComponent');
-  }
+  constructor(private eventService: EventService) {}
 
   ngOnInit() {
+    // TODO: quitar la inicializacion en ngOnInit y dejar con boton la llamada al getAllEvents
     this.getAllEvents();
   }
 
   async getAllEvents() {
     console.log('Getting all events')
+    // const centerValue = this.center();
 
-    const centerValue = this.center();
-
-
-    this.eventService.getAllEvents(centerValue).subscribe({
+    this.eventService.getAllEvents().subscribe({
       next: (eventOrg) => {
         this.eventOrg = eventOrg;
         this.filteredEvents = eventOrg;
@@ -51,8 +47,6 @@ export default class ListEventsComponent implements OnInit {
         console.error('Error fetching events:', error);
       }
     });
-    console.log('saliendo all events')
-
   }
 
   searchEvents(event: Event): void {
@@ -63,18 +57,11 @@ export default class ListEventsComponent implements OnInit {
   }
 
   focusOnEvent(event: any) {
+    console.log('ingresando event: ' + JSON.stringify(event))
+    const lat = event.location.geo_point.coordinates[0];
+    const lng = event.location.geo_point.coordinates[1];
 
-
-    console.log('evento' + JSON.stringify(event.location.geo_point.coordinates));
-    const lat = event.location.geo_point.coordinates[1];
-    const lng = event.location.geo_point.coordinates[0];
-
-
-
-    if (this.mapComponent && event.location) {
-      console.log('event', event.location.gm_formatted_address);
-      this.mapComponent.centerMap(lat, lng);
+    // Emitimos las coordenadas al MapOrgComponent
+    this.eventClicked.emit({ lat, lng });
     }
-  }
-
 }

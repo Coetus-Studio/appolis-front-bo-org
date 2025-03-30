@@ -10,7 +10,7 @@ import { ModalAddressComponent } from "../modal-address/modal-address.component"
 @Component({
   selector: 'shared-citizen-map-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ModalAddressComponent],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './citizen-map-form.component.html',
   styleUrl: './citizen-map-form.component.css'
 })
@@ -20,12 +20,7 @@ import { ModalAddressComponent } from "../modal-address/modal-address.component"
 export default class CitizenMapFormComponent implements OnInit {
 
   @Output() locationSelected = new EventEmitter<{ lat: number; lng: number; address: string }>();
-  @ViewChild('searchBox', { static: true }) searchBox!: any;
-
-  center: google.maps.LatLngLiteral = { lat: -33.4725, lng: -70.6043 };
-  zoom = 14;
-  selectedLocation: google.maps.LatLngLiteral | null = null;
-  selectedAddress: string = ''; // Dirección ingresada manualmente
+  // @ViewChild('searchBox', { static: true }) searchBox!: any;
 
   // manejamos variable para saber estado de modal
   isAddressModalOpen = false;
@@ -126,9 +121,6 @@ export default class CitizenMapFormComponent implements OnInit {
     this.isAddressModalOpen = false;
   }
 
-  setAddress(selectedAddress: string) {
-    this.citizenMapForm.get('location.gm_formatted_address')?.setValue(selectedAddress);
-  }
 }
 
 

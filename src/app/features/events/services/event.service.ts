@@ -20,7 +20,7 @@ export class EventService {
   ) {
   }
 
-  getAllEvents(center: { lat: number; lng: number }): Observable<EventForm[]> {
+  getAllEvents(): Observable<EventForm[]> {
 
     console.log('getAllEvents')
     return this.authService.getToken().pipe(
@@ -28,10 +28,6 @@ export class EventService {
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
         return this.http.get<EventForm[]>(this.apiUrl, {
-          params: {
-            origin: `${center.lat}, ${center.lng}`,
-            size: 10,
-          },
           headers });
       })
     );
