@@ -3,11 +3,12 @@ import { Component, ElementRef, Inject, NgModuleRef, ViewChild } from '@angular/
 import { FormArray, FormControl, FormGroup, FormsModule, NgModel } from '@angular/forms';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule  } from '@angular/material/dialog';
+import MapOrgComponent from '../map-org/map-org.component';
 
 @Component({
   selector: 'shared-modal-address',
   standalone: true,
-  imports: [GoogleMap, MapMarker, CommonModule, FormsModule, MatDialogModule],
+  imports: [GoogleMap, MapMarker, CommonModule, FormsModule, MatDialogModule, MapOrgComponent],
   templateUrl: './modal-address.component.html',
   styleUrl: './modal-address.component.css'
 })
@@ -15,8 +16,11 @@ export class ModalAddressComponent {
 
   // addressInput solo esta disponible despues de que se renderiza. static = false
   @ViewChild('addressInput', { static: false }) addressInput!: ElementRef;
+  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+
 
   center = { lat: -30.0000, lng: -10.000 }; // Coordenadas iniciales
+  // coordenadas de direccion seleccionada
   selectedLocation: { lat: number, lng: number } | null = null;
   selectedAddress: string = ''; // Dirección ingresada manualmente
   geocoder = new google.maps.Geocoder(); // Instancia de Geocoder
@@ -34,8 +38,6 @@ export class ModalAddressComponent {
       })
     })
   });
-
-
 
   constructor(
     public dialogRef: MatDialogRef<ModalAddressComponent>,
@@ -89,16 +91,16 @@ export class ModalAddressComponent {
     });
   }
 
-  reverseGeocode(lat: number, lng: number) {
-    this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {  // Verifica que results no sea null
-        this.selectedAddress = results[0].formatted_address;
-      } else {
-        console.error('No se pudo obtener la dirección:', status);
-        this.selectedAddress = 'Dirección no encontrada';
-      }
-    });
-  }
+  // reverseGeocode(lat: number, lng: number) {
+  //   this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+  //     if (status === 'OK' && results && results.length > 0) {  // Verifica que results no sea null
+  //       this.selectedAddress = results[0].formatted_address;
+  //     } else {
+  //       console.error('No se pudo obtener la dirección:', status);
+  //       this.selectedAddress = 'Dirección no encontrada';
+  //     }
+  //   });
+  // }
 
   saveLocation() {
     console.log("Saving location");
@@ -115,5 +117,43 @@ export class ModalAddressComponent {
   close(): void {
     this.dialogRef.close();
   }
+
+  moveMap(event: google.maps.MapMouseEvent): void {
+    console.log('Método para mover el map' + event)
+
+    const latlng = event;
+
+    if (latlng) {
+      // const lat = latlng.lat();
+      // const lng = latlng.lng();
+      // console.log('lat: ', lat, ', lng: ', lng);
+
+      if (this.mapComponent) {
+        // llamamos a la funcion getAddressFromcoords
+        // this.mapComponent.getAddressFromCoords(lat, lng);
+      }
+
+      // this.mapComponent.moveMap(event);
+    } else {
+      console.error('latlng is null');
+    }
+  }
+
+  updatedAddress(address: string): void {
+    console.log('Address updated: ', address);
+    this.selectedAddress = address; // actualizamos la variable con la direccion recibida
+  }
+
+  onLocationSelected(location: { lat: number; lng: number }) {
+    this.selectedLocation = location;
+    this.geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK' && results?.length) {
+        this.selectedAddress = results[0].formatted_address;
+      } else {
+        this.selectedAddress = 'Dirección no encontrada';
+      }
+    });
+  }
+
 
 }

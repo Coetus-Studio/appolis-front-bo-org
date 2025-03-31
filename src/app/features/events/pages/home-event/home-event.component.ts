@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
 import ListLocationsComponent from "../../../../shared/map-org/pages/list-locations/list-locations.component";
 import ListEventsComponent from "../list-event/list-events.component";
+
 
 @Component({
   selector: 'app-home-event',
@@ -11,9 +12,15 @@ import ListEventsComponent from "../list-event/list-events.component";
   templateUrl: './home-event.component.html',
   styleUrl: './home-event.component.css'
 })
+
+
 export default class HomeEventComponent implements AfterViewInit {
 
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+  @ViewChild('searchBox', { static: false }) searchBox!: ElementRef;
+
+
+
 
   constructor() {}
 
@@ -36,5 +43,30 @@ export default class HomeEventComponent implements AfterViewInit {
       console.error('Map component not found');
     }
   }
+
+  // TODO modificar any
+  moveMap(event: google.maps.MapMouseEvent): void {
+    console.log('Método para mover el map' + event)
+
+    const latlng = event;
+
+    if (latlng) {
+      // const lat = latlng.lat();
+      // const lng = latlng.lng();
+      // console.log('lat: ', lat, ', lng: ', lng);
+
+      if (this.mapComponent) {
+        // llamamos a la funcion getAddressFromcoords
+        // this.mapComponent.getAddressFromCoords(lat, lng);
+      }
+
+      // this.mapComponent.moveMap(event);
+    } else {
+      console.error('latlng is null');
+    }
+  }
+
+
+
 
 }

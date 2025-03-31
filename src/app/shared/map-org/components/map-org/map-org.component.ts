@@ -20,6 +20,10 @@ export default class MapOrgComponent implements AfterViewInit {
   @Output() addressUpdated = new EventEmitter<string>();
   // Recibe la dirección ingresada en el formulario
   // @Input() gm_formatted_address: string = '';
+  @Output() mapMouseMove = new EventEmitter<google.maps.MapMouseEvent>();
+
+  // emitimos el array con las coordenadas obtenidas desde el
+  // @Output() coordinatesUpdated = new EventEmitter<{ lat: number; lng: number}[]>();
 
   // coordenadas iniciales de carga del mapa
   center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
@@ -65,6 +69,15 @@ export default class MapOrgComponent implements AfterViewInit {
       position: mapOptions.center,
       map: this.mapComponent
     });
+
+    this.map.addListener('click', (event: google.maps.MapMouseEvent) => {
+      if (event.latLng) {
+        console.log('coordenadas addListener: ' + event.latLng.lat(), event.latLng.lng());
+        this.getAddressFromCoords(event.latLng.lat(), event.latLng.lng());
+      } else {
+        console.error('No se pudo obtener las coordenadas del evento click');
+      }
+    })
   }
 
   // metodo sugerencia direcciones
@@ -103,21 +116,29 @@ export default class MapOrgComponent implements AfterViewInit {
     console.log('Método para mover el map')
     if (event.latLng) {
       const newCoords = event.latLng.toJSON();
+      console.log('Nuevas coordenadas:', newCoords);
       this.center.set(newCoords);
       this.locationSelected.emit(newCoords);
       this.getAddressFromCoords(newCoords.lat, newCoords.lng);
+    } else {
+      console.error('No se pudo obtener la ubicación a partir de los eventos del mapa');
     }
   }
 
   // Convertir coordenadas a dirección usando Geocoder
   getAddressFromCoords(lat: number, lng: number) {
+    console.log('moviendo mapa')
     const geocoder = new google.maps.Geocoder();
     const latlng = { lat, lng };
 
     geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
       if (status === 'OK' && results[0]) {
         const formattedAddress = results[0].formatted_address;
+        console.log('Dirección:', formattedAddress);
         this.addressUpdated.emit(formattedAddress);
+
+        console.log('latlng' + latlng.lat)
+        this.locationSelected.emit(latlng);
       }
     });
   }
@@ -144,6 +165,8 @@ export default class MapOrgComponent implements AfterViewInit {
   //     this.centerMap(this.gm_formatted_address);
   //   }
   // }
+
+  // escuchamos evento mousemove y emitimos mapMouseEvent
 
 
 

@@ -4,21 +4,31 @@
 
     <div class="form-group">
       <label for="address">Dirección:</label>
-      <input id="addressInput" #addressInput [(ngModel)]="selectedAddress" class="form-input"
+      <input [value]="selectedAddress" id="addressInput" #addressInput [(ngModel)]="selectedAddress" class="form-input"
         (input)="initializeAutocomplete()" placeholder="Escribe una dirección..." />
     </div>
 
     <!-- Google Maps -->
-    <div class="map-container">
+    <!-- <div class="map-container">
       <google-map [center]="center" [zoom]="15" (mapClick)="onMapClick($event)">
-        <map-marker *ngIf="selectedLocation" [position]="selectedLocation" title="Ubicación seleccionada"></map-marker>
+        <map-marker (mapMouseMove)="moveMap($event)" *ngIf="selectedLocation" [position]="selectedLocation" title="Ubicación seleccionada"></map-marker>
       </google-map>
+    </div> -->
+
+    <div>addressUpdated</div>
+
+    <div class="map-container">
+      <map-org (locationSelected)="onLocationSelected($event)" (addressUpdated)="updatedAddress($event)" (mapClick)="onMapClick($event)">
+        <map-marker *ngIf="selectedLocation" [position]="selectedLocation" title="Ubicación seleccionada"></map-marker>
+      </map-org>
+
     </div>
 
     <!-- Botones de acción -->
     <div class="modal-actions">
       <button mat-button (click)="dialogRef.close()">Cancelar</button>
-      <button mat-raised-button color="primary" (click)="saveLocation()" [disabled]="!selectedLocation">
+      <!-- <button mat-raised-button color="primary" (click)="saveLocation()" [disabled]="!selectedLocation"> -->
+        <button mat-raised-button color="primary" (click)="saveLocation()">
         Guardar
       </button>
     </div>
