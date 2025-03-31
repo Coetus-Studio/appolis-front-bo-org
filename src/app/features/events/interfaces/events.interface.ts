@@ -13,6 +13,7 @@ export interface Location {
 }
 
 export interface EventForm {
+  _id: string;
   title: string;
   description: string;
   start_date: string;

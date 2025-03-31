@@ -65,6 +65,7 @@ export class EventFormComponent implements OnInit {
 
       // aqui creamos el objeto eventMap a partir del formulario
       const event: EventForm = {
+        _id: formData.id,
         title: formData.title,
         description: formData.description,
         start_date: formData.start_date,

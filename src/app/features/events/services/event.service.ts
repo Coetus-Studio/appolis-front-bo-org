@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { filter, map, Observable, switchMap } from 'rxjs';
 import { EventForm } from '../interfaces/events.interface';
@@ -28,7 +28,8 @@ export class EventService {
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
         return this.http.get<EventForm[]>(this.apiUrl, {
-          headers });
+          headers
+        });
       })
     );
   }
@@ -42,15 +43,30 @@ export class EventService {
     console.log('body', body);
 
     return this.authService.getToken().pipe(
-      filter(token =>!!token), // Espera a que el token esté disponible
+      filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
         return this.http.post<EventForm[]>(this.apiUrl, body, { headers });
       })
     )
-/*
-    console.log('createEvent.json', this.authToken);
-    console.log('Service create event', body);
-    return this.http.post<EventForm[]>(this.apiUrl, body, {headers}).pipe(map(res => res)) */
+    /*
+        console.log('createEvent.json', this.authToken);
+        console.log('Service create event', body);
+        return this.http.post<EventForm[]>(this.apiUrl, body, {headers}).pipe(map(res => res)) */
   }
+
+  getEventById(eventId: string): Observable<EventForm> {
+    console.log('eventId' + eventId);
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<EventForm>(`${this.apiUrl}/${eventId}`, {
+          headers
+        });
+      }
+      ))
+  }
+
 }

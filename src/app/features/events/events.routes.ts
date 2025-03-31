@@ -10,6 +10,10 @@ export const EVENT_ROUTES: Routes = [
     path: 'list',
     loadComponent: () => import('./pages/list-event/list-events.component')
   },
+  {
+    path: 'detail/:id',
+    loadComponent: () => import('./pages/event-detail/event-detail.component'),
+  },
   // TODO: revisar este route si esta bien que sea children y su ruta
   {
     path: 'create',
