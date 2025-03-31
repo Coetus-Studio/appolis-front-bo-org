@@ -22,7 +22,7 @@ export default class ListEventsComponent implements OnInit {
 
 
   eventOrg: EventForm[] = [];
-  filteredEvents: EventForm[] = [];
+  // filteredEvents: EventForm[] = [];
 
   page: number = 1;
 
@@ -40,7 +40,7 @@ export default class ListEventsComponent implements OnInit {
     this.eventService.getAllEvents().subscribe({
       next: (eventOrg) => {
         this.eventOrg = eventOrg;
-        this.filteredEvents = eventOrg;
+        // this.filteredEvents = eventOrg;
         console.log(this.eventOrg);
       },
       error: (error) => {
@@ -51,9 +51,9 @@ export default class ListEventsComponent implements OnInit {
 
   searchEvents(event: Event): void {
     const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredEvents = this.eventOrg.filter(e =>
-      e.title.toLowerCase().includes(searchTerm) || e.description.toLowerCase().includes(searchTerm)
-    );
+    // this.filteredEvents = this.eventOrg.filter(e =>
+    //   e.title.toLowerCase().includes(searchTerm) || e.description.toLowerCase().includes(searchTerm)
+    // );
   }
 
   focusOnEvent(event: any) {

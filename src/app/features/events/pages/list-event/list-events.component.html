@@ -6,49 +6,55 @@
 
   <!-- Barra de búsqueda -->
   <div class="input-group mb-4">
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Buscar eventos..."
-      (input)="searchEvents($event)">
+    <input type="text" class="form-control" placeholder="Buscar eventos..." (input)="searchEvents($event)">
     <span class="input-group-text">
       <i class="bi bi-search"></i>
     </span>
   </div>
 
-  <div class="row">
-    <!-- Lista de eventos -->
-    <div class="col-lg-8">
-      <div *ngIf="filteredEvents.length > 0; else noEvents">
-        <div
-          *ngFor="let event of filteredEvents"
-          class="card mb-4 shadow-sm border-0 event-card"
-          (click)="focusOnEvent(event)"
-          style="cursor: pointer;"
-        >
-          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">{{ event.title }}</h5>
-          </div>
+  <div class="">
+    <div class="row">
+      <!-- Lista de eventos -->
+      <div class="">
+        <div *ngIf="eventOrg.length > 0; else noEvents">
+          <div *ngFor="let event of eventOrg" class="card mb-4 shadow-sm border-0 event-card"
+            (click)="focusOnEvent(event)" style="cursor: pointer;">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">{{ event.title }}</h5>
 
-          <div class="card-body">
-            <p class="card-text">{{ event.description }}</p>
-            <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
-            <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
+              <div>
 
-            <!-- Imagen del evento -->
-            <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
+                <!-- con stopPropagation detengo la accion del focusOnEvent y permito que se haga click al btn -->
+                <button class="btn btn-light btn-sm" [routerLink]="['detail', event._id]"
+                  routerLinkActive="router-link-active"
+                  (click)="$event.stopPropagation()">
+                  Ver
+                </button>
+
+                <!-- <a [routerLink]="['/detail:', event._id]" class="btn btn-light btn-sm">ver</a> -->
+              </div>
+            </div>
+
+            <div class="card-body">
+              <p class="card-text">{{ event.description }}</p>
+              <p><strong>Fechas:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
+              <p><strong>Organización:</strong> {{ event.responsible_organization }}</p>
+
+              <!-- Imagen del evento -->
+              <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
               <img [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid rounded shadow" style="max-height: 200px;">
             </div> -->
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Mensaje si no hay eventos -->
-      <ng-template #noEvents>
-        <div class="text-center mt-4">
-          <p class="text-muted">No hay eventos disponibles.</p>
-        </div>
-      </ng-template>
+        <!-- Mensaje si no hay eventos -->
+        <ng-template #noEvents>
+          <div class="text-center mt-4">
+            <p class="text-muted">No hay eventos disponibles.</p>
+          </div>
+        </ng-template>
+      </div>
     </div>
 
   </div>

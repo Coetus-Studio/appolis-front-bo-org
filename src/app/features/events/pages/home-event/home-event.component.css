@@ -25,8 +25,8 @@
   overflow: hidden;
 }
 
-.sidebar {
-  width: 30%;
+.sidebar-list {
+  width: 40%;
   background: #f8f9fa;
   padding: 20px;
   border-right: 1px solid #ddd;
