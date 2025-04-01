@@ -1,5 +1,5 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventService } from '../../services/event.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -16,9 +16,13 @@ import { EventForm } from '../../interfaces/events.interface';
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.css'
 })
-export class EventFormComponent implements OnInit {
+export class EventFormComponent implements OnChanges {
+
+  // aqui almacenmos el evento enviado desde el componente padre edit event
+  @Input() eventData!: EventForm;
 
   isUpdate: boolean = false;
+  isEditing: boolean = false;
   public isMapVisible: boolean = false; // Controla la visibilidad del mapa y formulario adicional
 
   selectedAddress: string = ''; // Dirección ingresada manualmente
@@ -46,10 +50,19 @@ export class EventFormComponent implements OnInit {
 
   isAddressModalOpen = false;
 
+
   constructor(
     private eventService: EventService,
     private dialog: MatDialog
   ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // throw new Error('Method not implemented.');
+    if (changes['eventData'] && this.eventData) {
+      this.eventForm.patchValue(this.eventData); // prellenamos el formulario
+
+    }
+  }
 
   ngOnInit() { }
 

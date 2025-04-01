@@ -12,24 +12,25 @@
             <!-- Título del Evento -->
             <div class="mb-3">
               <label for="title" class="form-label">Título del Evento:</label>
-              <input type="text" id="title" class="form-control" formControlName="title" required>
+              <input type="text" id="title" class="form-control" formControlName="title" required >
             </div>
 
             <!-- Descripción del Evento -->
             <div class="mb-3">
               <label for="description" class="form-label">Descripción del Evento:</label>
-              <textarea id="description" class="form-control" rows="3" formControlName="description" required></textarea>
+              <textarea id="description" class="form-control" rows="3" formControlName="description"
+                required [(ngModel)]="eventData.description"></textarea>
             </div>
 
             <!-- Fecha del Evento -->
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="start_date" class="form-label">Fecha de Inicio:</label>
-                <input type="date" id="start_date" class="form-control" formControlName="start_date" required>
+                <input type="date" id="start_date" class="form-control" formControlName="start_date" required >
               </div>
               <div class="col-md-6 mb-3">
                 <label for="end_date" class="form-label">Fecha de Término:</label>
-                <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
+                <input type="date" id="end_date" class="form-control" formControlName="end_date" required >
               </div>
             </div>
 
@@ -37,7 +38,8 @@
             <div formGroupName="location" class="mb-3">
               <label class="form-label">Ubicación:</label>
               <div class="input-group">
-                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-control" placeholder="Dirección..." readonly />
+                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-control"
+                  placeholder="Dirección..." readonly />
                 <button type="button" class="btn btn-outline-secondary" (click)="openAddressModal()">
                   Seleccionar Dirección
                 </button>
@@ -45,7 +47,7 @@
 
               <!-- Checkbox Publicación Dirección -->
               <div class="form-check mb-3">
-                <input type="checkbox" id="is_public" class="form-check-input" formControlName="is_public">
+                <input type="checkbox" id="is_public" class="form-check-input" formControlName="is_public" >
                 <label for="is_public" class="form-check-label">Publicar la dirección</label>
               </div>
             </div>
@@ -53,13 +55,14 @@
             <!-- Autor del Evento -->
             <div class="mb-3">
               <label for="author" class="form-label">Autor del Evento:</label>
-              <input type="text" id="author" class="form-control" formControlName="created_by" required>
+              <input type="text" id="author" class="form-control" formControlName="created_by" required >
             </div>
 
             <!-- Organización Responsable -->
             <div class="mb-3">
               <label for="organizer" class="form-label">Organización Responsable:</label>
-              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization" required>
+              <input type="text" id="organizer" class="form-control" formControlName="responsible_organization"
+                required >
             </div>
 
             <!-- Botón de Guardar -->

@@ -14,6 +14,10 @@ export const EVENT_ROUTES: Routes = [
     path: 'detail/:id',
     loadComponent: () => import('./pages/event-detail/event-detail.component'),
   },
+  {
+    path: 'edit/:id',
+    loadComponent: () => import('./pages/edit-event/edit-event.component'),
+  },
   // TODO: revisar este route si esta bien que sea children y su ruta
   {
     path: 'create',
@@ -25,5 +29,6 @@ export const EVENT_ROUTES: Routes = [
           // loadComponent: () => import('./pages/list-event/list-events.component')
         }
       ]
-  }
+  },
+
 ]
