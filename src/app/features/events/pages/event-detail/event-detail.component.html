@@ -1,42 +1,48 @@
 <div class="container">
   <div class="card">
-      <div class="card-header">
-          <h2>{{ event?.title || 'Sin título' }}</h2>
+    <div class="card-header">
+      <h2>{{ event.title || 'Sin título' }}</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Descripción:</strong> {{ event.description || 'No disponible' }}</p>
+      <p><strong>Fecha de inicio:</strong> {{ event.start_date | date:'fullDate' }}</p>
+      <p><strong>Fecha de término:</strong> {{ event.end_date | date:'fullDate' }}</p>
+      <p><strong>Organización Responsable:</strong> {{ event.responsible_organization || 'No especificada' }}</p>
+
+      <div *ngIf="event?.location">
+        <h5>Ubicación</h5>
+        <p><strong>Dirección:</strong> {{ event.location.gm_formatted_address || 'No disponible' }}</p>
+        <div class="map-container">
+          <map-org></map-org>
+        </div>
       </div>
-      <div class="card-body">
-          <p><strong>Descripción:</strong> {{ event?.description || 'No disponible' }}</p>
-          <p><strong>Fecha de inicio:</strong> {{ event?.start_date | date:'fullDate' }}</p>
-          <p><strong>Fecha de término:</strong> {{ event?.end_date | date:'fullDate' }}</p>
-          <p><strong>Organización Responsable:</strong> {{ event?.responsible_organization || 'No especificada' }}</p>
 
-          <div *ngIf="event?.location">
-              <h5>Ubicación</h5>
-              <p><strong>Dirección:</strong> {{ event?.location.gm_formatted_address || 'No disponible' }}</p>
-              <div class="map-container">
-                  <map-org></map-org>
-              </div>
-          </div>
+      <!-- <div *ngIf="event?.images?.length > 0">
+        <h5>Imágenes del evento</h5>
+        <div class="d-flex flex-wrap gap-2">
+          <img *ngFor="let img of event?.images" [src]="img" alt="Imagen del evento" class="img-thumbnail">
+        </div>
+      </div> -->
 
-          <div *ngIf="event?.images?.length > 0">
-              <h5>Imágenes del evento</h5>
-              <div class="d-flex flex-wrap gap-2">
-                  <img *ngFor="let img of event?.images" [src]="img" alt="Imagen del evento" class="img-thumbnail">
-              </div>
-          </div>
-
-          <div>
-              <h5>Asistentes</h5>
-              <div *ngIf="event?.assistants?.length > 0; else noAssistants">
-                  <ul class="list-group">
-                      <li *ngFor="let assistant of event?.assistants" class="list-group-item">
-                          {{ assistant }}
-                      </li>
-                  </ul>
-              </div>
-              <ng-template #noAssistants>
-                  <p>No hay asistentes registrados.</p>
-              </ng-template>
-          </div>
+      <div>
+        <h5>Asistentes</h5>
+        <!-- <div *ngIf="event?.assistants?.length > 0; else noAssistants">
+          <ul class="list-group">
+            <li *ngFor="let assistant of event?.assistants" class="list-group-item">
+              {{ assistant }}
+            </li>
+          </ul>
+        </div>
+        <ng-template #noAssistants>
+          <p>No hay asistentes registrados.</p>
+        </ng-template>
+      </div> -->
+      <div>
+        <a [routerLink]="['/events', 'edit', event._id]" class="btn btn-secondary" routerLinkActive="router-link-active">
+          Actualizar Evento
+        </a>
       </div>
+    </div>
+
   </div>
 </div>
