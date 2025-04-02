@@ -87,7 +87,25 @@ export class EventService {
     // aqui guardamos el id del evento para luego usarlo para obtener los datos en el componente de edicion
   }
 
-  // getEventData(): Signal<any> {
-  //   return this.editedData;
-  // }
+
+  updateEvent(id: string, body: EventForm): Observable<EventForm> {
+    console.log('body update: ', body);
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        console.log('token update: ', token);
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        // const eventId = this.eventId.getValue();
+        console.log('eventId update: ', id);
+        if (!id) {
+          throw new Error('No eventId provided to update');
+        }
+        console.log('actualizando evento en service')
+        return this.http.put<EventForm>(`${this.apiUrl}/${id}`, body, {
+          headers
+        });
+      })
+    );
+  }
 }

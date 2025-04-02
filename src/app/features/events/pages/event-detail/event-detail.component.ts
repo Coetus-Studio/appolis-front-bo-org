@@ -42,10 +42,11 @@ export default class EventDetailComponent implements OnInit {
 
     getEventById() {
       const eventId = this.route.snapshot.paramMap.get('id');
+      console.log('eventId => ' + eventId)
       if (eventId) {
         this.eventService.getEventById(eventId).subscribe(event => {
           this.event = event;
-          console.log('event', this.event);
+          console.log('event 2', this.event);
         })
       }
 

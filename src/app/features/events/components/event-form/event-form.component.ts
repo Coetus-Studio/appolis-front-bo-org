@@ -122,4 +122,19 @@ export class EventFormComponent implements OnChanges {
     });
   }
 
+  updateEvent(id: string): void {
+    console.log('eventData: ', this.eventForm.value);
+    console.log('id' + id)
+    this.isUpdate = true;
+
+    if (this.eventForm.valid) {
+
+      const formData = this.eventForm.value;
+
+      this.eventService.updateEvent(id, formData).subscribe(res => {
+        console.log('Event updated successfully', res);
+        this.isUpdate = false;
+      });
+    }
+  }
 }
