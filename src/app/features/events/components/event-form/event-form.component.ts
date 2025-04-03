@@ -1,5 +1,5 @@
 import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EventService } from '../../services/event.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -8,6 +8,7 @@ import { LocationsService } from '../../../../shared/map-org/services/locations.
 import { MatDialog } from '@angular/material/dialog';
 import { ModalAddressComponent } from '../../../../shared/map-org/components/modal-address/modal-address.component';
 import { EventForm } from '../../interfaces/events.interface';
+import { EventFormService } from '../../services/event-form.service';
 
 @Component({
   selector: 'event-form',
@@ -21,40 +22,40 @@ export class EventFormComponent implements OnChanges {
   // aqui almacenmos el evento enviado desde el componente padre edit event
   @Input() eventData!: EventForm;
 
+  // defino evento para cuando se presione boton enviar en eventForm
+  @Output() submitEvent = new EventEmitter<void>();
+
   isUpdate: boolean = false;
-  isEditing: boolean = false;
+  // isCreate: boolean = false;
+
   public isMapVisible: boolean = false; // Controla la visibilidad del mapa y formulario adicional
 
   selectedAddress: string = ''; // Dirección ingresada manualmente
 
-  eventForm: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    description: new FormControl('', [Validators.required]),
-    start_date: new FormControl(''),
-    end_date: new FormControl(''),
-    responsible_organization: new FormControl(''),
-    created_by: new FormControl(''),
-    location: new FormGroup({
-      gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
-      description: new FormControl('Event Location Saved'),
-      is_public: new FormControl(false),
-      geo_point: new FormGroup({
-        type: new FormControl('Point'),
-        coordinates: new FormArray([
-          new FormControl(''), // Latitud
-          new FormControl('')  // Longitud
-        ])
-      })
-    })
-  });
+  // eventForm = this.eventFormService.getForm();
+  eventForm: any;
 
   isAddressModalOpen = false;
 
+  successMessage: string | null = null;
+  successUpdateMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(
     private eventService: EventService,
+    private eventFormService: EventFormService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    console.log('EventFormComponent')
+    this.eventForm = this.eventFormService.getForm();
+
+    this.eventService.isUpdating$.subscribe(event => {
+      this.isUpdate = event;
+    })
+    console.log('isUpdate: ' + this.isUpdate)
+    this.eventForm = this.eventFormService.getForm();
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     // throw new Error('Method not implemented.');
@@ -63,8 +64,6 @@ export class EventFormComponent implements OnChanges {
 
     }
   }
-
-  ngOnInit() { }
 
   closeLocationModal() {
     this.isAddressModalOpen = false;
@@ -91,6 +90,12 @@ export class EventFormComponent implements OnChanges {
       this.eventService.createEvent(event).subscribe(res => {
         console.log('Event created successfully', res);
       })
+      setTimeout(() => {
+        this.successMessage = 'Evento creado con éxito.';
+        this.errorMessage = null;
+        this.eventForm.reset(); // Limpia el formulario
+      }, 1000);
+      // this.isCreate = false;
     }
     else {
       console.log('El formulario no es válido');
@@ -123,9 +128,9 @@ export class EventFormComponent implements OnChanges {
   }
 
   updateEvent(id: string): void {
+    // this.isUpdate = true;
     console.log('eventData: ', this.eventForm.value);
     console.log('id' + id)
-    this.isUpdate = true;
 
     if (this.eventForm.valid) {
 
@@ -133,8 +138,27 @@ export class EventFormComponent implements OnChanges {
 
       this.eventService.updateEvent(id, formData).subscribe(res => {
         console.log('Event updated successfully', res);
-        this.isUpdate = false;
+        // this.isUpdate = false;
       });
+      setTimeout(() => {
+        this.successUpdateMessage = 'Evento actualizado con éxito.';
+        this.errorMessage = null;
+        this.eventForm.reset(); // Limpia el formulario
+      }, 1000);
+    } else {
+      console.log('El formulario no es válido');
+      this.errorMessage = 'Por favor, completa todos los campos obligatorios.';
     }
   }
+
+    // aqui controlo si es create o update
+    onSubmit() {
+      console.log('eventData: ', this.eventForm.value);
+
+      if (this.isUpdate) {
+        this.updateEvent(this.eventData._id);
+      } else {
+        this.createEvent();
+      }
+    }
 }

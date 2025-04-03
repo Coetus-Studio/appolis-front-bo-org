@@ -1,8 +1,14 @@
 <div class="container">
   <div class="card">
+    <div>
+      <a [routerLink]="['/events', 'edit', event._id]" class="btn btn-secondary" routerLinkActive="router-link-active">
+        Actualizar Evento
+      </a>
+    </div>
     <div class="card-header">
       <h2>{{ event.title || 'Sin título' }}</h2>
     </div>
+
     <div class="card-body">
       <p><strong>Descripción:</strong> {{ event.description || 'No disponible' }}</p>
       <p><strong>Fecha de inicio:</strong> {{ event.start_date | date:'fullDate' }}</p>
@@ -37,11 +43,7 @@
           <p>No hay asistentes registrados.</p>
         </ng-template>
       </div> -->
-      <div>
-        <a [routerLink]="['/events', 'edit', event._id]" class="btn btn-secondary" routerLinkActive="router-link-active">
-          Actualizar Evento
-        </a>
-      </div>
+
     </div>
 
   </div>

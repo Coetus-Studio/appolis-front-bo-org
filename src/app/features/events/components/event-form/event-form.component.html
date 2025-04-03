@@ -4,26 +4,21 @@
     <div class="col-md-8">
       <div class="card shadow-lg border-0">
         <div class="card-header bg-primary text-white text-center">
-          <h2 class="mb-0">Formulario Creación de Eventos</h2>
+          <h2 class="mb-0">Formulario Eventos</h2>
         </div>
         <div class="card-body">
-          <!-- <form [formGroup]="eventForm" (ngSubmit)="createEvent()"> -->
-          <form [formGroup]="eventForm">
-
-
+          <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
             <!-- Título del Evento -->
             <div class="mb-3">
               <label for="title" class="form-label">Título del Evento:</label>
               <input type="text" id="title" class="form-control" formControlName="title" required>
             </div>
-
             <!-- Descripción del Evento -->
             <div class="mb-3">
               <label for="description" class="form-label">Descripción del Evento:</label>
               <textarea id="description" class="form-control" rows="3" formControlName="description"
                 required></textarea>
             </div>
-
             <!-- Fecha del Evento -->
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -35,7 +30,6 @@
                 <input type="date" id="end_date" class="form-control" formControlName="end_date" required>
               </div>
             </div>
-
             <!-- Ubicación -->
             <div formGroupName="location" class="mb-3">
               <label class="form-label">Ubicación:</label>
@@ -46,38 +40,40 @@
                   Seleccionar Dirección
                 </button>
               </div>
-
               <!-- Checkbox Publicación Dirección -->
               <div class="form-check mb-3">
                 <input type="checkbox" id="is_public" class="form-check-input" formControlName="is_public">
                 <label for="is_public" class="form-check-label">Publicar la dirección</label>
               </div>
             </div>
-
             <!-- Autor del Evento -->
             <div class="mb-3">
               <label for="author" class="form-label">Autor del Evento:</label>
               <input type="text" id="author" class="form-control" formControlName="created_by" required>
             </div>
-
             <!-- Organización Responsable -->
             <div class="mb-3">
               <label for="organizer" class="form-label">Organización Responsable:</label>
               <input type="text" id="organizer" class="form-control" formControlName="responsible_organization"
                 required>
             </div>
-
-            <!-- Botón de Guardar -->
-            <div *ngIf="!isUpdate" class="text-center">
-              <button type="button" class="btn btn-success px-4" (click)="createEvent()">Guardar</button>
-            </div>
-
             <div>
-              <button *ngIf="!isUpdate" type="button" class="btn btn-primary px-4" (click)="updateEvent(eventData._id)">
-                Actualizar
-              </button>
+              <div class="text-center">
+                <button type="submit" class="btn btn primary px-4">
+                  {{ isUpdate ? 'Actualizar' : 'Guardar'}}
+                </button>
+              </div>
             </div>
-
+            <!-- mensajes de exito o error -->
+            <div *ngIf="successMessage" class="alert success">
+              {{ successMessage }}
+            </div>
+            <div *ngIf="successUpdateMessage" class="alert success">
+              {{ successUpdateMessage}}
+            </div>
+            <div *ngIf="errorMessage" class="alert error">
+              {{ errorMessage }}
+            </div>
           </form>
         </div>
       </div>

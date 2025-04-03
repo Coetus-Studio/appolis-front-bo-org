@@ -16,14 +16,13 @@ export class EventService {
 
   // observable para mantener el estado del evento que se esta actualizando
   private eventData = new BehaviorSubject<EventForm | null>(null);
+  event$ = this.eventData.asObservable();
+
+  private isUpdatingSubject = new BehaviorSubject<boolean>(false);
+  isUpdating$ = this.isUpdatingSubject.asObservable();
 
   // almacenamos el id
   private eventId = new BehaviorSubject<string | null>(null);
-
-  // observable para que otros componentes escuchen
-  event$ = this.eventData.asObservable();
-
-
 
   // datos guardados para la edicion del mismo
   // TODO dejar any como EventForm, pero sin dejar interface como null o undefined.
@@ -62,6 +61,7 @@ export class EventService {
 
   }
 
+// TODO: este servicio lo estoy usando en el update y eventDetail, no sobre carga el servicio?
   getEventById(eventId: string): Observable<EventForm> {
     console.log('eventId 4: ' + eventId);
 
@@ -76,6 +76,28 @@ export class EventService {
     )
   }
 
+  getEventByIdToUpdate(eventId: string, isUpdating: boolean): Observable<EventForm>{
+    console.log('eventId 4: ' + eventId);
+    console.log('isUpdating: ' + isUpdating);
+
+    if (isUpdating) {
+      this.isUpdatingSubject.next(isUpdating);
+    }
+
+    console.log('isUpdating$' + this.isUpdating$)
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<EventForm>(`${this.apiUrl}/${eventId}`, {
+          headers
+        });
+      })
+    )
+
+  }
+
   // metodo que guarda los datos a editar en el signal
   setEventData(data: EventForm) {
     // aqui actualizamos el evento y se notifica a los suscriptores
@@ -85,6 +107,10 @@ export class EventService {
   setEventId(eventId: string) {
     this.eventId.next(eventId);
     // aqui guardamos el id del evento para luego usarlo para obtener los datos en el componente de edicion
+  }
+
+  setIsUpdating(isUpdating: boolean) {
+    this.isUpdatingSubject.next(isUpdating);
   }
 
 
