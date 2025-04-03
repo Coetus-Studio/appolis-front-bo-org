@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 20px;
+  height: 100vh; /* Ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.content-layout {
+  display: flex;
+  flex: 1; /* Permite que el contenido ocupe toda la altura disponible */
+  gap: 20px; /* Espaciado entre la lista y el mapa */
+  overflow: hidden;
+}
+
+.sidebar-list-requirements {
+  width: 40%;
+  background: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.map-container {
+  flex: 1; /* Ocupa todo el espacio restante */
+  height: 100%; /* Asegura que el mapa ocupe todo el alto */
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+map-org {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

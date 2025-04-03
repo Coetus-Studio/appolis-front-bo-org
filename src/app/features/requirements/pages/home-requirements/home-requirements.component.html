@@ -1,0 +1,11 @@
+<div class="container">
+  <h2 class="title">Listado de Requerimientos</h2>
+  <div class="content-layout">
+    <div class="sidebar-list-requirements">
+      <list-requirements (requirementClicked)="onRequirementClicked($event)"></list-requirements>
+    </div>
+    <div class="map-container">
+      <map-org (mapMouseMove)="moveMap($event)" #mapComponent></map-org>
+    </div>
+  </div>
+</div>

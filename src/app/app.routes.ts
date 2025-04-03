@@ -35,6 +35,10 @@ export const routes: Routes = [
     path: 'locations',
     loadChildren: () => import('./shared/shared.routes').then(m => m.SHARED_ROUTES)
   },
+  {
+    path: 'requirements',
+    loadChildren: () => import('./features/requirements/requirements.routes').then(m => m.REQUIREMENTS_ROUTES)
+  },
 
 
 
