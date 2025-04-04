@@ -145,6 +145,7 @@ export class ModalAddressComponent {
   }
 
   onLocationSelected(location: { lng: number; lat: number }) {
+    console.log('Location selected: ', location);
     this.selectedLocation = location;
     this.geocoder.geocode({ location }, (results, status) => {
       if (status === 'OK' && results?.length) {

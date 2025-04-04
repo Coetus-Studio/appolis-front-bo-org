@@ -15,7 +15,7 @@ export default class ListRequirementsComponent implements OnInit{
 
   requirements: Requirements[] = [];
 
-  @Output() requirementClicked = new EventEmitter<{lat: number; lng: number}>();
+  @Output() requirementClicked = new EventEmitter<{lng: number; lat: number}>();
 
 
   constructor(
@@ -43,12 +43,10 @@ export default class ListRequirementsComponent implements OnInit{
 
   focusOnEvent(event: any) {
     console.log('ingresando event: ' + JSON.stringify(event))
-    const lat = event.location.geo_point.coordinates[0];
-    const lng = event.location.geo_point.coordinates[1];
+    const lat = event.location.geo_point.coordinates[1];
+    const lng = event.location.geo_point.coordinates[0];
 
     // Emitimos las coordenadas al MapOrgComponent
     this.requirementClicked.emit({ lat, lng });
     }
-
-
 }

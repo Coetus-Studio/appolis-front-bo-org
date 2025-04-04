@@ -15,7 +15,7 @@ declare var google: any; // Asegúrate de que Google esté disponible
 export default class MapOrgComponent implements AfterViewInit {
 
   // Output para guardar la locacion seleccionada
-  @Output() locationSelected = new EventEmitter<{ lat: number; lng: number }>();
+  @Output() locationSelected = new EventEmitter<{ lng: number; lat: number }>();
   // Nuevo Output para actualizar la dirección
   @Output() addressUpdated = new EventEmitter<string>();
   // Recibe la dirección ingresada en el formulario

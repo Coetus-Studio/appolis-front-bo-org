@@ -20,9 +20,6 @@ export default class HomeEventComponent implements AfterViewInit {
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
   @ViewChild('searchBox', { static: false }) searchBox!: ElementRef;
 
-
-
-
   constructor() {}
 
   ngAfterViewInit(): void {

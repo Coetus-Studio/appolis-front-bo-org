@@ -19,7 +19,7 @@ import { ModalAddressComponent } from "../modal-address/modal-address.component"
 
 export default class CitizenMapFormComponent implements OnInit {
 
-  @Output() locationSelected = new EventEmitter<{ lat: number; lng: number; address: string }>();
+  @Output() locationSelected = new EventEmitter<{ lng: number; lat: number; address: string }>();
   // @ViewChild('searchBox', { static: true }) searchBox!: any;
 
   // manejamos variable para saber estado de modal
@@ -99,7 +99,7 @@ export default class CitizenMapFormComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalAddressComponent, {
       width: '500px',
       disableClose: false,
-      data: { location: { lat: -30.0000, lng: -10.000 } } // Puedes pasar datos opcionales
+      data: { location: { lat: -30.0000, lng: -10.000 } } // aqui setear datos de la posicion de la consulta
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -109,7 +109,7 @@ export default class CitizenMapFormComponent implements OnInit {
           location: {
             gm_formatted_address: result.gm_formatted_address,
             geo_point: {
-              coordinates: [result.location.lat, result.location.lng]
+              coordinates: [result.location.lng, result.location.lat]
             }
           }
         });

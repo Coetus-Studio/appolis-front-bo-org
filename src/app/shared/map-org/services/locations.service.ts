@@ -27,9 +27,9 @@ export class LocationsService {
     });
   }
 
-  createLocation(value: any): Observable<Location> {
+/*   createLocation(value: any): Observable<Location> {
 
-    console.log('Creating a new location...');
+    console.log('Creating a new location...' + JSON.stringify(value));
     return this.http.post<Location>(this.apiUrl, {
       gm_formatted_address: value.address,
       description: value.description,
@@ -40,11 +40,17 @@ export class LocationsService {
       }
 
     });
-  }
+  } */
 
   // crear citizen map
   createCitizenMap(citizenMap: CitizenMap): Observable<any> {
-    console.log('Creando mapa para la ubicación:', citizenMap);
+    console.log('Creando mapa para la ubicación:', citizenMap.location.geo_point);
+
+    const lng = citizenMap.location.geo_point.coordinates[1];
+    const lat = citizenMap.location.geo_point.coordinates[0];
+
+
+
     return this.http.post(`${this.apiUrl}/citizen-points`, {
       name: citizenMap.name,
       location: citizenMap.location,

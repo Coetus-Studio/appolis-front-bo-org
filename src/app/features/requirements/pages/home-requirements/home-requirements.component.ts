@@ -14,7 +14,7 @@ export default class HomeRequirementsComponent {
 
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
 
-  onRequirementClicked(requirementsCoordinates: { lat: number; lng: number }): void {
+  onRequirementClicked(requirementsCoordinates: { lng: number; lat: number }): void {
     // Usamos la referencia mapComponent para llamar al método centerMap del MapOrgComponent
     console.log('onEventClicked 2: ' + JSON.stringify(requirementsCoordinates))
 

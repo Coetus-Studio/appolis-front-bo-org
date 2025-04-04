@@ -49,8 +49,8 @@ export default class ListLocationsComponent implements OnInit {
   focusOnEvent(event: any) {
     // extraemos las coordenadas del evento
     console.log('ingresando: ' + JSON.stringify(event))
-    const lat = event.geo_point.coordinates[0];
-    const lng = event.geo_point.coordinates[1];
+    const lat = event.geo_point.coordinates[1];
+    const lng = event.geo_point.coordinates[0];
 
     // Emitimos las coordenadas al MapOrgComponent
     this.eventClicked.emit({ lat, lng });
