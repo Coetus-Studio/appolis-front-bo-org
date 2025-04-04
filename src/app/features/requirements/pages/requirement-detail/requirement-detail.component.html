@@ -1,0 +1,53 @@
+<div class="container my-5">
+  <div class="card shadow-lg rounded-4 border-0">
+    <div class="card-header bg-primary text-white rounded-top-4">
+      <h2 class="mb-0">{{ requirement.title || 'Sin título' }}</h2>
+    </div>
+
+    <div class="card-body p-4">
+
+      <p><strong>Descripción:</strong> {{ requirement.description || 'No disponible' }}</p>
+
+      <div class="mb-4">
+        <h5 class="text-secondary">Tipo de requerimiento</h5>
+        <p><strong>Titulo:</strong> {{ requirement.title }}</p>
+        <p><strong>Tipo de Requerimiento:</strong> {{ requirement.requirement_type }}</p>
+      </div>
+
+      <div *ngIf="requirement.location" class="mb-4">
+        <h5 class="text-secondary">Ubicación</h5>
+        <p><strong>Dirección:</strong> {{ requirement.location.gm_formatted_address || 'No disponible' }}</p>
+        <div class="map-container rounded border overflow-hidden" style="height: 300px;">
+          <map-org></map-org>
+        </div>
+      </div>
+
+      <div *ngIf="requirement.images" class="mb-4">
+        <h5 class="text-secondary">Imágenes</h5>
+        <div class="row g-2">
+          <div class="col-md-4" *ngFor="let img of requirement.images">
+            <img [src]="img" alt="Imagen del requerimiento" class="img-fluid rounded shadow-sm border" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="text-secondary">Creado por</h5>
+        <!-- TODO: ampliar relacion created_by con email -->
+        <!-- <p><strong>Email:</strong> {{ requirement.created_by }}</p> -->
+        <p><strong>Fecha de creación:</strong> {{ requirement.created_at | date: 'fullDate' }}</p>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="text-secondary">Apoyos</h5>
+        <p *ngIf="requirement.supporters.length === 0">Aún no hay personas que apoyen esta propuesta.</p>
+        <ul *ngIf="requirement.supporters.length > 0" class="list-group">
+          <li *ngFor="let supporter of requirement.supporters" class="list-group-item">
+            {{ supporter }}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -8,6 +8,10 @@ export const REQUIREMENTS_ROUTES: Routes = [
   {
     path: 'list-requirements',
     loadComponent: () => import('./pages/list-requirements/list-requirements.component'),
+  },
+  {
+    path: 'detail/:id',
+    loadComponent: () => import('./pages/requirement-detail/requirement-detail.component'),
   }
   //... more routes here...
 ]

@@ -30,4 +30,15 @@ export class RequirementsService {
       })
     )
   }
+
+  getRequirementById(id: string): Observable<Requirements> {
+    console.log('getRequirementById service');
+    return this.authService.getToken().pipe(
+      filter(token =>!!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}`})
+        return this.http.get<Requirements>(`${this.apiUrl}/${id}`, { headers })
+      })
+    )
+  }
 }
