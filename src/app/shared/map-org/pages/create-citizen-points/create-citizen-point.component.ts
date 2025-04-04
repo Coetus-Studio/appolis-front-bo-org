@@ -5,19 +5,18 @@ import { LocationsService } from '../../services/locations.service';
 // import { LocationFormComponent } from "../../components/location-form/location-form.component";
 import { RouterOutlet } from '@angular/router';
 import { ModalAddressComponent } from '../../components/modal-address/modal-address.component';
-import CitizenMapFormComponent from '../../components/citizen-map-form/citizen-map-form.component';
+import CitizenMapFormComponent from '../../components/citizen-point-form/citizen-point-form.component';
 
 @Component({
-  selector: 'create-citizen-map',
+  selector: 'create-citizen-point',
   standalone: true,
   imports: [ReactiveFormsModule, CitizenMapFormComponent],
-  templateUrl: './create-citizen-map.component.html',
-  styleUrl: './create-citizen-map.component.css'
+  templateUrl: './create-citizen-point.component.html',
+  styleUrl: './create-citizen-point.component.css'
 })
-export default class CreateCitizenMapComponent implements OnInit {
+export default class CreateCitizenPointComponent implements OnInit {
 
   constructor(
-    private locationService: LocationsService,
   ) {}
 
   ngOnInit(): void {}

@@ -11,13 +11,13 @@ import { ModalAddressComponent } from "../modal-address/modal-address.component"
   selector: 'shared-citizen-map-form',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './citizen-map-form.component.html',
-  styleUrl: './citizen-map-form.component.css'
+  templateUrl: './citizen-point-form.component.html',
+  styleUrl: './citizen-point-form.component.css'
 })
 
 // declare var google: any;
 
-export default class CitizenMapFormComponent implements OnInit {
+export default class CitizenPointsFormComponent implements OnInit {
 
   @Output() locationSelected = new EventEmitter<{ lng: number; lat: number; address: string }>();
   // @ViewChild('searchBox', { static: true }) searchBox!: any;

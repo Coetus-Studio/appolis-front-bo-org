@@ -1,15 +1,17 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import MapOrgComponent from '../components/map-org/map-org.component';
-import ListLocationsComponent from "../pages/list-locations/list-locations.component";
+import MapOrgComponent from '../../components/map-org/map-org.component';
+import ListCitizenPointsComponent from '../list-citizen-points/list-citizen-points.component';
+// import MapOrgComponent from '../components/map-org/map-org.component';
+// import ListLocationsComponent from "../pages/list-citizen-points/list-citizen-points.component";
 
 @Component({
   selector: 'app-home-locations',
   standalone: true,
-  imports: [ListLocationsComponent, MapOrgComponent],
-  templateUrl: '.././components/home-locations.component.html',
+  imports: [ListCitizenPointsComponent, MapOrgComponent],
+  templateUrl: './home-citizen-points.component.html',
   // styleUrl: '.././components/home-locations/home-locations.component.css'
 })
-export default class HomeLocationsComponent implements AfterViewInit {
+export default class HomeCitizenPointsComponent implements AfterViewInit {
 
     // Usamos ViewChild para obtener la referencia al componente hijo MapOrgComponent
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;

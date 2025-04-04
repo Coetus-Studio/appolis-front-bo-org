@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import CitizenPointsFormComponent from './citizen-point-form.component';
 
-import { CitizenMapFormComponent } from './citizen-map-form.component';
 
 describe('CitizenMapFormComponent', () => {
-  let component: CitizenMapFormComponent;
-  let fixture: ComponentFixture<CitizenMapFormComponent>;
+  let component: CitizenPointsFormComponent;
+  let fixture: ComponentFixture<CitizenPointsFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CitizenMapFormComponent]
+      imports: [CitizenPointsFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CitizenMapFormComponent);
+    fixture = TestBed.createComponent(CitizenPointsFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

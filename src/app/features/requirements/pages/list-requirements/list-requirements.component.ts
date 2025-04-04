@@ -41,7 +41,7 @@ export default class ListRequirementsComponent implements OnInit{
     })
   }
 
-  focusOnEvent(event: any) {
+  focusOnRequirement(event: any) {
     console.log('ingresando event: ' + JSON.stringify(event))
     const lat = event.location.geo_point.coordinates[1];
     const lng = event.location.geo_point.coordinates[0];

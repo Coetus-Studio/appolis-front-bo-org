@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
-import ListLocationsComponent from "../../../../shared/map-org/pages/list-locations/list-locations.component";
+import ListLocationsComponent from "../../../../shared/map-org/pages/list-citizen-points/list-citizen-points.component";
 import ListEventsComponent from "../list-event/list-events.component";
 import ListOrganizationComponent from '../../../organizations/pages/list-organization/list-organization.component';
 

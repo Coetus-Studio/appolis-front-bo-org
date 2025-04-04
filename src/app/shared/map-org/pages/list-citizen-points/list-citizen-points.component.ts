@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'list-locations',
+  selector: 'list-citizen-points',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './list-locations.component.html',
-  styleUrl: './list-locations.component.css'
+  templateUrl: './list-citizen-points.component.html',
+  styleUrl: './list-citizen-points.component.css'
 })
-export default class ListLocationsComponent implements OnInit {
+export default class ListCitizenPointsComponent implements OnInit {
 
   @Output() eventClicked = new EventEmitter<{lat: number; lng: number}>();
 
