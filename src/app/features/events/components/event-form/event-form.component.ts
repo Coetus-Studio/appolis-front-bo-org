@@ -71,7 +71,7 @@ export class EventFormComponent implements OnChanges {
   }
 
   createEvent() {
-    console.log('eventData: ', this.eventForm.value);
+    console.log('eventData 1: ', this.eventForm.value);
     if (this.eventForm.valid) {
       const formData = this.eventForm.value;
 
@@ -118,8 +118,8 @@ export class EventFormComponent implements OnChanges {
         // Actualizar los valores en el formulario
         this.eventForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
         this.eventForm.get('location.geo_point.coordinates')?.setValue([
-          result.location.lat,
-          result.location.lng
+          result.location.lng,
+          result.location.lat
         ]);
         // Actualizar los valores en el componente
         this.selectedAddress = result.gm_formatted_address;
@@ -129,7 +129,7 @@ export class EventFormComponent implements OnChanges {
 
   updateEvent(id: string): void {
     // this.isUpdate = true;
-    console.log('eventData: ', this.eventForm.value);
+    console.log('eventData 2: ', this.eventForm.value);
     console.log('id' + id)
 
     if (this.eventForm.valid) {
@@ -153,7 +153,7 @@ export class EventFormComponent implements OnChanges {
 
     // aqui controlo si es create o update
     onSubmit() {
-      console.log('eventData: ', this.eventForm.value);
+      console.log('eventData 3: ', this.eventForm.value);
 
       if (this.isUpdate) {
         this.updateEvent(this.eventData._id);

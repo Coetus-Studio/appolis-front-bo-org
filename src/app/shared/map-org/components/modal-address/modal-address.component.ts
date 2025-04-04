@@ -21,7 +21,7 @@ export class ModalAddressComponent {
 
   center = { lat: -30.0000, lng: -10.000 }; // Coordenadas iniciales
   // coordenadas de direccion seleccionada
-  selectedLocation: { lat: number, lng: number } | null = null;
+  selectedLocation: { lng: number, lat: number } | null = null;
   selectedAddress: string = ''; // Dirección ingresada manualmente
   geocoder = new google.maps.Geocoder(); // Instancia de Geocoder
 
@@ -58,7 +58,7 @@ export class ModalAddressComponent {
 
 
   initializeAutocomplete() {
-    console.log("Autocomplete");
+    console.log("Autocomplete 2");
 
     if (!this.addressInput) return;
 
@@ -70,7 +70,7 @@ export class ModalAddressComponent {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
 
-        this.selectedLocation = { lat, lng };
+        this.selectedLocation = { lng, lat };
         this.selectedAddress = place.formatted_address || '';
         this.center = { lat, lng };
       }
@@ -82,7 +82,7 @@ export class ModalAddressComponent {
     const lng = event.detail.latLng.lng();
     this.selectedLocation = { lat, lng };
 
-    this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    this.geocoder.geocode({ location: { lng, lat } }, (results, status) => {
       if (status === 'OK' && results?.length) {
         this.selectedAddress = results[0].formatted_address;
       } else {
@@ -144,7 +144,7 @@ export class ModalAddressComponent {
     this.selectedAddress = address; // actualizamos la variable con la direccion recibida
   }
 
-  onLocationSelected(location: { lat: number; lng: number }) {
+  onLocationSelected(location: { lng: number; lat: number }) {
     this.selectedLocation = location;
     this.geocoder.geocode({ location }, (results, status) => {
       if (status === 'OK' && results?.length) {

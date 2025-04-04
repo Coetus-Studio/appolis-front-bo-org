@@ -26,6 +26,7 @@ export default class MapOrgComponent implements AfterViewInit {
   // @Output() coordinatesUpdated = new EventEmitter<{ lat: number; lng: number}[]>();
 
   // coordenadas iniciales de carga del mapa
+  // TODO: dejar coordenadas iniciales dinamica segun punto de conexion
   center = signal<google.maps.LatLngLiteral>({ lat: -33.45694, lng: -70.64827 });
   zoom = signal<number>(12);
 
@@ -81,8 +82,8 @@ export default class MapOrgComponent implements AfterViewInit {
   }
 
   // metodo sugerencia direcciones
-  initAutocomplete() {
-    console.log('initAutocomplete')
+/*   initAutocomplete() {
+    console.log('initAutocomplete MapOrgComponent')
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const autocomplete = new google.maps.places.Autocomplete(input);
 
@@ -98,7 +99,7 @@ export default class MapOrgComponent implements AfterViewInit {
         this.locationSelected.emit(coords); // Envía la ubicación al componente padre
       }
     });
-  }
+  } */
 
   centerMap(lat: number, lng: number) {
     // TODO ver si este initMap aplica aqui, no esta funcionando el ngAfterViewInit
@@ -112,7 +113,7 @@ export default class MapOrgComponent implements AfterViewInit {
   }
 
   // Método para mover el mapa
-  moveMap(event: google.maps.MapMouseEvent) {
+/*   moveMap(event: google.maps.MapMouseEvent) {
     console.log('Método para mover el map')
     if (event.latLng) {
       const newCoords = event.latLng.toJSON();
@@ -124,21 +125,22 @@ export default class MapOrgComponent implements AfterViewInit {
       console.error('No se pudo obtener la ubicación a partir de los eventos del mapa');
     }
   }
-
+ */
   // Convertir coordenadas a dirección usando Geocoder
   getAddressFromCoords(lat: number, lng: number) {
-    console.log('moviendo mapa')
+    console.log('moviendo mapa' + lat)
     const geocoder = new google.maps.Geocoder();
-    const latlng = { lat, lng };
+    // aqui invierto las coordenadas para guardar en BD lng y lat
+    const lnglat = { lng, lat };
+    console.log('coordenadas: ' + JSON.stringify(lnglat));
 
-    geocoder.geocode({ location: latlng }, (results: { formatted_address: any; }[], status: string) => {
+    geocoder.geocode({ location: lnglat }, (results: { formatted_address: any; }[], status: string) => {
       if (status === 'OK' && results[0]) {
         const formattedAddress = results[0].formatted_address;
         console.log('Dirección:', formattedAddress);
         this.addressUpdated.emit(formattedAddress);
 
-        console.log('latlng' + latlng.lat)
-        this.locationSelected.emit(latlng);
+        this.locationSelected.emit(lnglat);
       }
     });
   }
@@ -150,7 +152,8 @@ export default class MapOrgComponent implements AfterViewInit {
       if (status === 'OK' && results[0].geometry) {
         const location = results[0].geometry.location;
         this.center.set({ lat: location.lat(), lng: location.lng() });
-        this.locationSelected.emit({ lat: location.lat(), lng: location.lng() });
+        // aqui emito lng y lat segun orden de la BD
+        this.locationSelected.emit({ lng: location.lng(), lat: location.lat() });
       }
     });
   }

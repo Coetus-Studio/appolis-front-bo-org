@@ -2,7 +2,7 @@
 
 export interface GeoPoint {
   type: string;
-  coordinates: string;
+  coordinates: string[];
 }
 
 export interface Location {

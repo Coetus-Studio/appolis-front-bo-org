@@ -8,7 +8,7 @@ import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-o
 
 
 @Component({
-  selector: 'app-list-events',
+  selector: 'list-events',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './list-events.component.html',
@@ -58,8 +58,8 @@ export default class ListEventsComponent implements OnInit {
 
   focusOnEvent(event: any) {
     console.log('ingresando event: ' + JSON.stringify(event))
-    const lat = event.location.geo_point.coordinates[0];
-    const lng = event.location.geo_point.coordinates[1];
+    const lat = event.location.geo_point.coordinates[1];
+    const lng = event.location.geo_point.coordinates[0];
 
     // Emitimos las coordenadas al MapOrgComponent
     this.eventClicked.emit({ lat, lng });

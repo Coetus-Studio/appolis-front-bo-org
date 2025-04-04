@@ -3,6 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
 import ListLocationsComponent from "../../../../shared/map-org/pages/list-locations/list-locations.component";
 import ListEventsComponent from "../list-event/list-events.component";
+import ListOrganizationComponent from '../../../organizations/pages/list-organization/list-organization.component';
 
 
 @Component({
@@ -33,7 +34,7 @@ export default class HomeEventComponent implements AfterViewInit {
     }
   }
 
-  onEventClicked(eventCoordinates: { lat: number; lng: number }): void {
+  onEventClicked(eventCoordinates: { lng: number; lat: number }): void {
     // Usamos la referencia mapComponent para llamar al método centerMap del MapOrgComponent
     console.log('onEventClicked 2: ' + JSON.stringify(eventCoordinates))
 
