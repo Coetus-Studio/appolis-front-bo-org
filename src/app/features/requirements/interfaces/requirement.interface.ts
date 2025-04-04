@@ -10,6 +10,12 @@ export interface Location {
   geo_point: GeoPoint;
 }
 
+export interface Images {
+  _id: string;
+  key: string
+  url: string;
+}
+
 export interface Requirements {
   _id: string;
   title: string;
@@ -18,7 +24,7 @@ export interface Requirements {
   // updated_at: Date; // dejar este campo en todos los update
   status: string;
   assigned: string;
-  images: string[];
+  images: Images[];
   location: Location;
   created_by: string;
   supporters: string[];

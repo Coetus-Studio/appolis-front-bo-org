@@ -24,10 +24,11 @@
 
       <div *ngIf="requirement.images" class="mb-4">
         <h5 class="text-secondary">Imágenes</h5>
-        <div class="row g-2">
-          <div class="col-md-4" *ngFor="let img of requirement.images">
-            <img [src]="img" alt="Imagen del requerimiento" class="img-fluid rounded shadow-sm border" />
-          </div>
+        <div class="">
+            <div class="col-md-4" *ngFor="let img of requirement.images">
+              <img [src]="img.url" alt="Imagen del requerimiento" class="img-fluid rounded shadow-sm border" width="400"
+                height="341" />
+            </div>
         </div>
       </div>
 
