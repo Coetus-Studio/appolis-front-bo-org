@@ -48,6 +48,7 @@ export class EventFormComponent implements OnChanges {
   ) {
     console.log('EventFormComponent')
     this.eventForm = this.eventFormService.getForm();
+    console.log("getForm: ", this.eventForm)
 
     this.eventService.isUpdating$.subscribe(event => {
       this.isUpdate = event;
@@ -153,7 +154,8 @@ export class EventFormComponent implements OnChanges {
 
     // aqui controlo si es create o update
     onSubmit() {
-      console.log('eventData 3: ', this.eventForm.value);
+      // con esto me traigo los valores actuales del form que esta en el service
+      // console.log('eventData 3: ', this.eventForm.getRawValue());
 
       if (this.isUpdate) {
         this.updateEvent(this.eventData._id);
