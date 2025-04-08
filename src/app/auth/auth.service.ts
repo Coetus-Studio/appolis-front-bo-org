@@ -90,9 +90,9 @@ export class AuthService {
       await this.storageService.setItem('email', response.user.email);
 
       // dado que roles es un array, lo convertimos primero a string para setear en local storage
-      await this.storageService.setItem('roles', JSON.stringify(response.user.rolesByOrganization[0].rol));
-      await this.storageService.setItem('org', JSON.stringify(response.user.rolesByOrganization[0].org));
-      await this.storageService.setItem('name', JSON.stringify(response.user.rolesByOrganization[0].orgName)); // revisar no se graba
+      await this.storageService.setItem('roles', JSON.stringify(response.user.rolesByOrganization[0].role.name));
+      await this.storageService.setItem('org', JSON.stringify(response.user.rolesByOrganization[0].organization._id));
+      await this.storageService.setItem('name', JSON.stringify(response.user.rolesByOrganization[0].organization.name)); // revisar no se graba
 
       await this.storageService?.setItem('isAuthenticated', 'true');
 
