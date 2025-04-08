@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { RequirementsService } from '../../services/requirements.service';
 import { Requirements } from '../../interfaces/requirement.interface';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -41,10 +41,10 @@ export default class ListRequirementsComponent implements OnInit{
     })
   }
 
-  focusOnRequirement(event: any) {
-    console.log('ingresando event: ' + JSON.stringify(event))
-    const lat = event.location.geo_point.coordinates[1];
-    const lng = event.location.geo_point.coordinates[0];
+  focusOnRequirement(requirement: any) {
+    console.log('ingresando ingresando: ' + JSON.stringify(requirement))
+    const lat = requirement.location.geo_point.coordinates[1];
+    const lng = requirement.location.geo_point.coordinates[0];
 
     // Emitimos las coordenadas al MapOrgComponent
     this.requirementClicked.emit({ lat, lng });

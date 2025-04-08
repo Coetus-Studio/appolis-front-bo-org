@@ -16,18 +16,52 @@ export interface Images {
   url: string;
 }
 
+export interface Messages {
+  _id: string;
+  user: string;
+  message: string;
+  createdAt: Date;
+}
+
+export interface RequirementType {
+  _id: string;
+  description: string;
+  name: string;
+}
+
+export interface Profile {
+  _id: string;
+  createdAt: Date;
+  phone: string;
+  main_address: string;
+  birth_date: Date;
+  full_name: string;
+}
+
+export interface CreatedBy {
+  _id: string;
+  ceratedAt: Date;
+  responded_consultations: string[];
+  rolesByOrganization: string[];
+  profile: Profile;
+  password: string;
+  is_active: boolean;
+  is_verified: boolean;
+  email: string;
+}
+
 export interface Requirements {
   _id: string;
-  title: string;
-  description: string;
-  created_at: Date;
   // updated_at: Date; // dejar este campo en todos los update
-  status: string;
   assigned: string;
+  createdAt: Date;
+  created_by: CreatedBy;
+  description: string;
   images: Images[];
   location: Location;
-  created_by: string;
+  messages: Messages[];
+  title: string;
+  status: string;
   supporters: string[];
-  requirement_type: string;
-  messages: string[];
+  requirement_type: RequirementType;
 }

@@ -6,12 +6,12 @@
 
     <div class="card-body p-4">
 
-      <p><strong>Descripción:</strong> {{ requirement.description || 'No disponible' }}</p>
+      <p><strong>Descripción:</strong> {{ requirement.description || 'Sin descripción' }}</p>
 
       <div class="mb-4">
         <h5 class="text-secondary">Tipo de requerimiento</h5>
-        <p><strong>Titulo:</strong> {{ requirement.title }}</p>
-        <p><strong>Tipo de Requerimiento:</strong> {{ requirement.requirement_type }}</p>
+        <!-- <p><strong>Titulo:</strong> {{ requirement.title }}</p> -->
+        <p><strong>Tipo de Requerimiento:</strong> {{ requirement.requirement_type.name }}</p>
       </div>
 
       <div *ngIf="requirement.location" class="mb-4">
@@ -35,8 +35,8 @@
       <div class="mb-4">
         <h5 class="text-secondary">Creado por</h5>
         <!-- TODO: ampliar relacion created_by con email -->
-        <!-- <p><strong>Email:</strong> {{ requirement.created_by }}</p> -->
-        <p><strong>Fecha de creación:</strong> {{ requirement.created_at | date: 'fullDate' }}</p>
+        <p><strong>Name:</strong> {{ requirement.created_by.profile.full_name }}</p>
+        <p><strong>Fecha de creación:</strong> {{ requirement.createdAt | date: 'fullDate' }}</p>
       </div>
 
       <div class="mb-4">
@@ -47,6 +47,17 @@
             {{ supporter }}
           </li>
         </ul>
+      </div>
+
+      <div *ngIf="requirement.messages" class="mb-4">
+        <h5>Responder Requerimiento Ciudadano</h5>
+        <!-- {{ requirement.messages | json }} -->
+        <input #message type="text" id="message" placeholder="Ingrese su respuesta.">
+        <button (click)="respondRequirement(message.value)">Enviar</button>
+      </div>
+
+      <div>
+        <message-list [requirement]="requirement"></message-list>
       </div>
 
     </div>
