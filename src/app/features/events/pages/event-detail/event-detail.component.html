@@ -13,7 +13,7 @@
       <p><strong>Descripción:</strong> {{ event.description || 'No disponible' }}</p>
       <p><strong>Fecha de inicio:</strong> {{ event.start_date | date:'fullDate' }}</p>
       <p><strong>Fecha de término:</strong> {{ event.end_date | date:'fullDate' }}</p>
-      <p><strong>Organización Responsable:</strong> {{ event.responsible_organization || 'No especificada' }}</p>
+      <p><strong>Organización Responsable:</strong> {{ event.responsible_organization.name || 'No especificada' }}</p>
 
       <div *ngIf="event?.location">
         <h5>Ubicación</h5>

@@ -1,5 +1,7 @@
 // import { Location } from '../../../shared/interfaces/locations.interface'
 
+import { Organization } from "../../organizations/interfaces/organization.interface";
+
 export interface GeoPoint {
   type: string;
   coordinates: string[];
@@ -18,7 +20,7 @@ export interface EventForm {
   description: string;
   start_date: string;
   end_date: string;
-  responsible_organization: string;
+  responsible_organization: Organization;
   // messages: string[];
   // event_type: string;
   // assistents: string;
