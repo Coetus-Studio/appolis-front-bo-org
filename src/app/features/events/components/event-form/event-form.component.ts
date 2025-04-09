@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalAddressComponent } from '../../../../shared/map-org/components/modal-address/modal-address.component';
 import { EventForm } from '../../interfaces/events.interface';
 import { EventFormService } from '../../services/event-form.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'event-form',
@@ -34,8 +35,11 @@ export class EventFormComponent implements OnChanges {
 
   // eventForm = this.eventFormService.getForm();
   eventForm: any;
+  orgId: any;
+  orgUserId: any;
 
   isAddressModalOpen = false;
+
 
   successMessage: string | null = null;
   successUpdateMessage: string | null = null;
@@ -44,17 +48,22 @@ export class EventFormComponent implements OnChanges {
   constructor(
     private eventService: EventService,
     private eventFormService: EventFormService,
+    private authService: AuthService,
     private dialog: MatDialog
   ) {
-    console.log('EventFormComponent')
     this.eventForm = this.eventFormService.getForm();
-    console.log("getForm: ", this.eventForm)
 
     this.eventService.isUpdating$.subscribe(event => {
       this.isUpdate = event;
     })
-    console.log('isUpdate: ' + this.isUpdate)
-    this.eventForm = this.eventFormService.getForm();
+
+    this.authService.getOrgId().subscribe(orgId => {
+      this.orgId = orgId;
+    });
+
+    this.authService.getOrgUserId().subscribe(orgUserId => {
+      this.orgUserId = orgUserId;
+    })
   }
 
 
@@ -76,15 +85,14 @@ export class EventFormComponent implements OnChanges {
     if (this.eventForm.valid) {
       const formData = this.eventForm.value;
 
-      // aqui creamos el objeto eventMap a partir del formulario
       const event: EventForm = {
         _id: formData.id,
         title: formData.title,
         description: formData.description,
         start_date: formData.start_date,
         end_date: formData.end_date,
-        responsible_organization: formData.responsible_organization,
-        created_by: formData.created_by,
+        responsible_organization: this.orgId,
+        created_by: this.orgUserId,
         location: formData.location,
       }
 

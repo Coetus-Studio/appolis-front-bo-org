@@ -15,11 +15,15 @@ export class AuthService {
   //
   private authToken$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  private userOrg$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private orgId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
+  private orgUserId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
+  private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
   constructor(
@@ -41,12 +45,20 @@ export class AuthService {
     return this.roles$.asObservable();
   }
 
-  getUserOrg(): Observable<string | null> {
-    return this.userOrg$.asObservable();
+  getOrgId(): Observable<string | null> {
+    return this.orgId$.asObservable();
   }
 
   getOrgName(): Observable<string | null> {
     return this.orgName$.asObservable();
+  }
+
+  getOrgUserId(): Observable<string | null> {
+    return this.orgUserId$.asObservable();
+  }
+
+  getIsAuthenticated(): Observable<boolean> {
+    return this.isAuthenticated$.asObservable();
   }
 
   private async loadToken() {
@@ -58,11 +70,14 @@ export class AuthService {
     const roles = await this.storageService.getItem('roles');
     this.roles$.next(roles?? null); // Si es undefined, lo convierte en null
 
-    const orgUser = await this.storageService.getItem('org');
-    this.userOrg$.next(orgUser?? null); // Si es undefined, lo convierte en null
+    const orgId = await this.storageService.getItem('orgId');
+    this.orgId$.next(orgId?? null); // Si es undefined, lo convierte en null
 
-    const orgName = await this.storageService.getItem('name');
+    const orgName = await this.storageService.getItem('orgName');
     this.orgName$.next(orgName ?? null); // Si es undefined, lo convierte en null
+
+    const orgUserId = await this.storageService.getItem('orgUserId');
+    this.orgUserId$.next(orgUserId ?? null);
   }
 
   async login(
@@ -89,10 +104,15 @@ export class AuthService {
       await this.storageService.setItem('authToken', response.accessToken);
       await this.storageService.setItem('email', response.user.email);
 
-      // dado que roles es un array, lo convertimos primero a string para setear en local storage
+/*       // dado que roles es un array, lo convertimos primero a string para setear en local storage
       await this.storageService.setItem('roles', JSON.stringify(response.user.rolesByOrganization[0].role.name));
-      await this.storageService.setItem('org', JSON.stringify(response.user.rolesByOrganization[0].organization._id));
-      await this.storageService.setItem('name', JSON.stringify(response.user.rolesByOrganization[0].organization.name)); // revisar no se graba
+      await this.storageService.setItem('orgId', JSON.stringify(response.user.rolesByOrganization[0].organization._id));
+      await this.storageService.setItem('orgName', JSON.stringify(response.user.rolesByOrganization[0].organization.name)); // revisar no se graba */
+
+      await this.storageService.setItem('roles', response.user.rolesByOrganization[0].role.name);
+      await this.storageService.setItem('orgId', response.user.rolesByOrganization[0].organization._id);
+      await this.storageService.setItem('orgName', response.user.rolesByOrganization[0].organization.name); // revisar no se graba
+      await this.storageService.setItem('orgUserId', response.user._id)
 
       await this.storageService?.setItem('isAuthenticated', 'true');
 

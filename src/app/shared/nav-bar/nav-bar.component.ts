@@ -15,10 +15,11 @@ import { AuthService } from '../../auth/auth.service';
 export class NavBarComponent implements OnInit {
 
 
-  registeredOrgUser: string | null = '';
+  registeredOrgId: string | null = '';
   registeredOrgName: string | null = '';
   registeredUserName: string | null = '';
   registeredUserRole: string | null = '';
+  // isAuthenticated: boolean = false;
 
 
   constructor(private authService: AuthService) {
@@ -26,17 +27,17 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.guardaInfoGlobal();
+    this.savesGlobalData();
   }
 
   //
-  async guardaInfoGlobal() {
+  async savesGlobalData() {
     // Obtiene la información global y la almacena en el local storage
     // await this.globalService.fetchGlobalData();
 
-    this.authService.getUserOrg().subscribe(orgUser => {
-      this.registeredOrgUser = orgUser;
-      console.log('orgUserRegistered 1: ', this.registeredOrgUser);
+    this.authService.getOrgId().subscribe(orgId => {
+      this.registeredOrgId = orgId;
+      console.log('orgUserRegistered 1: ', this.registeredOrgId);
 
     });
 
@@ -49,6 +50,10 @@ export class NavBarComponent implements OnInit {
       this.registeredOrgName = orgName;
       // console.log('nombre organizacion logeada: ', this.registeredOrgName);
     });
+
+/*     this.authService.getIsAuthenticated().subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+    }) */
 
   }
 
