@@ -7,8 +7,9 @@ body {
 
 .container {
   display: flex;
-  height: 100vh;
-  margin-top: 56px; /* Esto ajusta la altura del navbar */
+  height: 5vh;
+  margin-top: 56px; /* Ajusta la altura del navbar */
+  justify-content: flex-end; /* Alinea los elementos hacia la derecha */
 }
 
 .sidebar {
@@ -20,7 +21,7 @@ body {
   background-color: #333;
   color: #fff;
   padding: 20px;
-  overflow-y: auto; /* Permitir scroll si hay demasiados elementos */
+  overflow-y: auto; /* Permite scroll si hay demasiados elementos */
   z-index: 900; /* Asegura que esté por debajo del navbar */
 }
 
@@ -54,4 +55,5 @@ body {
   margin-left: 250px; /* Asegura que el contenido no quede debajo del sidebar */
   min-height: 100vh; /* Asegura que crezca según el contenido */
   overflow-y: auto;
+  padding-top: 20px; /* Añadido para asegurar que el contenido no se solape con el navbar */
 }

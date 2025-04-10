@@ -4,7 +4,7 @@ import { StorageService } from './storage.service';
 export const routes: Routes = [
 
   {
-    path: '',
+    path: 'login',
     loadChildren: () => import('./auth/auth.routes').then(m => m.AUTH_ROUTES),
   },
   {

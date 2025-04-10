@@ -1,6 +1,8 @@
 /* styles.css */
 .home-page {
   text-align: center;
+  padding-left: 20px; /* Asegura que el contenido no quede tan pegado al sidebar */
+  padding-right: 20px; /* Añadir padding derecho si es necesario */
 }
 
 .header {

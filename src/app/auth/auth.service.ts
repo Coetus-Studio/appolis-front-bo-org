@@ -25,6 +25,9 @@ export class AuthService {
 
   private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  // informa a app.component estado de autenticacion
+  private authState = new BehaviorSubject<boolean>(false);
+  authState$ = this.authState.asObservable();
 
   constructor(
     private storageService: StorageService,
@@ -114,10 +117,14 @@ export class AuthService {
       await this.storageService.setItem('orgName', response.user.rolesByOrganization[0].organization.name); // revisar no se graba
       await this.storageService.setItem('orgUserId', response.user._id)
 
+      this.authToken$.next(response.accessToken);
       await this.storageService?.setItem('isAuthenticated', 'true');
 
-      // Actualiza el token en el BehaviorSubject
-      this.authToken$.next(response.accessToken);
+      // // Actualiza el token en el BehaviorSubject
+
+      // Agregamos esto para notificar autenticación
+      this.authState.next(true); // Esto asegura que el observable se actualice y carguemos el sidebar y navbar al hacer login
+      this.router.navigate(['/home']);
 
       return true;
     } catch (error) {
@@ -131,7 +138,16 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
-  async checkAuthentication(): Promise<boolean> {
+ /*  async checkAuthentication(): Promise<boolean> {
     return await this.storageService?.getItem('isAuthenticated') === 'true';
+  } */
+
+  async checkAuthentication(): Promise<boolean> {
+    const isLogged = await this.storageService.getItem('isAuthenticated') === 'true';
+    this.authState.next(isLogged);
+    return isLogged;
   }
+
+
+
 }

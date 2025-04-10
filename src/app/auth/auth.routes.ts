@@ -9,7 +9,12 @@ export const AUTH_ROUTES: Routes = [
   // },
   {
     path: '', component: AuthComponent
-  }
+  },
+  // {
+  //   path: '',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full'
+  // }
 
 
 ]

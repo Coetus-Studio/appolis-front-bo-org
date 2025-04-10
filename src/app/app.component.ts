@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicStorageModule } from '@ionic/storage-angular';
@@ -24,18 +24,32 @@ import { NavBarComponent } from "./shared/nav-bar/nav-bar.component";
   styleUrl: './app.component.css'
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'backoffice-org';
 
   isAuthenticated: boolean = false;
 
+  showAuthComponent: boolean = true;
+
   constructor(
     private authService: AuthService,
   ) {
-    this.isLoggedIn();
+    console.log("isLogged")
+    // this.isLoggedIn();
+  }
+  ngOnInit(): void {
+    this.authService.authState$.subscribe((auth) => {
+      console.log("Estado de la autenticacion: ", auth)
+      this.isAuthenticated = auth;
+    });
+    this.authService.checkAuthentication();
   }
 
-  async isLoggedIn() {
-    this.isAuthenticated = await this.authService.checkAuthentication();
+  destroyAuthComponent() {
+
   }
+
+  // async isLoggedIn() {
+  //   this.isAuthenticated = await this.authService.checkAuthentication();
+  // }
 }
