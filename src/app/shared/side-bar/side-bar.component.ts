@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'shared-side-bar',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })

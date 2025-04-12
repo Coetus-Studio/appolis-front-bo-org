@@ -7,7 +7,7 @@ import ListOrganizationComponent from '../../../organizations/pages/list-organiz
 
 
 @Component({
-  selector: 'app-home-event',
+  selector: 'home-event',
   standalone: true,
   imports: [MapOrgComponent, ListEventsComponent],
   templateUrl: './home-event.component.html',
