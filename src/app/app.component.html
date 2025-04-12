@@ -1,3 +1,11 @@
-<shared-nav-bar *ngIf="isAuthenticated"></shared-nav-bar>
+<!-- <shared-nav-bar *ngIf="isAuthenticated"></shared-nav-bar>
 <shared-side-bar *ngIf="isAuthenticated"></shared-side-bar>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<shared-nav-bar *ngIf="isAuthenticated"></shared-nav-bar>
+<div class="container">
+  <shared-side-bar *ngIf="isAuthenticated"></shared-side-bar>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

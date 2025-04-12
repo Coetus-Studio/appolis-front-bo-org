@@ -7,9 +7,9 @@ body {
 
 .container {
   display: flex;
-  height: 5vh;
+  height: 5vh; /* Asegura que el contenedor ocupe toda la altura de la pantalla */
   margin-top: 56px; /* Ajusta la altura del navbar */
-  justify-content: flex-end; /* Alinea los elementos hacia la derecha */
+  justify-content: flex-start; /* Alinea los elementos hacia el inicio (izquierda) */
 }
 
 .sidebar {
