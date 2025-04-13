@@ -94,6 +94,9 @@ export class EventFormComponent implements OnChanges {
         responsible_organization: this.orgId,
         created_by: this.orgUserId,
         location: formData.location,
+        status: {
+          _id: '632327686c6e9c9df048ee0f',
+        }
       }
 
       this.eventService.createEvent(event).subscribe(res => {

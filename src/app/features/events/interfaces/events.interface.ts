@@ -14,6 +14,11 @@ export interface Location {
   geo_point: GeoPoint;
 }
 
+export interface Status {
+  _id: string;
+  name?: string;
+}
+
 export interface EventForm {
   _id: string;
   title: string;
@@ -27,6 +32,6 @@ export interface EventForm {
   created_by: string;
   location: Location;
   // images: string[];
-  // status: string;
+  status?: Status;
   // created_at: string;
 }

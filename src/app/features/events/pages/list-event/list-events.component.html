@@ -22,6 +22,7 @@
             <span class="event-title ellipsis-tooltip" [title]="event.title">{{ event.title }}</span>
             <span class="event-date">{{ event.start_date | date:'yyyy-MM-dd HH:mm' }} - {{ event.end_date | date:'yyyy-MM-dd HH:mm' }}</span>
             <!-- AGREGAR STATUS EVENTO -->
+            <span class="event-status">{{ event.status?.name || 'Sin estado' }}</span>
             <!-- <span class="location-coordinates">{{ event.responsible_organization }}</span> -->
 
             <button class="btn btn-light btn-sm mt-2"

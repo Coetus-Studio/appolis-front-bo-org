@@ -15,6 +15,9 @@ export class EventFormService {
       end_date: new FormControl(''),
       responsible_organization: new FormControl(''),
       created_by: new FormControl(''),
+      // status: new FormGroup({
+      //   name: new FormControl('')
+      // }),
       location: new FormGroup({
         gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
         description: new FormControl('Event Location Saved'),
