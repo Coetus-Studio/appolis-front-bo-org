@@ -1,16 +1,14 @@
 <div class="container">
   <h2 class="title">Listado de Eventos</h2>
 
-  <div class="content-layout">
+  <div class="row">
     <!-- Listado de ubicaciones -->
-    <div class="sidebar-list-event">
+    <div class="col-md-4 sidebar-list-event">
       <list-events  (eventClicked)="onEventClicked($event)"></list-events>
     </div>
 
     <!-- Mapa de ubicación -->
-    <div class="map-container">
-      <!-- <map-org (click)="moveMap($event)" (mapMouseMove)="moveMap($event)" #mapComponent></map-org> -->
-      <!-- <map-org (mapMouseMove)="moveMap($event)" #mapComponent></map-org> -->
+    <div class="col-md-8 map-container">
       <map-org (mapMouseMove)="moveMap($event)" #mapComponent></map-org>
     </div>
   </div>

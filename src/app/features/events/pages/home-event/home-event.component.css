@@ -1,3 +1,10 @@
+.container {
+  padding: 20px;
+  height: 100vh; /* Ocupa toda la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
 .title {
   font-size: 24px;
   font-weight: bold;
@@ -5,15 +12,14 @@
   text-align: center;
 }
 
-.content-layout {
+.row {
   display: flex;
-  flex: 1; /* Permite que el contenido ocupe toda la altura disponible */
+  flex: 1;
   gap: 20px; /* Espaciado entre la lista y el mapa */
-  overflow: hidden;
 }
 
 .sidebar-list-event {
-  width: 40%;
+  width: 40%; /* Ocupa el 30% del ancho */
   background: #f8f9fa;
   padding: 20px;
   border-right: 1px solid #ddd;
@@ -37,3 +43,4 @@ map-org {
   top: 0;
   left: 0;
 }
+
