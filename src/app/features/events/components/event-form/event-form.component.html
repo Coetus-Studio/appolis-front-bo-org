@@ -1,72 +1,86 @@
-<!-- event-form.component.html -->
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-lg border-0">
-        <div class="card-header bg-primary text-white text-center">
-          <h2 class="mb-0">Formulario Eventos</h2>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-            <!-- Título del Evento -->
-            <div class="mb-3">
-              <label for="title" class="form-label">Título del Evento:</label>
-              <input type="text" id="title" class="form-control" formControlName="title" required>
-            </div>
-            <!-- Descripción del Evento -->
-            <div class="mb-3">
-              <label for="description" class="form-label">Descripción del Evento:</label>
-              <textarea id="description" class="form-control" rows="3" formControlName="description"
-                required></textarea>
-            </div>
-            <!-- Fecha del Evento -->
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="start_date" class="form-label">Fecha de Inicio:</label>
-                <input type="datetime-local" id="start_date" class="form-control" formControlName="start_date" required>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="end_date" class="form-label">Fecha de Término:</label>
-                <input type="datetime-local" id="end_date" class="form-control" formControlName="end_date" required>
-              </div>
-            </div>
-            <!-- Ubicación -->
-            <div formGroupName="location" class="mb-3">
-              <label class="form-label">Ubicación:</label>
-              <div class="input-group">
-                <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-control"
-                  placeholder="Dirección..." readonly />
-                <button type="button" class="btn btn-outline-secondary" (click)="openAddressModal()">
-                  Seleccionar Dirección
-                </button>
-              </div>
-              <!-- Checkbox Publicación Dirección -->
-              <div class="form-check mb-3">
-                <input type="checkbox" id="is_public" class="form-check-input" formControlName="is_public">
-                <label for="is_public" class="form-check-label">Publicar la dirección</label>
-              </div>
-            </div>
+<div class="max-w-3xl mx-auto mt-10 px-4">
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="bg-blue-600 text-white text-center py-4">
+      <h2 class="text-2xl font-semibold">Formulario Eventos</h2>
+    </div>
 
-            <div>
-              <div class="text-center">
-                <button type="submit" class="btn btn primary px-4">
-                  {{ isUpdate ? 'Actualizar' : 'Guardar'}}
-                </button>
-              </div>
-            </div>
-            <!-- mensajes de exito o error -->
-            <div *ngIf="successMessage" class="alert success">
-              {{ successMessage }}
-            </div>
-            <div *ngIf="successUpdateMessage" class="alert success">
-              {{ successUpdateMessage}}
-            </div>
-            <div *ngIf="errorMessage" class="alert error">
-              {{ errorMessage }}
-            </div>
-          </form>
+    <div class="p-6">
+      <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Título -->
+        <div>
+          <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Título del Evento</label>
+          <input type="text" id="title" formControlName="title" required
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200" />
         </div>
-      </div>
+
+        <!-- Descripción -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Descripción del Evento</label>
+          <textarea id="description" rows="3" formControlName="description" required
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200"></textarea>
+        </div>
+
+        <!-- Fechas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Inicio</label>
+            <input type="datetime-local" id="start_date" formControlName="start_date" required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200" />
+          </div>
+          <div>
+            <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Término</label>
+            <input type="datetime-local" id="end_date" formControlName="end_date" required
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200" />
+          </div>
+        </div>
+
+        <!-- Estado -->
+        <div class="mt-4" *ngIf="isUpdate">
+          <label for="status" class="block text-sm font-medium text-gray-600 mb-1">Estado del Evento</label>
+          <select id="status" name="status" class="w-full border border-gray-300 rounded-md p-2" formControlName="status">
+            <option *ngFor="let option of statusOptions" [value]="option.value">{{ option.label }}</option>
+          </select>
+        </div>
+
+
+        <!-- Ubicación -->
+        <div formGroupName="location">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
+          <div class="flex gap-2">
+            <input id="gm_formatted_address" formControlName="gm_formatted_address" readonly placeholder="Dirección..."
+              class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-200" />
+            <button type="button" (click)="openAddressModal()"
+              class="bg-gray-200 text-sm text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition">
+              Seleccionar Dirección
+            </button>
+          </div>
+
+          <div class="flex items-center mt-2">
+            <input type="checkbox" id="is_public" formControlName="is_public"
+              class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+            <label for="is_public" class="ml-2 text-sm text-gray-600">Publicar la dirección</label>
+          </div>
+        </div>
+
+        <!-- Botón submit -->
+        <div class="text-center mt-6">
+          <button type="submit"
+            class="bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition">
+            {{ isUpdate ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+
+        <!-- Mensajes -->
+        <div *ngIf="successMessage" class="mt-4 text-green-600 text-center font-medium">
+          {{ successMessage }}
+        </div>
+        <div *ngIf="successUpdateMessage" class="mt-4 text-green-600 text-center font-medium">
+          {{ successUpdateMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="mt-4 text-red-600 text-center font-medium">
+          {{ errorMessage }}
+        </div>
+      </form>
     </div>
   </div>
 </div>

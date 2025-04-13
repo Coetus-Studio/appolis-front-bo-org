@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit, Signal, signal } from '@angular/core';
 import { BehaviorSubject, filter, map, Observable, switchMap } from 'rxjs';
-import { EventForm } from '../interfaces/events.interface';
+import { EventForm, Status } from '../interfaces/events.interface';
 import { StorageService } from '../../../storage.service';
 import { AuthService } from '../../../auth/auth.service';
 
@@ -134,4 +134,23 @@ export class EventService {
       })
     );
   }
+
+  getEventStatus(): Observable<Status[]> {
+
+    console.log('getAllEventStatus')
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<Status[]>(`${this.apiUrl}/event-status`, {
+          headers
+        } )
+      })
+    )
+
+  }
+
+
+
+
 }

@@ -1,50 +1,72 @@
-<div class="container">
-  <div class="card">
-    <div>
-      <a [routerLink]="['/events', 'edit', event._id]" class="btn btn-secondary" routerLinkActive="router-link-active">
-        Actualizar Evento
+<div class="max-w-4xl mx-auto mt-8 px-4">
+  <div class="bg-white shadow-lg rounded-2xl p-6">
+    <!-- Botón de acción -->
+    <div class="flex justify-end mb-4">
+      <a
+        [routerLink]="['/events', 'edit', event._id]"
+        routerLinkActive="router-link-active"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+      >
+        ✏️ Actualizar Evento
       </a>
     </div>
-    <div class="card-header">
-      <h2>{{ event.title || 'Sin título' }}</h2>
+
+    <!-- Encabezado -->
+    <div class="mb-6 border-b pb-4">
+      <h2 class="text-2xl font-bold text-gray-800">
+        {{ event.title || 'Sin título' }}
+      </h2>
     </div>
 
-    <div class="card-body">
-      <p><strong>Descripción:</strong> {{ event.description || 'No disponible' }}</p>
-      <p><strong>Fecha de inicio:</strong> {{ event.start_date | date:'fullDate' }}</p>
-      <p><strong>Fecha de término:</strong> {{ event.end_date | date:'fullDate' }}</p>
-      <p><strong>Organización Responsable:</strong> {{ event.responsible_organization.name || 'No especificada' }}</p>
+    <!-- Contenido -->
+    <div class="space-y-4 text-gray-700">
+      <p><span class="font-semibold">📋 Descripción:</span> {{ event.description || 'No disponible' }}</p>
+      <p><span class="font-semibold">🗓 Inicio:</span> {{ event.start_date | date:'fullDate' }}</p>
+      <p><span class="font-semibold">⏰ Término:</span> {{ event.end_date | date:'fullDate' }}</p>
+      <p><span class="font-semibold">🏢 Organización:</span> {{ event.responsible_organization.name || 'No especificada' }}</p>
 
-      <div *ngIf="event?.location">
-        <h5>Ubicación</h5>
-        <p><strong>Dirección:</strong> {{ event.location.gm_formatted_address || 'No disponible' }}</p>
-        <div class="map-container">
+      <!-- Estado -->
+      <div class="mt-4">
+        <label class="block text-sm font-medium text-gray-600 mb-1">Estado del Evento</label>
+        <div class="w-full border border-gray-300 rounded-md p-2 bg-gray-100">
+          {{ event.status?.name }}
+        </div>
+      </div>
+
+
+      <!-- Mapa -->
+      <div *ngIf="event?.location" class="mt-6">
+        <p><span class="font-semibold">📍 Dirección:</span> {{ event.location.gm_formatted_address || 'No disponible' }}</p>
+        <div class="mt-2 rounded-lg overflow-hidden border border-gray-200 h-72">
           <map-org></map-org>
         </div>
       </div>
 
-      <!-- <div *ngIf="event?.images?.length > 0">
-        <h5>Imágenes del evento</h5>
-        <div class="d-flex flex-wrap gap-2">
-          <img *ngFor="let img of event?.images" [src]="img" alt="Imagen del evento" class="img-thumbnail">
+      <!-- Imágenes del evento -->
+      <!--
+      <div *ngIf="event?.images?.length > 0" class="mt-6">
+        <h5 class="font-semibold mb-2">🖼 Imágenes del evento</h5>
+        <div class="flex flex-wrap gap-2">
+          <img *ngFor="let img of event.images" [src]="img" alt="Imagen del evento" class="h-24 rounded-lg shadow">
         </div>
-      </div> -->
+      </div>
+      -->
 
-      <div>
-        <h5>Asistentes</h5>
-        <!-- <div *ngIf="event?.assistants?.length > 0; else noAssistants">
-          <ul class="list-group">
-            <li *ngFor="let assistant of event?.assistants" class="list-group-item">
-              {{ assistant }}
-            </li>
+      <!-- Asistentes -->
+      <!--
+      <div class="mt-6">
+        <h5 class="font-semibold">👥 Asistentes</h5>
+        <div *ngIf="event?.assistants?.length > 0; else noAssistants">
+          <ul class="list-disc pl-5 mt-2 text-sm text-gray-600">
+            <li *ngFor="let assistant of event.assistants">{{ assistant }}</li>
           </ul>
         </div>
         <ng-template #noAssistants>
-          <p>No hay asistentes registrados.</p>
+          <p class="text-sm text-gray-400">No hay asistentes registrados.</p>
         </ng-template>
-      </div> -->
+      </div>
+      -->
 
     </div>
-
   </div>
 </div>

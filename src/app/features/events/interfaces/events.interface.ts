@@ -34,4 +34,5 @@ export interface EventForm {
   // images: string[];
   status?: Status;
   // created_at: string;
+  is_enabled: boolean;
 }

@@ -18,7 +18,7 @@ import { AuthService } from '../../../../auth/auth.service';
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.css'
 })
-export class EventFormComponent implements OnChanges {
+export class EventFormComponent implements OnChanges, OnInit {
 
   // aqui almacenmos el evento enviado desde el componente padre edit event
   @Input() eventData!: EventForm;
@@ -27,13 +27,16 @@ export class EventFormComponent implements OnChanges {
   @Output() submitEvent = new EventEmitter<void>();
 
   isUpdate: boolean = false;
-  // isCreate: boolean = false;
 
-  public isMapVisible: boolean = false; // Controla la visibilidad del mapa y formulario adicional
+  // Controla la visibilidad del mapa y formulario adicional
+  public isMapVisible: boolean = false;
 
-  selectedAddress: string = ''; // Dirección ingresada manualmente
+  // Dirección ingresada manualmente
+  selectedAddress: string = '';
 
-  // eventForm = this.eventFormService.getForm();
+  // guardo valores obtenidos desde getAllEventStatus
+  statusOptions: { label: string, value: string }[] = []
+
   eventForm: any;
   orgId: any;
   orgUserId: any;
@@ -65,13 +68,20 @@ export class EventFormComponent implements OnChanges {
       this.orgUserId = orgUserId;
     })
   }
+  ngOnInit(): void {
+    if (this.isUpdate) {
+      this.loadStatusOptions();
+    }
+  }
 
 
   ngOnChanges(changes: SimpleChanges): void {
     // throw new Error('Method not implemented.');
     if (changes['eventData'] && this.eventData) {
-      this.eventForm.patchValue(this.eventData); // prellenamos el formulario
-
+      this.eventForm.patchValue({
+        ...this.eventData,
+        status: this.eventData.status?._id
+      }); // prellenamos el formulario
     }
   }
 
@@ -96,7 +106,8 @@ export class EventFormComponent implements OnChanges {
         location: formData.location,
         status: {
           _id: '632327686c6e9c9df048ee0f',
-        }
+        },
+        is_enabled: true
       }
 
       this.eventService.createEvent(event).subscribe(res => {
@@ -140,38 +151,90 @@ export class EventFormComponent implements OnChanges {
   }
 
   updateEvent(id: string): void {
-    // this.isUpdate = true;
-    console.log('eventData 2: ', this.eventForm.value);
-    console.log('id' + id)
-
     if (this.eventForm.valid) {
-
       const formData = this.eventForm.value;
 
-      this.eventService.updateEvent(id, formData).subscribe(res => {
-        console.log('Event updated successfully', res);
-        // this.isUpdate = false;
+      console.log('statusOptions => ', this.statusOptions)
+
+      const selectedStatus = this.statusOptions.find(
+        option => option.value === formData.status
+      );
+
+      const statusId = selectedStatus?.value
+
+      console.log('selectedStatus: ', selectedStatus?.value)
+      console.log('statusId: ', statusId)
+
+      const event: EventForm = {
+        _id: formData.id,
+        title: formData.title,
+        description: formData.description,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        responsible_organization: this.orgId,
+        created_by: this.orgUserId,
+        location: formData.location,
+        status: {
+          _id: statusId || ''
+        },
+        is_enabled: true
+      };
+
+      console.log('event', event)
+
+      // Si el estado es cerrado (buscando por label, no por _id)
+      const statusLabel = selectedStatus?.label;
+      console.log("statusLabel", statusLabel)
+
+      if (statusLabel === 'Cerrado') {
+        event.is_enabled = false;
+      }
+
+      this.eventService.updateEvent(id, event).subscribe({
+        next: (res) => {
+          console.log('Event updated successfully', res);
+          this.successUpdateMessage = 'Evento actualizado con éxito.';
+          this.errorMessage = null;
+        },
+        error: (err) => {
+          console.error('Error al actualizar evento', err);
+          this.errorMessage = 'Error al actualizar evento.';
+        }
       });
-      setTimeout(() => {
-        this.successUpdateMessage = 'Evento actualizado con éxito.';
-        this.errorMessage = null;
-        this.eventForm.reset(); // Limpia el formulario
-      }, 1000);
     } else {
       console.log('El formulario no es válido');
       this.errorMessage = 'Por favor, completa todos los campos obligatorios.';
     }
   }
 
-    // aqui controlo si es create o update
-    onSubmit() {
-      // con esto me traigo los valores actuales del form que esta en el service
-      // console.log('eventData 3: ', this.eventForm.getRawValue());
 
-      if (this.isUpdate) {
-        this.updateEvent(this.eventData._id);
-      } else {
-        this.createEvent();
-      }
+  // aqui controlo si es create o update
+  onSubmit() {
+    // con esto me traigo los valores actuales del form que esta en el service
+    // console.log('eventData 3: ', this.eventForm.getRawValue());
+
+    if (this.isUpdate) {
+      this.updateEvent(this.eventData._id);
+    } else {
+      this.createEvent();
     }
+  }
+
+
+  loadStatusOptions() {
+    this.eventService.getEventStatus().subscribe({
+      next: (statuses) => {
+        this.statusOptions = statuses
+          .filter(status => !!status.name)
+          .map(status => ({
+            label: status.name!,
+            value: status._id
+          }));
+      },
+      error: (err) => {
+        console.error('Error al cargar los estados del evento', err);
+      }
+    });
+  }
+
 }

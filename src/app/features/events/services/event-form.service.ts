@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormArray, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Status } from "../interfaces/events.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,7 @@ export class EventFormService {
       end_date: new FormControl(''),
       responsible_organization: new FormControl(''),
       created_by: new FormControl(''),
-      // status: new FormGroup({
-      //   name: new FormControl('')
-      // }),
+      status: new FormControl<Status | null>(null, Validators.required), // este es un objeto que tiene id y name
       location: new FormGroup({
         gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
         description: new FormControl('Event Location Saved'),
