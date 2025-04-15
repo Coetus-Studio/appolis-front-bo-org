@@ -32,7 +32,8 @@ export default class ListRequirementsComponent implements OnInit{
 
     this.requirementService.getAllRequirements().subscribe({
       next: (requirements) => {
-        console.log('requirements' + JSON.stringify(requirements));
+        // console.log('requirements' + JSON.stringify(requirements));
+        console.log('requirements: ', requirements)
         this.requirements = requirements;
       },
       error: (error) => {

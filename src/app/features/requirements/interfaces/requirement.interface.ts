@@ -12,7 +12,7 @@ export interface Location {
 
 export interface Images {
   _id: string;
-  key: string
+  key: string;
   url: string;
 }
 

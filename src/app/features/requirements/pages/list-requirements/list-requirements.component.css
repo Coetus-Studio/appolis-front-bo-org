@@ -1,0 +1,55 @@
+
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 80px); /* Ajusta según el alto de tu navbar si la tenés */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sidebar-requirements {
+  width: 350px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.requirement-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.requirement-item:hover {
+  /* background: #e9ecef; */
+  background: #ffffff;
+
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.requirement-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.requirement-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333333;
+}
+
+.requirement-date {
+  color: #777;
+  font-size: 14px;
+}
+

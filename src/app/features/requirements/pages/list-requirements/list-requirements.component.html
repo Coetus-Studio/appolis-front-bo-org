@@ -1,61 +1,47 @@
 <div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="text-primary">Listar Requerimientos</h1>
-    <!-- <button class="btn btn-success shadow-sm" [routerLink]="['/events/create']">+ Crear Evento</button> -->
-  </div>
+  <h2>Listado de Requerimientos</h2>
 
-  <!-- Barra de búsqueda -->
-  <div class="input-group mb-4">
-    <!-- <input type="text" class="form-control" placeholder="Buscar eventos..." (input)="searchEvents($event)"> -->
-    <span class="input-group-text">
-      <i class="bi bi-search"></i>
-    </span>
-  </div>
+  <div class="main-layout">
 
-  <div class="">
-    <div class="row">
-      <!-- Lista de eventos -->
-      <div class="">
-        <div *ngIf="requirements.length > 0; else noRequirements">
-          <div *ngFor="let requirement of requirements" class="card mb-4 shadow-sm border-0 event-card"
-            (click)="focusOnRequirement(requirement)" style="cursor: pointer;">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">{{ requirement.title }}</h5>
+    <div class="sidebar-requirements">
 
-              <div>
+      <!-- buscador -->
 
-                <!-- con stopPropagation detengo la accion del focusOnEvent y permito que se haga click al btn -->
-                <button class="btn btn-light btn-sm" [routerLink]="['detail', requirement._id]"
-                  routerLinkActive="router-link-active"
-                  (click)="$event.stopPropagation()">
-                  Ver
-                </button>
+      <div class="input-group mb-3">
+        <!-- TODO: agregar metodo busqueda -->
+        <input type="text" class="form-control" placeholder="Buscar requerimientos">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+      </div>
 
-                <!-- <a [routerLink]="['/detail:', event._id]" class="btn btn-light btn-sm">ver</a> -->
-              </div>
-            </div>
 
-            <div class="card-body">
-              <p class="card-text">{{ requirement.description }}</p>
-              <!-- <p><strong>Fechas:</strong> {{ requirement.start_date }} - {{ event.end_date }}</p> -->
-              <!-- <p><strong>Organización:</strong> {{ requirement.responsible_organization }}</p> -->
+      <!-- lista de requerimientos -->
+      <div *ngIf="requirements.length > 0; else noRequirements">
+        <div *ngFor="let requirement of requirements" class="requirement-item"
+          (click)="focusOnRequirement(requirement)">
+          <div class="requirement-info">
+            <span class="requirement-title ellipsis-tooltip" [title]="requirement.title">{{ requirement.title }}</span>
+            <span class="requirement-date">{{ requirement.createdAt | date: 'yyyy-MM-dd HH:mm'}}</span>
 
-              <!-- Imagen del evento -->
-              <!-- <div *ngIf="event.images?.length > 0" class="text-center mt-3">
-              <img [src]="event.images[0]" alt="{{ event.title }}" class="img-fluid rounded shadow" style="max-height: 200px;">
-            </div> -->
+            <!-- con stopPropagation detengo la accion del focusOnEvent y permito que se haga click al btn -->
+            <button class="btn btn-light btn-sm mt-2" [routerLink]="['detail', requirement._id]"
+              routerLinkActive="router-link-active" (click)="$event.stopPropagation()">Ver</button>
+
+            <div>
             </div>
           </div>
+
         </div>
-
-        <!-- Mensaje si no hay eventos -->
-        <ng-template #noRequirements>
-          <div class="text-center mt-4">
-            <p class="text-muted">No hay requerimientos disponibles.</p>
-          </div>
-        </ng-template>
       </div>
     </div>
 
+    <ng-template #noRequirements>
+      <div class="text-center mt-4">
+        <p class="text-muted">No hay requerimientos disponibles.</p>
+      </div>
+    </ng-template>
+
   </div>
+
 </div>

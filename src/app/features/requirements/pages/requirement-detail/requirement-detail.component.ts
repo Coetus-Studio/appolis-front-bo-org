@@ -6,11 +6,12 @@ import { RequirementsService } from '../../services/requirements.service';
 import { CommonModule } from '@angular/common';
 import { MessageListComponent } from "../../components/message-list/message-list.component";
 import { FormGroup } from '@angular/forms';
+import { CarouselImagesComponent } from '../../components/carousel-images/carousel-images.component';
 
 @Component({
   selector: 'app-requirement-detail',
   standalone: true,
-  imports: [MapOrgComponent, CommonModule, MessageListComponent],
+  imports: [MapOrgComponent, CommonModule, MessageListComponent, CarouselImagesComponent],
   templateUrl: './requirement-detail.component.html',
   styleUrl: './requirement-detail.component.css'
 })
@@ -20,6 +21,7 @@ export default class RequirementDetailComponent implements OnInit {
 
   idRequirement = '';
 
+  isRequirementLoaded = false;
 
   constructor(
     private route: ActivatedRoute, // proporciona informacion sobre la ruta activa, obtiene el id entre otras
@@ -40,16 +42,17 @@ export default class RequirementDetailComponent implements OnInit {
 
 
   getRequirementById() {
-    const requirementId = this.route.snapshot.paramMap.get('id');
-    console.log('requirementId' + requirementId);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
 
-    if (requirementId) {
-      this.requirementService.getRequirementById(requirementId).subscribe(requirement => {
-        this.requirement = requirement;
-        console.log('requirement 2', this.requirement);
-      })
-    }
-    // const requirementId = this.route.snapshot.paramMap.get('id');
+    this.requirementService.getRequirementById(id).subscribe({
+      next: (res) => {
+        this.requirement = res;
+        this.isRequirementLoaded = true;
+      },
+
+      error: (err) => console.error('Error cargando requerimiento:', err)
+    });
   }
 
   respondRequirement(message: string) {
@@ -61,4 +64,11 @@ export default class RequirementDetailComponent implements OnInit {
       })
     }
   }
+
+
+  getImageUrl(key: string): string {
+    const cloudFrontDomain = 'https://dkxczlv26qkds.cloudfront.net'; // Actualiza con tu dominio de CloudFront
+    return `${cloudFrontDomain}/${key}`;
+  }
+
 }
