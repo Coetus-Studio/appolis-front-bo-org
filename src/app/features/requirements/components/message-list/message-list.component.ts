@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Requirements } from '../../interfaces/requirement.interface';
 import RequirementDetailComponent from '../../pages/requirement-detail/requirement-detail.component';
 
@@ -10,14 +10,15 @@ import RequirementDetailComponent from '../../pages/requirement-detail/requireme
   templateUrl: './message-list.component.html',
   styleUrl: './message-list.component.css'
 })
-export class MessageListComponent   {
+export class MessageListComponent implements OnInit {
 
-  @Input() requirement!: Requirements;
 
-  constructor() {
+  @Input() requirement: Requirements | null = null;
+
+
+  ngOnInit(): void {
     console.log("MessageListComponent", this.requirement);
   }
-
 
 
 

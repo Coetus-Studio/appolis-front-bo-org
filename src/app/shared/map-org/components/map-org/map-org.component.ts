@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, signal, SimpleChanges, ViewChild } from '@angular/core';
-import { GoogleMap } from '@angular/google-maps';
+import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsService } from '../../services/google-maps.service';
 
@@ -8,11 +8,12 @@ declare var google: any; // Asegúrate de que Google esté disponible
 @Component({
   selector: 'map-org',
   standalone: true,
-  imports: [CommonModule, GoogleMap],
+  imports: [CommonModule, GoogleMap, MapMarker],
   templateUrl: './map-org.component.html',
   styleUrl: './map-org.component.css'
 })
 export default class MapOrgComponent implements AfterViewInit {
+  @Input() position?: google.maps.LatLngLiteral;
 
   // Output para guardar la locacion seleccionada
   @Output() locationSelected = new EventEmitter<{ lng: number; lat: number }>();

@@ -18,10 +18,13 @@ export interface Images {
 
 export interface Messages {
   _id: string;
-  user: string;
+  createdAt: string;
   message: string;
-  createdAt: Date;
+  user?: {
+    email?: string;
+  } | string | null;
 }
+
 
 export interface RequirementType {
   _id: string;
@@ -52,16 +55,52 @@ export interface CreatedBy {
 
 export interface Requirements {
   _id: string;
-  // updated_at: Date; // dejar este campo en todos los update
-  assigned: string;
-  createdAt: Date;
-  created_by: CreatedBy;
-  description: string;
-  images: Images[];
-  location: Location;
-  messages: Messages[];
   title: string;
-  status: string;
+  description: string;
+  requirement_type: {
+    _id: string;
+    name: string;
+    description: string;
+    __v?: number;
+  };
+  category?: {
+    _id: string;
+    name: string;
+  };
   supporters: string[];
-  requirement_type: RequirementType;
+  created_by: {
+    _id: string;
+    email: string;
+    profile: {
+      _id: string;
+      full_name: string;
+      phone?: string;
+      main_address?: string;
+      birth_date?: string;
+    };
+    createdAt: string;
+  };
+  location?: {
+    _id: string;
+    description?: string;
+    gm_formatted_address: string;
+    geo_point: {
+      type: 'Point';
+      coordinates: [number, number];
+    };
+    is_public?: boolean;
+  };
+  images?: {
+    _id: string;
+    key: string;
+    url: string;
+    createdAt?: string;
+  }[];
+  messages?: {
+    _id: string;
+    createdAt: string;
+    message: string;
+    user?: { email?: string } | string | null;
+  }[];
+  createdAt: string;
 }

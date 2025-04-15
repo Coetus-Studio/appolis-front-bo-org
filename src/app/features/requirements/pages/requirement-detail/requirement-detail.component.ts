@@ -6,6 +6,7 @@ import { RequirementsService } from '../../services/requirements.service';
 import { CommonModule } from '@angular/common';
 import { MessageListComponent } from "../../components/message-list/message-list.component";
 import { FormGroup } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-requirement-detail',
@@ -19,12 +20,12 @@ export default class RequirementDetailComponent implements OnInit {
   @Input() requirement!: Requirements;
 
   idRequirement = '';
-
-
+  imageUrls: string[] = [];
   constructor(
     private route: ActivatedRoute, // proporciona informacion sobre la ruta activa, obtiene el id entre otras
     private requirementService: RequirementsService
   ) { }
+
   ngOnInit(): void {
     this.getRequirementById();
 
@@ -33,11 +34,14 @@ export default class RequirementDetailComponent implements OnInit {
     if (id) {
       this.requirementService.getRequirementById(id).subscribe(data => {
         this.requirement = data;
-        this.idRequirement = id;
+        this.idRequirement = id;       
       })
     }
   }
 
+  isUserObject(user: any): user is { email?: string } {
+    return user && typeof user === 'object' && 'email' in user;
+  }
 
   getRequirementById() {
     const requirementId = this.route.snapshot.paramMap.get('id');
@@ -60,5 +64,10 @@ export default class RequirementDetailComponent implements OnInit {
         console.log("entrando al service")
       })
     }
+  }
+
+  getImageUrl(key: string): string {
+    const cloudFrontDomain = environment.cloudfrontDomain; // Reemplaza con tu dominio de CloudFront
+    return `${cloudFrontDomain}/${key}`;
   }
 }

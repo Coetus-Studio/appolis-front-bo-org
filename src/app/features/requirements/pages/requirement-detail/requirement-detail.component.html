@@ -5,61 +5,86 @@
     </div>
 
     <div class="card-body p-4">
-
       <p><strong>Descripción:</strong> {{ requirement.description || 'Sin descripción' }}</p>
 
       <div class="mb-4">
         <h5 class="text-secondary">Tipo de requerimiento</h5>
-        <!-- <p><strong>Titulo:</strong> {{ requirement.title }}</p> -->
-        <p><strong>Tipo de Requerimiento:</strong> {{ requirement.requirement_type.name }}</p>
+        <p><strong>Tipo:</strong> {{ requirement.requirement_type.name }}</p>
+        <p><strong>Descripción:</strong> {{ requirement.requirement_type.description }}</p>
+      </div>
+
+      <div *ngIf="requirement.category" class="mb-4">
+        <h5 class="text-secondary">Categoría</h5>
+        <p><strong>Nombre:</strong> {{ requirement.category.name }}</p>
       </div>
 
       <div *ngIf="requirement.location" class="mb-4">
         <h5 class="text-secondary">Ubicación</h5>
         <p><strong>Dirección:</strong> {{ requirement.location.gm_formatted_address || 'No disponible' }}</p>
+        <p>
+          <strong>Coordenadas:</strong>
+          Lat: {{ requirement.location.geo_point.coordinates[1] }},
+          Lng: {{ requirement.location.geo_point.coordinates[0] }}
+        </p>
         <div class="map-container rounded border overflow-hidden" style="height: 300px;">
-          <map-org></map-org>
+          <map-org
+          *ngIf="requirement.location?.geo_point?.coordinates?.length"
+          [position]="{
+            lat: requirement.location.geo_point.coordinates[1],
+            lng: requirement.location.geo_point.coordinates[0]
+          }"
+        ></map-org>
         </div>
       </div>
 
-      <div *ngIf="requirement.images" class="mb-4">
+      <div *ngIf="requirement.images?.length" class="mb-4">
         <h5 class="text-secondary">Imágenes</h5>
-        <div class="">
-            <div class="col-md-4" *ngFor="let img of requirement.images">
-              <img [src]="img.url" alt="Imagen del requerimiento" class="img-fluid rounded shadow-sm border" width="400"
-                height="341" />
-            </div>
+        <div class="row g-3">
+          <div class="col-md-4" *ngFor="let img of requirement.images">
+            <img [src]="getImageUrl(img.key)" alt="Imagen del requerimiento" class="img-fluid rounded shadow-sm border" />
+          </div>
         </div>
       </div>
 
       <div class="mb-4">
         <h5 class="text-secondary">Creado por</h5>
-        <!-- TODO: ampliar relacion created_by con email -->
-        <p><strong>Name:</strong> {{ requirement.created_by.profile.full_name }}</p>
+        <p><strong>Nombre:</strong> {{ requirement.created_by.profile.full_name }}</p>
+        <p><strong>Email:</strong> {{ requirement.created_by.email }}</p>
         <p><strong>Fecha de creación:</strong> {{ requirement.createdAt | date: 'fullDate' }}</p>
       </div>
 
       <div class="mb-4">
         <h5 class="text-secondary">Apoyos</h5>
-        <p *ngIf="requirement.supporters.length === 0">Aún no hay personas que apoyen esta propuesta.</p>
-        <ul *ngIf="requirement.supporters.length > 0" class="list-group">
-          <li *ngFor="let supporter of requirement.supporters" class="list-group-item">
-            {{ supporter }}
+        <p>
+          Este requerimiento cuenta con <strong>{{ requirement.supporters?.length || 0 }}</strong> apoyo{{ requirement.supporters?.length === 1 ? '' : 's' }}.
+        </p>
+      </div>
+      
+      <div *ngIf="requirement.messages?.length" class="mb-4">
+        <h5 class="text-secondary">Mensajes</h5>
+        <ul class="list-group">
+          <li *ngFor="let msg of requirement.messages" class="list-group-item">
+            <p>{{ msg.message }}</p>
+            <small class="text-muted">
+              <ng-container *ngIf="isUserObject(msg.user); else anon">
+                Enviado por: {{ msg.user.email }} |
+              </ng-container>
+              <ng-template #anon>Enviado por: Anónimo |</ng-template>
+              {{ msg.createdAt | date: 'short' }}
+            </small>
           </li>
         </ul>
       </div>
 
-      <div *ngIf="requirement.messages" class="mb-4">
+      <div class="mb-4">
         <h5>Responder Requerimiento Ciudadano</h5>
-        <!-- {{ requirement.messages | json }} -->
         <input #message type="text" id="message" placeholder="Ingrese su respuesta.">
-        <button (click)="respondRequirement(message.value)">Enviar</button>
+        <button class="btn btn-primary btn-sm mt-2" (click)="respondRequirement(message.value)">Enviar</button>
       </div>
 
       <div>
         <message-list [requirement]="requirement"></message-list>
       </div>
-
     </div>
   </div>
 </div>
