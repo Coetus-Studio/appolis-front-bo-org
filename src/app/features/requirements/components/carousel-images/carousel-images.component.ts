@@ -1,5 +1,7 @@
 import { CommonModule, NgClass, NgFor } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
+
 
 @Component({
   selector: 'carousel-images-requirement',
@@ -50,9 +52,14 @@ export class CarouselImagesComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  getImageUrl(key: string): string {
+/*   getImageUrl(key: string): string {
     const cloudFrontDomain = 'https://dkxczlv26qkds.cloudfront.net'; // Actualiza con tu dominio de CloudFront
     return `${cloudFrontDomain}/${key}`;
-  }
+  } */
+
+    getImageUrl(key: string): string {
+      const cloudFrontDomain = environment.cloudfrontDomain; // Reemplaza con tu dominio de CloudFront
+      return `${cloudFrontDomain}/${key}`;
+    }
 
 }

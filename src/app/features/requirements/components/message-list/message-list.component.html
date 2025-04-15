@@ -2,19 +2,23 @@
   <h2 class="text-lg font-semibold mb-4">Mensajes de la ciudadanía</h2>
 
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 h-64 overflow-y-auto px-4 py-2 space-y-4">
-    <ul *ngIf="requirement.messages.length > 0; else noMessages">
-      <li *ngFor="let mensaje of requirement.messages" class="border-b last:border-none pb-2 mb-2">
-        <div class="text-sm text-gray-800">
-          {{ mensaje.message }}
-        </div>
-        <div class="text-xs text-gray-500 mt-1">
-          {{ mensaje.createdAt | date: 'dd/MM/yyyy HH:mm' }}
-        </div>
-      </li>
-    </ul>
+
+    <ng-container *ngIf="requirement?.messages as messages; else noMessages">
+      <ul *ngIf="messages.length > 0; else noMessages">
+        <li *ngFor="let mensaje of messages" class="border-b last:border-none pb-2 mb-2">
+          <div class="text-sm text-gray-800">
+            {{ mensaje.message }}
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            {{ mensaje.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+          </div>
+        </li>
+      </ul>
+    </ng-container>
 
     <ng-template #noMessages>
       <p class="text-sm text-gray-500 italic">Aún no hay mensajes registrados.</p>
     </ng-template>
+
   </div>
 </div>
