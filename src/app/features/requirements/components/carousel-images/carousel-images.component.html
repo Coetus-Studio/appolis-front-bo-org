@@ -1,7 +1,7 @@
 <div class="relative w-full overflow-hidden rounded-xl shadow-md">
   <div class="w-full h-64">
     <img
-      [src]="images[currentIndex].url"
+      [src]="cloudImages[currentIndex].url"
       alt="Imagen del requerimiento"
       class="w-full h-full object-cover transition duration-500"
     />
@@ -18,7 +18,7 @@
   <!-- Dots -->
   <div class="flex justify-center mt-4 space-x-2">
     <span
-      *ngFor="let image of images; let i = index"
+      *ngFor="let image of cloudImages; let i = index"
       (click)="goToSlide(i)"
       [ngClass]="{
         'bg-blue-500': currentIndex === i,

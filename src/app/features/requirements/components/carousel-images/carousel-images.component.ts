@@ -12,6 +12,8 @@ export class CarouselImagesComponent implements OnInit {
 
   @Input() images: { url: string }[] = [];
 
+  cloudImages: { url: string}[] = [];
+
   // images2: string[] = [];
   currentIndex = 0;
 
@@ -29,7 +31,7 @@ export class CarouselImagesComponent implements OnInit {
       }))
 
     }
-    this.images = this.images;
+    this.cloudImages = this.images;
 
     console.log("this images 2", this.images)
 
