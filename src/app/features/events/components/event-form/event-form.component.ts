@@ -146,7 +146,7 @@ export class EventFormComponent implements OnChanges, OnInit {
           _id: formData.status._id
         },
         is_enabled: true,
-        sponsor: this.sponsors
+        sponsors: this.sponsors
       }
 
       console.log("event: ", event)

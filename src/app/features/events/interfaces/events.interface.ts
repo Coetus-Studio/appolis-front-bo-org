@@ -35,5 +35,5 @@ export interface EventForm {
   status?: Status;
   // created_at: string;
   is_enabled: boolean;
-  sponsor?: string[]; // inicialmente lo dejo como texto libre para ingresar desde el front
+  sponsors?: string[]; // inicialmente lo dejo como texto libre para ingresar desde el front
 }
