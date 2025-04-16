@@ -13,6 +13,7 @@ declare var google: any; // Asegúrate de que Google esté disponible
   styleUrl: './map-org.component.css'
 })
 export default class MapOrgComponent implements AfterViewInit {
+
   @Input() position?: google.maps.LatLngLiteral;
 
   // Output para guardar la locacion seleccionada
@@ -32,7 +33,9 @@ export default class MapOrgComponent implements AfterViewInit {
   zoom = signal<number>(12);
 
   // @ViewChild('mapContainer', { static: false }) mapElement!: ElementRef;
-  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+  // @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+  @ViewChild('mapComponent', { static: false }) googleMapRef!: GoogleMap;
+
 
   map!: google.maps.Map;
   marker!: google.maps.marker.AdvancedMarkerElement;
@@ -53,34 +56,32 @@ export default class MapOrgComponent implements AfterViewInit {
   }
 
   initMap() {
-    // verifico si el elemento mapa esta presente
-    if (!this.mapComponent) {
-      console.error('Error: map element not found');
-      return
+    const nativeMap = this.googleMapRef.googleMap;
+
+    if (!nativeMap) {
+      console.error('Error: googleMap instance not available');
+      return;
     }
 
-    const mapOptions: google.maps.MapOptions = {
-      center: this.center(), // Coordenadas iniciales
-      zoom: this.zoom()
-    };
+    this.map = nativeMap;
 
-    this.map = new google.maps.Map(document.getElementById('map')!, mapOptions);
-
-    // Marcador inicial
+    // Colocamos el marcador
     this.marker = new google.maps.Marker({
-      position: mapOptions.center,
-      map: this.mapComponent
+      position: this.map.getCenter()!,
+      map: this.map
     });
 
     this.map.addListener('click', (event: google.maps.MapMouseEvent) => {
       if (event.latLng) {
-        console.log('coordenadas addListener: ' + event.latLng.lat(), event.latLng.lng());
+        console.log('Coordenadas del click:', event.latLng.lat(), event.latLng.lng());
         this.getAddressFromCoords(event.latLng.lat(), event.latLng.lng());
       } else {
-        console.error('No se pudo obtener las coordenadas del evento click');
+        console.error('No se pudo obtener coordenadas');
       }
-    })
+    });
   }
+
+
 
   // metodo sugerencia direcciones
 /*   initAutocomplete() {

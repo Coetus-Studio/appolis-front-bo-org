@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { AuthService } from './auth/auth.service';
 import { StorageService } from './storage.service';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 
 export const appConfig: ApplicationConfig = {
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: Storage,
       useClass: Storage
-    }
+    },
+    provideAnimations(),
   ]
 };

@@ -17,13 +17,14 @@ import ListOrganizationComponent from '../../../organizations/pages/list-organiz
 
 export default class HomeEventComponent implements AfterViewInit {
 
-  @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
+  @ViewChild('mapComponent', { static: false }) googleMapRef!: MapOrgComponent;
+
   @ViewChild('searchBox', { static: false }) searchBox!: ElementRef;
 
   constructor() {}
 
   ngAfterViewInit(): void {
-    if (this.mapComponent) {
+    if (this.googleMapRef) {
       console.log('componente disponible')
       // this.mapComponent.centerMap(40.7121, -74.0060); // modificar a valor dinamico
     } else {
@@ -35,8 +36,8 @@ export default class HomeEventComponent implements AfterViewInit {
     // Usamos la referencia mapComponent para llamar al método centerMap del MapOrgComponent
     console.log('onEventClicked 2: ' + JSON.stringify(eventCoordinates))
 
-    if (this.mapComponent) {
-      this.mapComponent.centerMap(eventCoordinates.lat, eventCoordinates.lng);
+    if (this.googleMapRef) {
+      this.googleMapRef.centerMap(eventCoordinates.lat, eventCoordinates.lng);
     } else {
       console.error('Map component not found');
     }
@@ -53,7 +54,7 @@ export default class HomeEventComponent implements AfterViewInit {
       // const lng = latlng.lng();
       // console.log('lat: ', lat, ', lng: ', lng);
 
-      if (this.mapComponent) {
+      if (this.googleMapRef) {
         // llamamos a la funcion getAddressFromcoords
         // this.mapComponent.getAddressFromCoords(lat, lng);
       }

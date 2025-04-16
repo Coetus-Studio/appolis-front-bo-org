@@ -7,7 +7,7 @@ import { AuthService } from './auth/auth.service';
 import { NavBarComponent } from "./shared/nav-bar/nav-bar.component";
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ import { NavBarComponent } from "./shared/nav-bar/nav-bar.component";
     RouterOutlet,
     IonicStorageModule,
     SideBarComponent,
-    NavBarComponent
+    NavBarComponent,
 ],
   providers: [
   ],
