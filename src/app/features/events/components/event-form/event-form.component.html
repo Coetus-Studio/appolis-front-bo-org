@@ -34,6 +34,37 @@
           </div>
         </div>
 
+        <!-- Sponsor -->
+        <div>
+        <p>
+          <em>Ingrese los Sponsor de su actividad</em>
+        </p>
+        <mat-form-field class="example-form-field">
+          <!-- <mat-label>Video keywords</mat-label> -->
+          <mat-chip-grid #chipGrid aria-label="Enter keywords" [formControl]="sponsorsControl">
+            @for (keyword of keywords(); track keyword) {
+              <mat-chip-row (removed)="removeKeyword(keyword)">
+                {{keyword}}
+                <button matChipRemove aria-label="'remove ' + keyword">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+          <input
+            placeholder="Nuevo Sponsor..."
+            [matChipInputFor]="chipGrid"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-form-field>
+      </div>
+
+
+
+
+
+
+
         <!-- Estado -->
         <div class="mt-4" *ngIf="isUpdate">
           <label for="status" class="block text-sm font-medium text-gray-600 mb-1">Estado del Evento</label>
@@ -60,6 +91,10 @@
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
             <label for="is_public" class="ml-2 text-sm text-gray-600">Publicar la dirección</label>
           </div>
+        </div>
+
+        <div>
+
         </div>
 
         <!-- Botón submit -->

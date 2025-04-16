@@ -95,3 +95,11 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
+.example-form-field {
+  width: 100%;
+}
+
+.example-button-container > button {
+  margin: 0 12px;
+}

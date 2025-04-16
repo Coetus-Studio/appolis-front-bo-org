@@ -1,20 +1,25 @@
-import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EventService } from '../../services/event.service';
-import { RouterLink, RouterOutlet } from '@angular/router';
-// import LocationFormComponent from '../../../../shared/map-org/components/location-form/location-form.component';
-import { LocationsService } from '../../../../shared/map-org/services/locations.service';
+
+import { ChangeDetectionStrategy, Component, computed, EventEmitter, inject, Input, model, NgModule, OnChanges, OnInit, Output, signal, SimpleChanges, ViewChild, input } from '@angular/core';
+import { FormControl, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule, MatChipListbox, MatChipInputEvent  } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+
+import { EventService } from '../../services/event.service';
 import { ModalAddressComponent } from '../../../../shared/map-org/components/modal-address/modal-address.component';
-import { EventForm } from '../../interfaces/events.interface';
+import { EventForm, Status } from '../../interfaces/events.interface';
 import { EventFormService } from '../../services/event-form.service';
 import { AuthService } from '../../../../auth/auth.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 
 @Component({
   selector: 'event-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatChipsModule, MatIconModule ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.css'
 })
@@ -40,6 +45,7 @@ export class EventFormComponent implements OnChanges, OnInit {
   eventForm: any;
   orgId: any;
   orgUserId: any;
+  // createStatusId: Status = [];
 
   isAddressModalOpen = false;
 
@@ -47,6 +53,17 @@ export class EventFormComponent implements OnChanges, OnInit {
   successMessage: string | null = null;
   successUpdateMessage: string | null = null;
   errorMessage: string | null = null;
+
+  // datos sponsor
+  sponsors: string[] = [];
+  sponsorsControl = new FormControl<string[]>([]);
+  // separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  readonly keywords = signal(['']);
+  // readonly formControl = new FormControl(['angular']);
+  // announcer = inject(LiveAnnouncer);
+
+
 
   constructor(
     private eventService: EventService,
@@ -62,12 +79,20 @@ export class EventFormComponent implements OnChanges, OnInit {
 
     this.authService.getOrgId().subscribe(orgId => {
       this.orgId = orgId;
+      this.eventForm.get('responsible_organization')?.setValue(orgId);
     });
 
     this.authService.getOrgUserId().subscribe(orgUserId => {
       this.orgUserId = orgUserId;
+      this.eventForm.get('created_by')?.setValue(orgUserId);
     })
+
+    // this.createStatusId = {
+    //  _id: '632327686c6e9c9df048ee0f'
+    // }
+    // this.eventForm.get('status')?.setValue(this.createStatusId);
   }
+
   ngOnInit(): void {
     if (this.isUpdate) {
       this.loadStatusOptions();
@@ -92,8 +117,21 @@ export class EventFormComponent implements OnChanges, OnInit {
 
   createEvent() {
     console.log('eventData 1: ', this.eventForm.value);
+    console.log('sponsors', this.sponsors)
+
+    console.log("event form: ", this.eventForm)
+
+    this.eventForm.patchValue({
+      status: {
+        _id: '632327686c6e9c9df048ee0f',
+        name: 'Creado'
+      }
+    });
+
+    console.log("eventForm: ", this.eventForm)
+
     if (this.eventForm.valid) {
-      const formData = this.eventForm.value;
+      const formData = this.eventForm.getRawValue();
 
       const event: EventForm = {
         _id: formData.id,
@@ -105,10 +143,13 @@ export class EventFormComponent implements OnChanges, OnInit {
         created_by: this.orgUserId,
         location: formData.location,
         status: {
-          _id: '632327686c6e9c9df048ee0f',
+          _id: formData.status._id
         },
-        is_enabled: true
+        is_enabled: true,
+        sponsor: this.sponsors
       }
+
+      console.log("event: ", event)
 
       this.eventService.createEvent(event).subscribe(res => {
         console.log('Event created successfully', res);
@@ -235,6 +276,57 @@ export class EventFormComponent implements OnChanges, OnInit {
         console.error('Error al cargar los estados del evento', err);
       }
     });
+  }
+
+/*   addSponsor(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+    const value = input.value.trim();
+
+    if (value && !this.sponsors.includes(value)) {
+      this.sponsors.push(value);
+      this.sponsorsControl.setValue(this.sponsors);
+    }
+
+    input.value = '';
+    this.inputValue = '';
+  } */
+
+
+/*   removeSponsor(sponsor: string): void {
+    const index = this.sponsors.indexOf(sponsor);
+    if (index >= 0) {
+      this.sponsors.splice(index, 1);
+      this.sponsorsControl.setValue(this.sponsors);
+    }
+  } */
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    console.log("value: ", value)
+
+    // Add our keyword
+    if (value && !this.sponsors.includes(value)) {
+      this.sponsors.push(value);
+      this.eventForm.patchValue({ sponsor: this.sponsors })
+      this.keywords.update(keywords => [...keywords, value]);
+    }
+
+    console.log("sponsors: ", this.sponsors)
+
+    // limpio el input
+    if (event.chipInput) {
+      event.chipInput.clear()
+    }
+
+  }
+
+  removeKeyword(sponsor: string) {
+    const index = this.sponsors.indexOf(sponsor);
+    if (index >= 0) {
+      this.sponsors.splice(index, 1);
+      this.eventForm.patchValue({ sponsor: this.sponsors });
+    }
   }
 
 }
