@@ -8,6 +8,7 @@ import { NavBarComponent } from "./shared/nav-bar/nav-bar.component";
 // confirmar si ReactiveFormsModule se deja global o no
 // import { ReactiveFormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,

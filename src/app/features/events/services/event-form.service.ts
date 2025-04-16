@@ -17,6 +17,7 @@ export class EventFormService {
       responsible_organization: new FormControl(''),
       created_by: new FormControl(''),
       status: new FormControl<Status | null>(null, Validators.required), // este es un objeto que tiene id y name
+      sponsor: new FormControl<string[]>([]),
       location: new FormGroup({
         gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
         description: new FormControl('Event Location Saved'),

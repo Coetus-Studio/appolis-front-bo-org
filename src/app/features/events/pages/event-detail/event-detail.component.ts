@@ -8,7 +8,7 @@ import { EventForm } from '../../interfaces/events.interface';
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule, MapOrgComponent, RouterLink],
+  imports: [ CommonModule, MapOrgComponent, RouterLink ],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.css'
 })
@@ -16,6 +16,9 @@ export default class EventDetailComponent implements OnInit {
 
   // en esta propiedad guardamos el evento enviado desde el html
   @Input() event!: EventForm;
+
+  isRequirementLoaded = false;
+
 
   constructor(
     private route: ActivatedRoute, // proporciona informacion sobre la ruta activa, obtiene el id entre otras

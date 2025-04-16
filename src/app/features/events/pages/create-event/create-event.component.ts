@@ -34,6 +34,7 @@ export default class CreateEventComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('implement CreateEventComponent');
     this.eventForm = this.eventFormService.getForm();
+    console.log("eventForm 3: ", this.eventForm)
     // throw new Error('Method not implemented.');
   }
 
