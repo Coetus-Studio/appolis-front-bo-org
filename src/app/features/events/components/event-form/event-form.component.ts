@@ -322,10 +322,16 @@ export class EventFormComponent implements OnChanges, OnInit {
   }
 
   removeKeyword(sponsor: string) {
+    console.log("sponsor: ", sponsor)
     const index = this.sponsors.indexOf(sponsor);
+    console.log('index: ', index)
     if (index >= 0) {
+      console.log("eliminando index")
       this.sponsors.splice(index, 1);
-      this.eventForm.patchValue({ sponsor: this.sponsors });
+      console.log("eliminando 2")
+      this.sponsorsControl.setValue(this.sponsors);
+      console.log("eliminando 3")
+      // this.eventForm.patchValue({ sponsor: this.sponsors });
     }
   }
 
