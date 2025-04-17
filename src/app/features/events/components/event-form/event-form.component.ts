@@ -56,7 +56,7 @@ export class EventFormComponent implements OnChanges, OnInit {
 
   // datos sponsor
   sponsors: string[] = [];
-  sponsorsControl = new FormControl<string[]>([]);
+  // sponsorsControl = new FormControl<string[]>([]);
   // separatorKeysCodes: number[] = [ENTER, COMMA];
 
   readonly keywords = signal(['']);
@@ -100,13 +100,25 @@ export class EventFormComponent implements OnChanges, OnInit {
   }
 
 
+  // este metodo lo uso para precargar el formulario en el edit component
   ngOnChanges(changes: SimpleChanges): void {
     // throw new Error('Method not implemented.');
     if (changes['eventData'] && this.eventData) {
+      // formateo fecha a yyyy-MM-ddThh:mm para que se muestre en pantalla
+      const formatDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        console.log('format date: ', date);
+        return date.toISOString().slice(0, 16)
+      }
+
       this.eventForm.patchValue({
         ...this.eventData,
+        start_date: formatDate(this.eventData.start_date),
+        end_date: formatDate(this.eventData.end_date),
+        // sponsors: this.eventData.sponsors,
         status: this.eventData.status?._id
       }); // prellenamos el formulario
+      this.sponsors = this.eventData.sponsors ?? [];
     }
   }
 
@@ -116,11 +128,6 @@ export class EventFormComponent implements OnChanges, OnInit {
   }
 
   createEvent() {
-    console.log('eventData 1: ', this.eventForm.value);
-    console.log('sponsors', this.sponsors)
-
-    console.log("event form: ", this.eventForm)
-
     this.eventForm.patchValue({
       status: {
         _id: '632327686c6e9c9df048ee0f',
@@ -128,7 +135,7 @@ export class EventFormComponent implements OnChanges, OnInit {
       }
     });
 
-    console.log("eventForm: ", this.eventForm)
+    // console.log("eventForm: ", this.eventForm)
 
     if (this.eventForm.valid) {
       const formData = this.eventForm.getRawValue();
@@ -149,7 +156,7 @@ export class EventFormComponent implements OnChanges, OnInit {
         sponsors: this.sponsors
       }
 
-      console.log("event: ", event)
+      // console.log("event: ", event)
 
       this.eventService.createEvent(event).subscribe(res => {
         console.log('Event created successfully', res);
@@ -251,9 +258,6 @@ export class EventFormComponent implements OnChanges, OnInit {
 
   // aqui controlo si es create o update
   onSubmit() {
-    // con esto me traigo los valores actuales del form que esta en el service
-    // console.log('eventData 3: ', this.eventForm.getRawValue());
-
     if (this.isUpdate) {
       this.updateEvent(this.eventData._id);
     } else {
@@ -277,28 +281,6 @@ export class EventFormComponent implements OnChanges, OnInit {
       }
     });
   }
-
-/*   addSponsor(event: Event): void {
-    const input = (event.target as HTMLInputElement);
-    const value = input.value.trim();
-
-    if (value && !this.sponsors.includes(value)) {
-      this.sponsors.push(value);
-      this.sponsorsControl.setValue(this.sponsors);
-    }
-
-    input.value = '';
-    this.inputValue = '';
-  } */
-
-
-/*   removeSponsor(sponsor: string): void {
-    const index = this.sponsors.indexOf(sponsor);
-    if (index >= 0) {
-      this.sponsors.splice(index, 1);
-      this.sponsorsControl.setValue(this.sponsors);
-    }
-  } */
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -326,11 +308,8 @@ export class EventFormComponent implements OnChanges, OnInit {
     const index = this.sponsors.indexOf(sponsor);
     console.log('index: ', index)
     if (index >= 0) {
-      console.log("eliminando index")
       this.sponsors.splice(index, 1);
-      console.log("eliminando 2")
-      this.sponsorsControl.setValue(this.sponsors);
-      console.log("eliminando 3")
+      // this.sponsorsControl.setValue(this.sponsors);
       // this.eventForm.patchValue({ sponsor: this.sponsors });
     }
   }

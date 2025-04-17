@@ -20,7 +20,7 @@
         <div *ngFor="let event of eventOrg" class="event-item" (click)="focusOnEvent(event)">
           <div class="event-info">
             <span class="event-title ellipsis-tooltip" [title]="event.title">{{ event.title }}</span>
-            <span class="event-date">{{ event.start_date | date:'yyyy-MM-dd HH:mm' }} - {{ event.end_date | date:'yyyy-MM-dd HH:mm' }}</span>
+            <span class="event-date">{{ event.start_date | date:'yyyy-MM-dd hh:mm' }} - {{ event.end_date | date:'yyyy-MM-dd hh:mm' }}</span>
             <!-- AGREGAR STATUS EVENTO -->
             <span class="event-status">{{ event.status?.name || 'Sin estado' }}</span>
             <!-- <span class="location-coordinates">{{ event.responsible_organization }}</span> -->
