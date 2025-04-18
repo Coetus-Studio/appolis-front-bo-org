@@ -27,18 +27,15 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.savesGlobalData();
+    this.getDataStorage();
   }
 
   //
-  async savesGlobalData() {
-    // Obtiene la información global y la almacena en el local storage
-    // await this.globalService.fetchGlobalData();
+  async getDataStorage() {
 
     this.authService.getOrgId().subscribe(orgId => {
       this.registeredOrgId = orgId;
       console.log('orgUserRegistered 1: ', this.registeredOrgId);
-
     });
 
     this.authService.getRoles().subscribe(rolUser => {

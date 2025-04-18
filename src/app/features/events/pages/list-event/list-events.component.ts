@@ -5,6 +5,7 @@ import { EventService } from '../../services/event.service';
 import { EventForm } from '../../interfaces/events.interface';
 import { RouterModule } from '@angular/router';
 import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
+import { AuthService } from '../../../../auth/auth.service';
 
 
 @Component({
@@ -20,33 +21,54 @@ export default class ListEventsComponent implements OnInit {
 
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
 
+  registeredOrgId: string | null = '';
 
   eventOrg: EventForm[] = [];
   // filteredEvents: EventForm[] = [];
 
   page: number = 1;
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     // TODO: quitar la inicializacion en ngOnInit y dejar con boton la llamada al getAllEvents
+
+    this.authService.getOrgId().subscribe(orgId => {
+      console.log('que dice org', orgId)
+      if (orgId) {
+        this.registeredOrgId = orgId;
+        console.log('orgUserRegistered 2: ', this.registeredOrgId);
+      }
+    });
+
     this.getAllEvents();
   }
 
   async getAllEvents() {
     console.log('Getting all events')
+    console.log('id Org: ', this.registeredOrgId)
     // const centerValue = this.center();
 
-    this.eventService.getAllEvents().subscribe({
-      next: (eventOrg) => {
-        this.eventOrg = eventOrg;
-        // this.filteredEvents = eventOrg;
-        console.log(this.eventOrg);
-      },
-      error: (error) => {
-        console.error('Error fetching events:', error);
-      }
-    });
+    const orgId = this.registeredOrgId;
+
+    console.log('orgId', orgId)
+
+    if (orgId !== null) {
+      this.eventService.getAllEvents(orgId).subscribe({
+        next: (eventOrg) => {
+          this.eventOrg = eventOrg;
+          // this.filteredEvents = eventOrg;
+          console.log(this.eventOrg);
+        },
+        error: (error) => {
+          console.error('Error fetching events:', error);
+        }
+      });
+    }
+
   }
 
   searchEvents(event: Event): void {

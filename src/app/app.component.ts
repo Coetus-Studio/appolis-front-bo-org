@@ -35,12 +35,12 @@ export class AppComponent implements OnInit{
   constructor(
     private authService: AuthService,
   ) {
-    console.log("isLogged")
+    // console.log("isLogged")
     // this.isLoggedIn();
   }
   ngOnInit(): void {
     this.authService.authState$.subscribe((auth) => {
-      console.log("Estado de la autenticacion: ", auth)
+      // console.log("Estado de la autenticacion: ", auth)
       this.isAuthenticated = auth;
     });
     this.authService.checkAuthentication();

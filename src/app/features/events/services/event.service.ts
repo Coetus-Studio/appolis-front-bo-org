@@ -10,8 +10,6 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class EventService {
 
-  private authToken: string | undefined | null = '';
-
   private readonly apiUrl: string = 'http://localhost:3000/v1/events';
 
   // observable para mantener el estado del evento que se esta actualizando
@@ -34,15 +32,17 @@ export class EventService {
   ) {
   }
 
-  getAllEvents(): Observable<EventForm[]> {
-
-    console.log('getAllEvents')
+  getAllEvents(orgId: string): Observable<EventForm[]> {
+    console.log('orgIdService: ', orgId);
     return this.authService.getToken().pipe(
       filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        return this.http.get<EventForm[]>(this.apiUrl, {
-          headers
+        return this.http.get<EventForm[]>(this.apiUrl,  {
+          headers,
+          params: {
+            orgId
+          }
         });
       })
     );

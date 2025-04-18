@@ -11,7 +11,7 @@ export class StorageService {
   constructor(
     private storage: Storage,
   ) {
-    console.log('StorageService constructor');
+    // console.log('StorageService constructor');
     this.init();
   }
 
