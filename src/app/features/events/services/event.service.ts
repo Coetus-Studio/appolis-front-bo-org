@@ -147,8 +147,29 @@ export class EventService {
         } )
       })
     )
+  }
+
+  deleteEvent(id: string): Observable<string> {
+    console.log("eliminando evento")
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+        if (!id) {
+          throw new Error('No eventId provided to delete');
+        }
+        console.log("Eliminando evento")
+        return this.http.delete<string>(`${this.apiUrl}/${id}`, {
+          headers
+        })
+      })
+    )
+
 
   }
+
 
 
 

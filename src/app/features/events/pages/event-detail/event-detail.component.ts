@@ -8,7 +8,7 @@ import { EventForm } from '../../interfaces/events.interface';
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [ CommonModule, MapOrgComponent, RouterLink ],
+  imports: [CommonModule, MapOrgComponent, RouterLink],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.css'
 })
@@ -29,30 +29,39 @@ export default class EventDetailComponent implements OnInit {
     this.getEventById();
   }
 
-    /* getEventById() {
-      this.route.params.subscribe(params => {
-        const eventId = params['id'];
-        console.log('eventId 6: ' + eventId);
-        if (eventId) {
-          this.eventService.getEventById(eventId).subscribe(event => {
-            this.event = event;
-            console.log('event', this.event);
-          })
-        }
-    })
-  } */
-
-
-    getEventById() {
-      const eventId = this.route.snapshot.paramMap.get('id');
-      console.log('eventId => ' + eventId)
+  /* getEventById() {
+    this.route.params.subscribe(params => {
+      const eventId = params['id'];
+      console.log('eventId 6: ' + eventId);
       if (eventId) {
         this.eventService.getEventById(eventId).subscribe(event => {
           this.event = event;
-          console.log('event 2', this.event);
+          console.log('event', this.event);
         })
       }
+  })
+} */
 
+
+  getEventById() {
+    const eventId = this.route.snapshot.paramMap.get('id');
+    console.log('eventId => ' + eventId)
+    if (eventId) {
+      this.eventService.getEventById(eventId).subscribe(event => {
+        this.event = event;
+        console.log('event 2', this.event);
+      })
     }
+
+  }
+
+  deleteEvent(id: string) {
+    console.log("deleteEvent");
+    if (confirm('Estás seguro de eliminar este evento?')) {
+      this.eventService.deleteEvent(id).subscribe(event => {
+        console.log("evento eliminado")
+      }) ;
+    }
+  }
 
 }
