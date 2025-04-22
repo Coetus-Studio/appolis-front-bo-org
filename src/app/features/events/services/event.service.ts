@@ -4,6 +4,7 @@ import { BehaviorSubject, filter, map, Observable, switchMap } from 'rxjs';
 import { EventForm, Status } from '../interfaces/events.interface';
 import { StorageService } from '../../../storage.service';
 import { AuthService } from '../../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,7 @@ export class EventService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private router: Router
   ) {
   }
 
@@ -38,7 +40,7 @@ export class EventService {
       filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        return this.http.get<EventForm[]>(this.apiUrl,  {
+        return this.http.get<EventForm[]>(this.apiUrl, {
           headers,
           params: {
             orgId
@@ -49,19 +51,18 @@ export class EventService {
   }
 
   createEvent(body: EventForm): Observable<any> {
-    console.log('body', body);
+    console.log('body 1', body);
 
     return this.authService.getToken().pipe(
       filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        return this.http.post<EventForm[]>(this.apiUrl, body, { headers });
+        return this.http.post<EventForm>(this.apiUrl, body, { headers });
       })
     )
-
   }
 
-// TODO: este servicio lo estoy usando en el update y eventDetail, no sobre carga el servicio?
+  // TODO: este servicio lo estoy usando en el update y eventDetail, no sobre carga el servicio?
   getEventById(eventId: string): Observable<EventForm> {
     console.log('eventId 4: ' + eventId);
 
@@ -76,7 +77,7 @@ export class EventService {
     )
   }
 
-  getEventByIdToUpdate(eventId: string, isUpdating: boolean): Observable<EventForm>{
+  getEventByIdToUpdate(eventId: string, isUpdating: boolean): Observable<EventForm> {
     console.log('eventId 4: ' + eventId);
     console.log('isUpdating: ' + isUpdating);
 
@@ -144,7 +145,7 @@ export class EventService {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
         return this.http.get<Status[]>(`${this.apiUrl}/event-status`, {
           headers
-        } )
+        })
       })
     )
   }
@@ -163,7 +164,8 @@ export class EventService {
         console.log("Eliminando evento")
         return this.http.delete<string>(`${this.apiUrl}/${id}`, {
           headers
-        })
+        }
+        )
       })
     )
 

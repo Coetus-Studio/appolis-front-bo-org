@@ -16,6 +16,11 @@ export class AuthService {
 
   private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+
+
+  private orgUserId = new BehaviorSubject<string | null | undefined>('');
+  orgUserId$ = this.orgUserId.asObservable();
+
   private userRolOrganization = new BehaviorSubject<string | null | undefined>('');
   userRolOrganization$ = this.userRolOrganization.asObservable();
 
@@ -132,5 +137,11 @@ export class AuthService {
     const userRol = await this.storageService.getItem('roles');
     this.userRolOrganization.next(userRol);
     return userRol;
+  }
+
+  async getOrgUserId(): Promise<string | null | undefined> {
+    const userId = await this.storageService.getItem('orgUserId');
+    this.orgUserId.next(userId);
+    return userId;
   }
 }

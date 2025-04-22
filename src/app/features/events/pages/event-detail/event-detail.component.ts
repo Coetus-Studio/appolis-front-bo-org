@@ -1,7 +1,7 @@
-import { CommonModule, JsonPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output, Pipe, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { EventService } from '../../services/event.service';
-import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import MapOrgComponent from "../../../../shared/map-org/components/map-org/map-org.component";
 import { EventForm } from '../../interfaces/events.interface';
 
@@ -22,7 +22,8 @@ export default class EventDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, // proporciona informacion sobre la ruta activa, obtiene el id entre otras
-    private eventService: EventService
+    private eventService: EventService,
+    private router: Router
   ) { console.log('inicializando EventDetailComponent'); }
 
   ngOnInit(): void {
@@ -56,12 +57,19 @@ export default class EventDetailComponent implements OnInit {
   }
 
   deleteEvent(id: string) {
-    console.log("deleteEvent");
-    if (confirm('Estás seguro de eliminar este evento?')) {
-      this.eventService.deleteEvent(id).subscribe(event => {
-        console.log("evento eliminado")
-      }) ;
+    if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
+      this.eventService.deleteEvent(id).subscribe({
+        next: () => {
+          console.log('Evento eliminado con éxito');
+          this.router.navigate(['/events']);
+        },
+        error: (error) => {
+          console.error('Error eliminando el evento:', error);
+          // Podés mostrar una notificación o alerta acá si querés
+        }
+      });
     }
   }
+
 
 }
