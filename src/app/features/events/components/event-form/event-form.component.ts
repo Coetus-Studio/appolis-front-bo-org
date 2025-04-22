@@ -77,10 +77,10 @@ export class EventFormComponent implements OnChanges, OnInit {
       this.isUpdate = event;
     })
 
-    this.authService.getOrgId().subscribe(orgId => {
-      this.orgId = orgId;
-      this.eventForm.get('responsible_organization')?.setValue(orgId);
-    });
+    // this.authService.getOrgId().subscribe(orgId => {
+    //   this.orgId = orgId;
+    //   this.eventForm.get('responsible_organization')?.setValue(orgId);
+    // });
 
     this.authService.getOrgUserId().subscribe(orgUserId => {
       this.orgUserId = orgUserId;

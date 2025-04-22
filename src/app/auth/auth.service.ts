@@ -17,13 +17,28 @@ export class AuthService {
 
   private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  private orgId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private orgId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>('');
 
-  private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  // private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   private orgUserId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+
+
+
+
+  private userRolOrganization = new BehaviorSubject<string | null | undefined>('');
+  userRolOrganization$ = this.userRolOrganization.asObservable();
+
+  // informa a nav-bar component
+  private organizationName = new BehaviorSubject<string | null | undefined>('');
+  organizationName$ = this.organizationName.asObservable();
+
+  // informa a list-event component orgId
+  private organizationId = new BehaviorSubject<string | null | undefined>('');
+  organizationId$ = this.organizationId.asObservable();
 
   // informa a app.component estado de autenticacion
   private authState = new BehaviorSubject<boolean>(false);
@@ -48,13 +63,13 @@ export class AuthService {
     return this.roles$.asObservable();
   }
 
-  getOrgId(): Observable<string | null> {
-    return this.orgId$.asObservable();
-  }
+  // getOrgId(): Observable<string | null> {
+  //   return this.orgId$.asObservable();
+  // }
 
-  getOrgName(): Observable<string | null> {
-    return this.orgName$.asObservable();
-  }
+  // getOrgName(): Observable<string | null> {
+  //   return this.orgName$.asObservable();
+  // }
 
   getOrgUserId(): Observable<string | null> {
     return this.orgUserId$.asObservable();
@@ -76,8 +91,8 @@ export class AuthService {
     const orgId = await this.storageService.getItem('orgId');
     this.orgId$.next(orgId?? null); // Si es undefined, lo convierte en null
 
-    const orgName = await this.storageService.getItem('orgName');
-    this.orgName$.next(orgName ?? null); // Si es undefined, lo convierte en null
+    // const orgName = await this.storageService.getItem('orgName');
+    // this.orgName$.next(orgName ?? null); // Si es undefined, lo convierte en null
 
     const orgUserId = await this.storageService.getItem('orgUserId');
     this.orgUserId$.next(orgUserId ?? null);
@@ -126,6 +141,9 @@ export class AuthService {
       this.authState.next(true); // Esto asegura que el observable se actualice y carguemos el sidebar y navbar al hacer login
       this.router.navigate(['/home']);
 
+/*       const orgId = await this.storageService.getItem('orgId$');
+      this.organizationId.next(orgId); */
+
       return true;
     } catch (error) {
       throw error;
@@ -148,6 +166,25 @@ export class AuthService {
     return isLogged;
   }
 
+  // TODO: renombrar metodo
+  async orgId(): Promise<string | null | undefined> {
+    const orgId = await this.storageService.getItem('orgId');
+    this.organizationId.next(orgId);
+    return orgId;
+  }
+
+  async orgName(): Promise<string | null | undefined> {
+    const orgName = await this.storageService.getItem('orgName');
+    this.organizationName.next(orgName);
+    return orgName;
+  }
+
+  async userRol(): Promise<string | null | undefined> {
+    const userRol = await this.storageService.getItem('roles');
+    this.userRolOrganization.next(userRol);
+    return userRol;
+
+  }
 
 
 }

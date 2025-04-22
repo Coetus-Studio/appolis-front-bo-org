@@ -14,44 +14,35 @@ import { AuthService } from '../../auth/auth.service';
 
 export class NavBarComponent implements OnInit {
 
-
-  registeredOrgId: string | null = '';
-  registeredOrgName: string | null = '';
+  // registeredOrgId: string | null = '';
+  registeredOrgName: string | null | undefined = '';
   registeredUserName: string | null = '';
-  registeredUserRole: string | null = '';
+  registeredUserRole: string | null | undefined = '';
   // isAuthenticated: boolean = false;
 
-
-  constructor(private authService: AuthService) {
-
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.getDataStorage();
+    // this.getOrgIdFromStorage();
   }
 
   //
   async getDataStorage() {
-
-    this.authService.getOrgId().subscribe(orgId => {
-      this.registeredOrgId = orgId;
-      console.log('orgUserRegistered 1: ', this.registeredOrgId);
-    });
-
-    this.authService.getRoles().subscribe(rolUser => {
-      this.registeredUserRole = rolUser;
-      // console.log('roles usuario registrado: ', this.registeredUserRole);
-    });
-
-    this.authService.getOrgName().subscribe(orgName => {
+    this.authService.organizationName$.subscribe((orgName) => {
+      console.log("orgName => ", orgName)
       this.registeredOrgName = orgName;
-      // console.log('nombre organizacion logeada: ', this.registeredOrgName);
-    });
+    })
+    this.authService.orgName();
 
-/*     this.authService.getIsAuthenticated().subscribe(isAuth => {
-      this.isAuthenticated = isAuth;
-    }) */
+    this.authService.userRolOrganization$.subscribe((userRol) => {
+      console.log("userRol => ", userRol)
+      this.registeredUserRole = userRol;
+    })
+    this.authService.userRol();
 
+    // this.authService.getOrgName().subscribe(orgName => {
+    //   this.registeredOrgName = orgName;
+    // });
   }
-
 }

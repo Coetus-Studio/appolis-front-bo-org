@@ -21,7 +21,7 @@ export default class ListEventsComponent implements OnInit {
 
   @ViewChild('mapComponent') mapComponent!: MapOrgComponent;
 
-  registeredOrgId: string | null = '';
+  registeredOrgId: string | null | undefined = '';
 
   eventOrg: EventForm[] = [];
   // filteredEvents: EventForm[] = [];
@@ -36,15 +36,16 @@ export default class ListEventsComponent implements OnInit {
   ngOnInit() {
     // TODO: quitar la inicializacion en ngOnInit y dejar con boton la llamada al getAllEvents
 
-    this.authService.getOrgId().subscribe(orgId => {
-      console.log('que dice org', orgId)
-      if (orgId) {
-        this.registeredOrgId = orgId;
-        console.log('orgUserRegistered 2: ', this.registeredOrgId);
-      }
-    });
+    this.authService.organizationId$.subscribe((orgId) => {
+      this.registeredOrgId = orgId;
 
-    this.getAllEvents();
+      if (this.registeredOrgId) {
+        this.getAllEvents();
+      }
+
+    });
+    this.authService.orgId();
+
   }
 
   async getAllEvents() {
@@ -54,14 +55,12 @@ export default class ListEventsComponent implements OnInit {
 
     const orgId = this.registeredOrgId;
 
-    console.log('orgId', orgId)
-
-    if (orgId !== null) {
+    if (orgId !== null && orgId !== undefined) {
       this.eventService.getAllEvents(orgId).subscribe({
         next: (eventOrg) => {
           this.eventOrg = eventOrg;
           // this.filteredEvents = eventOrg;
-          console.log(this.eventOrg);
+          // console.log(this.eventOrg);
         },
         error: (error) => {
           console.error('Error fetching events:', error);

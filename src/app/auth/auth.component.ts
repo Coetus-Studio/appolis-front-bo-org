@@ -34,11 +34,11 @@ export class AuthComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.authService.authState$.subscribe(authenticated => {
-      if (authenticated) {
-        this.router.navigate(['/home']);
-      }
-    });
+    // this.authService.authState$.subscribe(authenticated => {
+    //   if (authenticated) {
+    //     this.router.navigate(['/home']);
+    //   }
+    // });
 
     // También por si refresca en login con sesión activa
     this.authService.checkAuthentication().then(authenticated => {
