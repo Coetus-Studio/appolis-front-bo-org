@@ -44,7 +44,7 @@ export default class ListEventsComponent implements OnInit {
       }
 
     });
-    this.authService.orgId();
+    this.authService.getOrgId();
 
   }
 

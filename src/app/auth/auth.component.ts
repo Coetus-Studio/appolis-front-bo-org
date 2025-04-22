@@ -69,10 +69,6 @@ export class AuthComponent implements OnDestroy {
 
       this.isLoading = false; // Set loading to false on success
 
-      // this.rol = this.rol,
-      // console.log('ROL', response.roles);
-      // console.log('ID', this.rol);
-
       await this.router.navigate(['/home']);
     } catch (error) {
       console.error('erroasdr',(error as HttpErrorResponse).statusText);
@@ -80,5 +76,10 @@ export class AuthComponent implements OnDestroy {
       this.errorMessage = (error as HttpErrorResponse).statusText;
       this.isLoading = false; // Set loading to false on success
     }
+  }
+
+  async logout() {
+    console.log("logout");
+
   }
 }

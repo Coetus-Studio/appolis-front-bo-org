@@ -14,15 +14,13 @@ import { CommonModule } from '@angular/common';
 })
 export class SideBarComponent {
 
-  // isAuthenticated: boolean = false;
+  constructor(private authService: AuthService) {
 
-  // constructor(
-  //   private authService: AuthService,
-  // ){
-  //   this.isLoggedIn();
-  // }
+  }
 
-  // async isLoggedIn() {
-  //   this.isAuthenticated = await this.authService.checkAuthentication();
-  // }
+  logout() {
+    // Aquí tu lógica moderna: limpiar localStorage, llamar a un AuthService, redirigir, etc.
+    this.authService.logout(); // por ejemplo
+  }
+
 }

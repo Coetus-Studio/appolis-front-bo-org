@@ -33,13 +33,13 @@ export class NavBarComponent implements OnInit {
       console.log("orgName => ", orgName)
       this.registeredOrgName = orgName;
     })
-    this.authService.orgName();
+    this.authService.getOrgName();
 
     this.authService.userRolOrganization$.subscribe((userRol) => {
       console.log("userRol => ", userRol)
       this.registeredUserRole = userRol;
     })
-    this.authService.userRol();
+    this.authService.getUserRol();
 
     // this.authService.getOrgName().subscribe(orgName => {
     //   this.registeredOrgName = orgName;

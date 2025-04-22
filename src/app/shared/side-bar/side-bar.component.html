@@ -1,16 +1,21 @@
-  <aside class="sidebar">
-    <nav>
-      <ul>
-        <br>
-        <li><a routerLink="/home">Home</a></li>
-        <!-- <li><a routerLink="/documents">Documents</a></li> -->
-        <!-- <li><a routerLink="/token">Token</a></li> -->
-        <li><a routerLink="/events">Eventos</a></li>
-        <li><a routerLink="/opportunities">Oportunidades</a></li>
-        <!-- <li><a routerLink="/organization">Organizacion</a></li> -->
-        <li><a routerLink="/locations">Mapa Ciudadano</a></li>
-        <li><a routerLink="/logout">Logout</a></li>
-        <li><a routerLink="/requirements">Requerimientos Ciudadanos</a></li>
-      </ul>
-    </nav>
-  </aside>
+<aside class="sidebar bg-gray-800 text-white h-screen flex flex-col p-4">
+  <nav class="flex-1">
+    <ul class="space-y-4">
+      <br/>
+      <li><a routerLink="/home" class="block hover:underline">🏠 Home</a></li>
+      <!-- <li><a routerLink="/documents">📄 Documents</a></li> -->
+      <!-- <li><a routerLink="/token">🔐 Token</a></li> -->
+      <li><a routerLink="/events" class="block hover:underline">📅 Eventos</a></li>
+      <li><a routerLink="/opportunities" class="block hover:underline">💼 Oportunidades</a></li>
+      <!-- <li><a routerLink="/organization">🏢 Organización</a></li> -->
+      <li><a routerLink="/locations" class="block hover:underline">🗺️ Mapa Ciudadano</a></li>
+      <li><a routerLink="/requirements" class="block hover:underline">📋 Requerimientos Ciudadanos</a></li>
+    </ul>
+  </nav>
+
+  <div class="pt-4 border-t border-gray-700">
+    <button (click)="logout()" class="w-full text-left hover:underline text-red-400">
+      🚪 Logout
+    </button>
+  </div>
+</aside>
