@@ -77,20 +77,20 @@ export class EventFormComponent implements OnChanges, OnInit {
       this.isUpdate = event;
     })
 
-    this.authService.getOrgId().subscribe(orgId => {
-      this.orgId = orgId;
-      this.eventForm.get('responsible_organization')?.setValue(orgId);
-    });
+    this.authService.orgUserId$.subscribe((userId) => {
+      this.orgUserId = userId;
+      console.log('user id => ', userId)
+      console.log('user id 2 => ', this.orgUserId)
+    })
+    this.authService.getOrgUserId();
 
-    this.authService.getOrgUserId().subscribe(orgUserId => {
-      this.orgUserId = orgUserId;
-      this.eventForm.get('created_by')?.setValue(orgUserId);
+    this.authService.organizationId$.subscribe((orgId) => {
+      this.orgId = orgId;
     })
 
-    // this.createStatusId = {
-    //  _id: '632327686c6e9c9df048ee0f'
-    // }
-    // this.eventForm.get('status')?.setValue(this.createStatusId);
+    this.authService.getOrgId();
+
+
   }
 
   ngOnInit(): void {
@@ -156,7 +156,7 @@ export class EventFormComponent implements OnChanges, OnInit {
         sponsors: this.sponsors
       }
 
-      // console.log("event: ", event)
+      console.log("event: ", event)
 
       this.eventService.createEvent(event).subscribe(res => {
         console.log('Event created successfully', res);

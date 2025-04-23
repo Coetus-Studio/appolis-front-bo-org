@@ -50,7 +50,4 @@ export class AppComponent implements OnInit{
 
   }
 
-  // async isLoggedIn() {
-  //   this.isAuthenticated = await this.authService.checkAuthentication();
-  // }
 }

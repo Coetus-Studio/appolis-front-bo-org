@@ -2,13 +2,22 @@
   <div class="bg-white shadow-lg rounded-2xl p-6">
     <!-- Botón de acción -->
     <div class="flex justify-end mb-4">
-      <a
-        [routerLink]="['/events', 'edit', event._id]"
-        routerLinkActive="router-link-active"
-        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-      >
+      <a [routerLink]="['/events', 'edit', event._id]" routerLinkActive="router-link-active"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
         ✏️ Actualizar Evento
-      </a>
+      </a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+      <button (click)="deleteEvent(event._id)"
+        class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition flex items-center gap-2">
+        <!-- Ícono de basurero -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m-4 0h14" />
+        </svg>
+        <span>Eliminar</span>
+      </button>
+
+
     </div>
 
     <!-- Encabezado -->
@@ -23,12 +32,14 @@
       <p><span class="font-semibold">📋 Descripción:</span> {{ event.description || 'No disponible' }}</p>
       <p><span class="font-semibold">🗓 Inicio:</span> {{ event.start_date | date:'fullDate' }}</p>
       <p><span class="font-semibold">⏰ Término:</span> {{ event.end_date | date:'fullDate' }}</p>
-      <p><span class="font-semibold">🏢 Organización:</span> {{ event.responsible_organization.name || 'No especificada' }}</p>
+      <p><span class="font-semibold">🏢 Organización:</span> {{ event.responsible_organization.name || 'No especificada'
+        }}</p>
       <!-- <p><span class="font-semibold">🤝 Sponsor:</span> {{ event.sponsors?.length ? event.sponsors?.join(', ') : 'Sin sponsor' }} </p> -->
       <p class="font-semibold flex items-center gap-2">
         🤝 Sponsor:
         <ng-container *ngIf="event.sponsors?.length; else noSponsors">
-          <span *ngFor="let sponsor of event.sponsors" class="bg-blue-100 text-blue-800 text-sm font-medium mr-1 px-2.5 py-0.5 rounded-full">
+          <span *ngFor="let sponsor of event.sponsors"
+            class="bg-blue-100 text-blue-800 text-sm font-medium mr-1 px-2.5 py-0.5 rounded-full">
             {{ sponsor }}
           </span>
         </ng-container>
@@ -50,7 +61,8 @@
 
       <!-- Mapa -->
       <div *ngIf="event?.location" class="mt-6">
-        <p><span class="font-semibold">📍 Dirección:</span> {{ event.location.gm_formatted_address || 'No disponible' }}</p>
+        <p><span class="font-semibold">📍 Dirección:</span> {{ event.location.gm_formatted_address || 'No disponible' }}
+        </p>
         <div class="mt-2 rounded-lg overflow-hidden border border-gray-200 h-72">
           <map-org></map-org>
         </div>
@@ -58,7 +70,7 @@
 
       <!-- Imágenes del evento -->
 
-<!--       <carousel-images-requirement
+      <!--       <carousel-images-requirement
         *ngIf="isRequirementLoaded && event.images.length > 0"
         [images]="requirement.images">
       </carousel-images-requirement> -->

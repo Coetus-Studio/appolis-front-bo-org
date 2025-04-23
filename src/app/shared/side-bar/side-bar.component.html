@@ -1,15 +1,17 @@
-<aside class="sidebar">
-  <nav>
-    <ul>
-      <br>
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/events">Eventos</a></li>
-      <li><a routerLink="/opportunities">Oportunidades</a></li>
-      <li><a routerLink="/locations">Mapa Ciudadano</a></li>
-      <li><a routerLink="/requirements">Requerimientos Ciudadanos</a></li>
-      <li><a routerLink="/logout">Logout</a></li>
-
-      <!-- 🧩 Comunidad toggle -->
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <br>
+        <li><a routerLink="/home">Home</a></li>
+        <!-- <li><a routerLink="/documents">Documents</a></li> -->
+        <!-- <li><a routerLink="/token">Token</a></li> -->
+        <li><a routerLink="/events">Eventos</a></li>
+        <li><a routerLink="/opportunities">Oportunidades</a></li>
+        <!-- <li><a routerLink="/organization">Organizacion</a></li> -->
+        <li><a routerLink="/locations">Mapa Ciudadano</a></li>
+        <li><a routerLink="/logout">Logout</a></li>
+        <li><a routerLink="/requirements">Requerimientos Ciudadanos</a></li>
+        <!-- 🧩 Comunidad toggle -->
       <li (click)="toggleComunidad()" class="submenu-title toggle">
         Comunidad
         <span class="arrow" [class.open]="comunidadOpen">▾</span>
@@ -17,6 +19,6 @@
       <ul class="submenu" *ngIf="comunidadOpen">
         <li><a routerLink="/community/messages">Mensajería</a></li>
       </ul>
-    </ul>
-  </nav>
-</aside>
+      </ul>
+    </nav>
+  </aside>

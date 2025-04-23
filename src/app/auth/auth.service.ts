@@ -12,18 +12,25 @@ import { StorageService } from '../storage.service';
 export class AuthService {
   private apiUrl = 'http://localhost:3000';
 
-  //
   private authToken$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  private roles$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  private orgId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  private orgName$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  private orgUserId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
   private isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+
+
+  private orgUserId = new BehaviorSubject<string | null | undefined>('');
+  orgUserId$ = this.orgUserId.asObservable();
+
+  private userRolOrganization = new BehaviorSubject<string | null | undefined>('');
+  userRolOrganization$ = this.userRolOrganization.asObservable();
+
+  // informa a nav-bar component
+  private organizationName = new BehaviorSubject<string | null | undefined>('');
+  organizationName$ = this.organizationName.asObservable();
+
+  // informa a list-event component orgId
+  private organizationId = new BehaviorSubject<string | null | undefined>('');
+  organizationId$ = this.organizationId.asObservable();
 
   // informa a app.component estado de autenticacion
   private authState = new BehaviorSubject<boolean>(false);
@@ -35,8 +42,7 @@ export class AuthService {
     private router: Router
   ) {
     this.loadToken();
-    this.loadUserData();
-
+    // this.loadUserData();
   }
 
    // Método público para obtener el token como un Observable
@@ -44,21 +50,6 @@ export class AuthService {
     return this.authToken$.asObservable();
   }
 
-  getRoles(): Observable<string | null> {
-    return this.roles$.asObservable();
-  }
-
-  getOrgId(): Observable<string | null> {
-    return this.orgId$.asObservable();
-  }
-
-  getOrgName(): Observable<string | null> {
-    return this.orgName$.asObservable();
-  }
-
-  getOrgUserId(): Observable<string | null> {
-    return this.orgUserId$.asObservable();
-  }
 
   getIsAuthenticated(): Observable<boolean> {
     return this.isAuthenticated$.asObservable();
@@ -69,19 +60,7 @@ export class AuthService {
     this.authToken$.next(token ?? null); // Si es undefined, lo convierte en null
   }
 
-  private async loadUserData() {
-    const roles = await this.storageService.getItem('roles');
-    this.roles$.next(roles?? null); // Si es undefined, lo convierte en null
-
-    const orgId = await this.storageService.getItem('orgId');
-    this.orgId$.next(orgId?? null); // Si es undefined, lo convierte en null
-
-    const orgName = await this.storageService.getItem('orgName');
-    this.orgName$.next(orgName ?? null); // Si es undefined, lo convierte en null
-
-    const orgUserId = await this.storageService.getItem('orgUserId');
-    this.orgUserId$.next(orgUserId ?? null);
-  }
+  // private async loadUserData() {}
 
   async login(
     { email, password } :
@@ -120,8 +99,6 @@ export class AuthService {
       this.authToken$.next(response.accessToken);
       await this.storageService?.setItem('isAuthenticated', 'true');
 
-      // // Actualiza el token en el BehaviorSubject
-
       // Agregamos esto para notificar autenticación
       this.authState.next(true); // Esto asegura que el observable se actualice y carguemos el sidebar y navbar al hacer login
       this.router.navigate(['/home']);
@@ -138,16 +115,33 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
- /*  async checkAuthentication(): Promise<boolean> {
-    return await this.storageService?.getItem('isAuthenticated') === 'true';
-  } */
-
   async checkAuthentication(): Promise<boolean> {
     const isLogged = await this.storageService.getItem('isAuthenticated') === 'true';
     this.authState.next(isLogged);
     return isLogged;
   }
 
+  async getOrgId(): Promise<string | null | undefined> {
+    const orgId = await this.storageService.getItem('orgId');
+    this.organizationId.next(orgId);
+    return orgId;
+  }
 
+  async getOrgName(): Promise<string | null | undefined> {
+    const orgName = await this.storageService.getItem('orgName');
+    this.organizationName.next(orgName);
+    return orgName;
+  }
 
+  async getUserRol(): Promise<string | null | undefined> {
+    const userRol = await this.storageService.getItem('roles');
+    this.userRolOrganization.next(userRol);
+    return userRol;
+  }
+
+  async getOrgUserId(): Promise<string | null | undefined> {
+    const userId = await this.storageService.getItem('orgUserId');
+    this.orgUserId.next(userId);
+    return userId;
+  }
 }
