@@ -1,0 +1,15 @@
+<mat-card>
+  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+    <h2>Enviar mensaje a suscriptores</h2>
+
+    <label>Título</label>
+    <input type="text" formControlName="title" />
+
+    <label>Mensaje</label>
+    <textarea rows="5" formControlName="content"></textarea>
+
+    <button mat-flat-button color="primary" type="submit" [disabled]="messageForm.invalid">
+      Enviar mensaje
+    </button>
+  </form>
+</mat-card>

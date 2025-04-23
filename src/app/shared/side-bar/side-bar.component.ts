@@ -13,6 +13,12 @@ import { CommonModule } from '@angular/common';
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent {
+  comunidadOpen = false;
+
+  toggleComunidad() {
+    this.comunidadOpen = !this.comunidadOpen;
+  }
+
 
   // isAuthenticated: boolean = false;
 
