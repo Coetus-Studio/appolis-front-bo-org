@@ -60,7 +60,7 @@ export default class ListEventsComponent implements OnInit {
         next: (eventOrg) => {
           this.eventOrg = eventOrg;
           // this.filteredEvents = eventOrg;
-          // console.log(this.eventOrg);
+          console.log(this.eventOrg);
         },
         error: (error) => {
           console.error('Error fetching events:', error);

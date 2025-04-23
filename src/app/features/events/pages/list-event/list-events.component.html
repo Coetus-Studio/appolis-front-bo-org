@@ -4,15 +4,17 @@
   <div class="main-layout">
     <!-- Lista de eventos (sidebar) -->
     <div class="sidebar">
-      <!-- Botón Crear -->
-      <button class="create-button" [routerLink]="['/events/create']">+ Crear Evento</button>
 
-      <!-- Buscador -->
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar eventos..." (input)="searchEvents($event)">
-        <span class="input-group-text">
-          <i class="bi bi-search"></i>
-        </span>
+      <!-- Encabezado fijo (crear + buscar) -->
+      <div class="sidebar-header">
+        <button class="create-button" [routerLink]="['/events/create']">+ Crear Evento</button>
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar eventos..." (input)="searchEvents($event)">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+        </div>
       </div>
 
       <!-- Lista de eventos -->
