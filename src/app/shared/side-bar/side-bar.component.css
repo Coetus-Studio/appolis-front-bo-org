@@ -57,3 +57,63 @@ body {
   overflow-y: auto;
   padding-top: 20px; /* Añadido para asegurar que el contenido no se solape con el navbar */
 }
+
+.submenu-title {
+  font-weight: bold;
+  margin-top: 12px;
+  padding-left: 10px;
+  color: #444;
+  font-size: 14px;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.submenu li a {
+  font-size: 13px;
+  color: #555;
+  display: block;
+  padding: 4px 0;
+  text-decoration: none;
+}
+.submenu li a:hover {
+  color: #000;
+}
+
+.submenu-title {
+  font-weight: bold;
+  margin-top: 12px;
+  padding: 8px 10px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #444;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.submenu li a {
+  font-size: 13px;
+  color: #555;
+  display: block;
+  padding: 4px 0;
+  text-decoration: none;
+}
+.submenu li a:hover {
+  color: #000;
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+.arrow.open {
+  transform: rotate(180deg);
+}

@@ -1,0 +1,15 @@
+mat-card {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+}

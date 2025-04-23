@@ -32,6 +32,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/organizations/organization.routes').then(m => m.ORGANIZATION_ROUTES)
   },
   {
+    path: 'community/messages',
+    loadComponent: () => import('./features/community/message-compose/message-compose.component').then(m => m.MessageComposeComponent)
+  },
+  {
     path: 'locations',
     loadChildren: () => import('./shared/shared.routes').then(m => m.SHARED_ROUTES)
   },
@@ -45,6 +49,10 @@ export const routes: Routes = [
 
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Ruta predeterminada
   { path: '**', redirectTo: '/login' }, // Ruta comodín para manejar rutas no encontradas
+  {
+  path: 'logout',
+  loadComponent: () => import('./features/logout/logout.component').then(m => m.LogoutComponent)
+}
 
 
 ];
