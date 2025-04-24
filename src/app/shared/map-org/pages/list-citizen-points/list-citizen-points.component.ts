@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import MapOrgComponent from "../../components/map-org/map-org.component";
 import { LocationsService } from '../../services/locations.service';
-import { Location } from '../../interfaces/locations.interface';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { CitizenMap } from '../../interfaces/citizen-map.interface';
 
 @Component({
   selector: 'list-citizen-points',
@@ -16,7 +16,8 @@ export default class ListCitizenPointsComponent implements OnInit {
 
   @Output() eventClicked = new EventEmitter<{lat: number; lng: number}>();
 
-  filteredLocations = signal<Location[]>([]);
+  // filteredLocations = signal<Location[]>([]);
+  citizenPoint: CitizenMap[] = [];
 
   constructor(private locationsService: LocationsService) {}
 
@@ -28,7 +29,7 @@ export default class ListCitizenPointsComponent implements OnInit {
     this.locationsService.getAllLocations().subscribe({
       next: (fetchedLocations) => {
         console.log('locations:', fetchedLocations);
-        this.filteredLocations.set(fetchedLocations);
+        this.citizenPoint = fetchedLocations
       },
       error: (error) => {
         console.error('Error fetching locations:', error);
@@ -38,19 +39,20 @@ export default class ListCitizenPointsComponent implements OnInit {
 
   // Filtrar locaciones por texto
   filterLocations(event: Event) {
-    const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
+/*     const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
     const query = input.value.toLowerCase(); // Ahora puedes acceder a "value" sin errores
     const filtered = this.filteredLocations().filter(location =>
       location.gm_formatted_address.toLowerCase().includes(query)
     );
-    this.filteredLocations.set(filtered);
+    this.filteredLocations.set(filtered); */
   }
 
-  focusOnEvent(event: any) {
+  focusOnEvent(citizenPoint: CitizenMap) {
     // extraemos las coordenadas del evento
-    console.log('ingresando: ' + JSON.stringify(event))
-    const lat = event.geo_point.coordinates[1];
-    const lng = event.geo_point.coordinates[0];
+    console.log('ingresando: ' + JSON.stringify(citizenPoint))
+
+    const lat = citizenPoint.location.geo_point.coordinates[1];
+    const lng = citizenPoint.location.geo_point.coordinates[0];
 
     // Emitimos las coordenadas al MapOrgComponent
     this.eventClicked.emit({ lat, lng });

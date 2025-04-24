@@ -1,25 +1,26 @@
 <!-- <div class="container"> -->
-  <h2 class="title">Listado de Puntos Ciudadanos</h2>
+<h2 class="title">Listado de Puntos Ciudadanos</h2>
 
-  <div class="main-layout">
-    <!-- Barra lateral -->
-    <div class="sidebar">
-      <button class="create-button" [routerLink]="['/locations/create']" routerLinkActive="router-link-active">
-        + Crear
-      </button>
+<div class="main-layout">
+  <!-- Barra lateral -->
+  <div class="sidebar">
+    <button class="create-button" [routerLink]="['/locations/create']" routerLinkActive="router-link-active">
+      + Crear
+    </button>
 
-      <div *ngFor="let citizenPoint of filteredLocations()" class="location-item" (click)="focusOnEvent(citizenPoint)">
+    <div *ngIf="citizenPoint.length > 0; else noCitizenPoint">
+      <div *ngFor="let citizen of citizenPoint" class="location-item" (click)="focusOnEvent(citizen)">
         <div class="location-info">
-          <span class="location-address">{{ citizenPoint.gm_formatted_address }}</span>
-          <span class="location-coordinates">{{ citizenPoint.geo_point.coordinates }}</span>
+          <span class="location-name">{{ citizen.name }}</span>
+          <span class="location-address">{{ citizen.location.gm_formatted_address }}</span>
+          <span class="location-coordinates">{{ citizen }}</span>
         </div>
       </div>
     </div>
-
-
+    <ng-template #noCitizenPoint>
+      <div class="text-center mt-4">
+        <p class="text-muted">No hay puntos disponibles.</p>
+      </div>
+    </ng-template>
   </div>
-<!-- </div> -->
-
-
-
-
+  <!-- </div> -->

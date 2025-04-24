@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, signal } from "@angular/core";
-import { Location } from "../interfaces/locations.interface";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CitizenMap } from "../interfaces/citizen-map.interface";
 
@@ -23,7 +22,7 @@ export class LocationsService {
 
   getAllLocations() {
     // console.log('Locations 1: ', center);
-    return this.http.get<Location[]>(`${this.apiUrl}/locations`, {
+    return this.http.get<CitizenMap[]>(`${this.apiUrl}/citizen-points`, {
     });
   }
 
