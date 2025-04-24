@@ -23,6 +23,17 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  height: 100%; /* o el alto que necesites */
+}
+
+.sidebar-header {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+  padding-bottom: 1rem;
 }
 
 .create-button {
@@ -34,6 +45,7 @@
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .create-button:hover {
