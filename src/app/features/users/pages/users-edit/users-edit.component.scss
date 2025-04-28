@@ -1,0 +1,20 @@
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 48%;
+  margin-right: 2%;
+}
+
+.role-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}

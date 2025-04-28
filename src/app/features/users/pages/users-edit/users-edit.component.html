@@ -1,0 +1,51 @@
+<div *ngIf="loading">
+  Loading user data...
+</div>
+
+<form *ngIf="!loading" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" placeholder="User's full name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="User's email">
+  </mat-form-field>
+
+  <div formArrayName="roles">
+    <div *ngFor="let role of rolesFormArray.controls; let i = index" [formGroupName]="i" class="role-item">
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Organization ID</mat-label>
+        <input matInput formControlName="organizationId" placeholder="Organization ID">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="half-width">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let roleOption of availableRoles" [value]="roleOption">
+            {{ roleOption }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" (click)="removeRole(i)" type="button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <button mat-button color="primary" (click)="addRole()" type="button">
+    Add Role
+  </button>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">
+      Save
+    </button>
+
+    <button mat-button color="accent" (click)="router.navigate(['/users'])" type="button">
+      Cancel
+    </button>
+  </div>
+</form>
