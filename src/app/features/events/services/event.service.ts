@@ -168,12 +168,5 @@ export class EventService {
         )
       })
     )
-
-
   }
-
-
-
-
-
 }
