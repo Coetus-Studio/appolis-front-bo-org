@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import MapOrgComponent from '../../../../shared/map-org/components/map-org/map-org.component';
 import { AuthService } from '../../../../auth/auth.service';
 
-
 @Component({
   selector: 'list-events',
   standalone: true,

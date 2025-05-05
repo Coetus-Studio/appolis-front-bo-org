@@ -1,7 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, signal } from "@angular/core";
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap } from 'rxjs';
 import { CitizenMap } from "../interfaces/citizen-map.interface";
+import { AuthService } from "../../../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,31 +16,29 @@ export class LocationsService {
 
   constructor(
     private http: HttpClient,
-  ) {}
+    private authService: AuthService
+  ) { }
 
   getAutocomplete() {
   }
 
-  getAllLocations() {
+  getAllLocations(orgId: string): Observable<CitizenMap[]> {
     // console.log('Locations 1: ', center);
-    return this.http.get<CitizenMap[]>(`${this.apiUrl}/citizen-points`, {
-    });
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<CitizenMap[]>(`${this.apiUrl}/citizen-points`, {
+          headers,
+          params: {
+            orgId
+          }
+        })
+      })
+    )
   }
 
-/*   createLocation(value: any): Observable<Location> {
-
-    console.log('Creating a new location...' + JSON.stringify(value));
-    return this.http.post<Location>(this.apiUrl, {
-      gm_formatted_address: value.address,
-      description: value.description,
-      is_public: true,
-        geo_point: {
-          type: 'Point',
-          coordinates: [value.geo_point_lat, value.geo_point_lng]
-      }
-
-    });
-  } */
 
   // crear citizen map
   createCitizenMap(citizenMap: CitizenMap): Observable<any> {
@@ -48,25 +47,46 @@ export class LocationsService {
     const lng = citizenMap.location.geo_point.coordinates[1];
     const lat = citizenMap.location.geo_point.coordinates[0];
 
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
+        const body = {
+          name: citizenMap.name,
+          location: citizenMap.location,
+          icon_url: citizenMap.icon_url,
+          responsible_organization: citizenMap.responsible_organization
+        }
 
-    return this.http.post(`${this.apiUrl}/citizen-points`, {
-      name: citizenMap.name,
-      location: citizenMap.location,
-      icon_url: citizenMap.icon_url
-    });
+        return this.http.post<CitizenMap>(`${this.apiUrl}/citizen-points`, body, { headers });
+      })
+    )
   }
 
 
-    // Método para actualizar los datos
-    setLocationData(data: any) {
-      this.locationData.set(data);
+  // Método para actualizar los datos
+  setLocationData(data: any) {
+    this.locationData.set(data);
 
-    }
+  }
 
-    // Método para obtener los datos
-    getLocationData() {
-      return this.locationData();
-    }
+  // Método para obtener los datos
+  getLocationData() {
+    return this.locationData();
+  }
 
+  getCitizenPointById(citizenPointId: string): Observable<CitizenMap> {
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
+        return this.http.get<CitizenMap>(`${this.apiUrl}/citizen-points/${citizenPointId}`, {
+          headers,
+
+        })
+      })
+    )
+  }
 }

@@ -43,7 +43,7 @@ export const routes: Routes = [
     title: 'Appolis Organizaciones - Comunidad'
   },
   {
-    path: 'locations',
+    path: 'citizen-points',
     loadChildren: () => import('./shared/shared.routes').then(m => m.SHARED_ROUTES)
   },
   {

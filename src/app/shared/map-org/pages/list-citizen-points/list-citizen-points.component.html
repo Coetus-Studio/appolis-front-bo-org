@@ -4,16 +4,22 @@
 <div class="main-layout">
   <!-- Barra lateral -->
   <div class="sidebar">
-    <button class="create-button" [routerLink]="['/locations/create']" routerLinkActive="router-link-active">
+    <button class="create-button" [routerLink]="['/citizen-points/create']" routerLinkActive="router-link-active">
       + Crear
     </button>
 
     <div *ngIf="citizenPoint.length > 0; else noCitizenPoint">
       <div *ngFor="let citizen of citizenPoint" class="location-item" (click)="focusOnEvent(citizen)">
         <div class="location-info">
-          <span class="location-name">{{ citizen.name }}</span>
+          <span class="location-name font-bold text-center uppercase truncate max-w-full block" [title]="citizen.name">{{ citizen.name  }}</span>
+          <!-- <span class="location-description">{{ citizen.location.description }}</span> -->
           <span class="location-address">{{ citizen.location.gm_formatted_address }}</span>
-          <span class="location-coordinates">{{ citizen }}</span>
+
+          <button class="mt-2 px-3 py-1 text-sm text-white bg-gray-200 text-gray-800 hover:bg-gray-300 rounded transition"
+              [routerLink]="['detail', citizen._id]"
+              routerLinkActive="router-link-active"
+              (click)="$event.stopPropagation()">Ver</button>
+
         </div>
       </div>
     </div>

@@ -1,3 +1,5 @@
+import { Organization } from "../../../features/organizations/interfaces/organization.interface";
+
 export interface GeoPoint {
   type: "Point";
   coordinates: [
@@ -14,7 +16,9 @@ export interface Location {
 }
 
 export interface CitizenMap {
+  _id: string;
   name: string;
   location: Location;
   icon_url: string;
+  responsible_organization: string;
 }

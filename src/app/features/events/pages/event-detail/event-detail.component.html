@@ -4,7 +4,7 @@
     <div class="flex justify-end mb-4">
       <a [routerLink]="['/events', 'edit', event._id]" routerLinkActive="router-link-active"
         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-        ✏️ Actualizar Evento
+        ✏️ Actualizar
       </a> &nbsp;&nbsp;&nbsp;&nbsp;
 
       <button (click)="deleteEvent(event._id)"
@@ -22,7 +22,7 @@
 
     <!-- Encabezado -->
     <div class="mb-6 border-b pb-4">
-      <h2 class="text-2xl font-bold text-gray-800">
+      <h2 class="text-2xl font-bold text-gray-800 text-center">
         {{ event.title || 'Sin título' }}
       </h2>
     </div>

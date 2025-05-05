@@ -4,6 +4,7 @@ import { LocationsService } from '../../services/locations.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CitizenMap } from '../../interfaces/citizen-map.interface';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'list-citizen-points',
@@ -14,37 +15,56 @@ import { CitizenMap } from '../../interfaces/citizen-map.interface';
 })
 export default class ListCitizenPointsComponent implements OnInit {
 
-  @Output() eventClicked = new EventEmitter<{lat: number; lng: number}>();
+  @Output() eventClicked = new EventEmitter<{ lat: number; lng: number }>();
+  registeredOrgId: string | null | undefined = '';
+
 
   // filteredLocations = signal<Location[]>([]);
   citizenPoint: CitizenMap[] = [];
 
-  constructor(private locationsService: LocationsService) {}
+  constructor(
+    private locationsService: LocationsService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.getAllLocations();
+
+    this.authService.organizationId$.subscribe((orgId) => {
+      this.registeredOrgId = orgId;
+
+      if (this.registeredOrgId) {
+        this.getAllLocations();
+      }
+
+    });
+    this.authService.getOrgId();
   }
 
   getAllLocations() {
-    this.locationsService.getAllLocations().subscribe({
-      next: (fetchedLocations) => {
-        console.log('locations:', fetchedLocations);
-        this.citizenPoint = fetchedLocations
-      },
-      error: (error) => {
-        console.error('Error fetching locations:', error);
-      }
-    });
+
+    const orgId = this.registeredOrgId;
+
+    if (orgId !== null && orgId !== undefined) {
+      this.locationsService.getAllLocations(orgId).subscribe({
+        next: (fetchedLocations) => {
+          console.log('locations:', fetchedLocations);
+          this.citizenPoint = fetchedLocations
+        },
+        error: (error) => {
+          console.error('Error fetching locations:', error);
+        }
+      });
+    }
   }
 
   // Filtrar locaciones por texto
   filterLocations(event: Event) {
-/*     const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
-    const query = input.value.toLowerCase(); // Ahora puedes acceder a "value" sin errores
-    const filtered = this.filteredLocations().filter(location =>
-      location.gm_formatted_address.toLowerCase().includes(query)
-    );
-    this.filteredLocations.set(filtered); */
+    /*     const input = event.target as HTMLInputElement; // Especifica que el target es un HTMLInputElement
+        const query = input.value.toLowerCase(); // Ahora puedes acceder a "value" sin errores
+        const filtered = this.filteredLocations().filter(location =>
+          location.gm_formatted_address.toLowerCase().includes(query)
+        );
+        this.filteredLocations.set(filtered); */
   }
 
   focusOnEvent(citizenPoint: CitizenMap) {

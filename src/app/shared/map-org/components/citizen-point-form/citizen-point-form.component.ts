@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CitizenMap } from '../../interfaces/citizen-map.interface';
 import { LocationsService } from '../../services/locations.service';
 import { ModalAddressComponent } from "../modal-address/modal-address.component";
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'shared-citizen-map-form',
@@ -28,10 +29,13 @@ export default class CitizenPointsFormComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
+  orgId: any;
+
   // formulario mapa ciudadano
   citizenMapForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.minLength(5)]),
     icon_url: new FormControl('', [Validators.required]),
+    responsible_organization: new FormControl(''),
     location: new FormGroup({
       description: new FormControl('', [Validators.required]),
       gm_formatted_address: new FormControl('', [Validators.required, Validators.minLength(5)]),
@@ -48,9 +52,21 @@ export default class CitizenPointsFormComponent implements OnInit {
 
   constructor(
     private locationService: LocationsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService,
+
   ) {
 
+    this.authService.organizationId$.subscribe((orgId) => {
+      this.orgId = orgId;
+      console.log('org id => ', this.orgId)
+
+      // asigno this.orgId a responsible_organization
+      this.citizenMapForm.get('responsible_organization')?.setValue(this.orgId);
+
+    })
+
+    this.authService.getOrgId();
   }
 
   ngOnInit(): void {
@@ -71,9 +87,11 @@ export default class CitizenPointsFormComponent implements OnInit {
 
       // Aquí creamos el objeto CitizenMap a partir del formulario
       const citizenMap: CitizenMap = {
+        _id: formData._id,
         name: formData.name,
         icon_url: formData.icon_url,
-        location: formData.location
+        location: formData.location,
+        responsible_organization: this.orgId,
       };
 
       this.locationService.createCitizenMap(citizenMap).subscribe(res => {
