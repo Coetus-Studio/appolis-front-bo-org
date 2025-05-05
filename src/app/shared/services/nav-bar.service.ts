@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { AuthService } from "../../auth/auth.service";
 
 @Injectable({
@@ -6,10 +6,7 @@ import { AuthService } from "../../auth/auth.service";
 })
 export class NavBarService {
 
-  constructor(
-    private authService: AuthService
-  ) {}
+  registeredOrgName = signal<string | null | undefined>('');
 
-  getUserInfo() {
-  }
+
 }

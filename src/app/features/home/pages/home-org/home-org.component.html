@@ -1,25 +1,48 @@
-<main class="content">
-  <div class="home-page">
-    <header class="header">
-      <h1>Bienvenido a Nuestra Organización</h1>
-      <p>Empoderando a la comunidad para un futuro mejor</p>
+<main class="p-6">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <header class="text-center">
+      <h1 class="text-4xl font-bold text-gray-800">Bienvenido {{ navBarService.registeredOrgName() }}</h1>
+      <p class="text-lg text-gray-600 mt-2">Empoderando a la comunidad para un futuro mejor</p>
     </header>
-    <section class="info-cards">
-      <div class="card">
-        <h2>Nuestros Proyectos</h2>
-        <p>Explora los proyectos en los que estamos trabajando y cómo puedes involucrarte.</p>
-        <a routerLink="/projects" class="btn">Ver Proyectos</a>
+
+    <!-- Resumen dinámico -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white shadow rounded-2xl p-4 text-center">
+        <h2 class="text-2xl font-semibold text-indigo-600">{{ totalEventsInProgress }}</h2>
+        <p class="text-gray-600">Eventos en Curso</p>
       </div>
-      <div class="card">
-        <h2>Próximos Eventos</h2>
-        <p>Mantente informado sobre nuestros próximos eventos y actividades.</p>
-        <a routerLink="/events" class="btn">Ver Eventos</a>
+      <div class="bg-white shadow rounded-2xl p-4 text-center">
+        <h2 class="text-2xl font-semibold text-yellow-500">{{ requirementsOrg }}</h2>
+        <p class="text-gray-600">Requerimientos Ingresados</p>
       </div>
-      <div class="card">
-        <h2>Únete a Nosotros</h2>
-        <p>Descubre cómo puedes unirte a nuestra causa y hacer una diferencia.</p>
-        <a routerLink="/join" class="btn">Más Información</a>
+      <div class="bg-white shadow rounded-2xl p-4 text-center">
+        <h2 class="text-2xl font-semibold text-green-600">{{ subscribedUser }}</h2>
+        <p class="text-gray-600">Usuarios Suscritos</p>
+      </div>
+      <!-- <div class="bg-white shadow rounded-2xl p-4 text-center">
+        <h2 class="text-2xl font-semibold text-pink-500">150+</h2>
+        <p class="text-gray-600">Voluntarios</p>
+      </div> -->
+    </section>
+
+    <!-- Secciones informativas -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-xl font-bold mb-2">Nuestros Proyectos</h2>
+        <p class="mb-4 text-gray-700">Explora los proyectos en los que estamos trabajando y cómo puedes involucrarte.</p>
+        <a routerLink="/projects" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Ver Proyectos</a>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-xl font-bold mb-2">Próximos Eventos</h2>
+        <p class="mb-4 text-gray-700">Mantente informado sobre nuestros próximos eventos y actividades.</p>
+        <a routerLink="/events" class="inline-block bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">Ver Eventos</a>
+      </div>
+      <div class="bg-white shadow-md rounded-xl p-6">
+        <h2 class="text-xl font-bold mb-2">Únete a Nosotros</h2>
+        <p class="mb-4 text-gray-700">Descubre cómo puedes unirte a nuestra causa y hacer una diferencia.</p>
+        <a routerLink="/join" class="inline-block bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700">Más Información</a>
       </div>
     </section>
   </div>
 </main>
+
