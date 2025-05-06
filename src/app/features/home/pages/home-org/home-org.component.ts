@@ -1,18 +1,18 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../../auth/auth.service';
 import { NavBarComponent } from '../../../../shared/nav-bar/nav-bar.component';
 import { SideBarComponent } from '../../../../shared/side-bar/side-bar.component';
 import { EventService } from '../../../events/services/event.service';
-import { EventForm } from '../../../events/interfaces/events.interface';
 import { RequirementsService } from '../../../requirements/services/requirements.service';
 import { UsersService } from '../../../users/services/users.service';
 import { NavBarService } from '../../../../shared/services/nav-bar.service';
+import { SkeletonComponent } from "../../components/skeleton/skeleton.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home-org',
   standalone: true,
-  imports: [NavBarComponent, SideBarComponent],
+  imports: [SkeletonComponent, CommonModule],
   templateUrl: './home-org.component.html',
   styleUrls: ['./home-org.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +28,8 @@ export default class HomeOrgComponent implements OnDestroy {
   subscribedUser: number = 0;
 
   registeredOrgId: string | null | undefined = '';
+
+  isLoading = true;
 
 
   constructor(
@@ -48,6 +50,7 @@ export default class HomeOrgComponent implements OnDestroy {
     this.totalEvents();
     this.totalRequirements();
     this.subscribedUsers();
+    this.isLoading = false;
   }
 
   async isLoggedIn() {
