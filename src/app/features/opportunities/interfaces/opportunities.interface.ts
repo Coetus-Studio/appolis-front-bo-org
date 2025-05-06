@@ -9,10 +9,12 @@ export interface Opportunity {
   _id: string;
   title: string;
   description: string;
-  opport_type: OpportType;
-  interested: string[];
-  messages: string;
+  // opport_type: OpportType;
+  // interested: string[];
+  // messages: string;
   created_by: string;
-  created_at: Date;
+  start_date: Date;
+  end_date: Date;
+  sponsors: string[];
 
 }

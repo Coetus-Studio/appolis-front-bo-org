@@ -32,6 +32,7 @@ export default class OpportunityDetailComponent implements OnInit {
     if (eventId) {
       this.opportunityService.getOpportunityById(eventId).subscribe(opportunity => {
         this.opportunity = opportunity;
+        console.log('opportunity by id:', this.opportunity)
       })
     }
 

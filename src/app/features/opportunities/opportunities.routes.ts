@@ -8,7 +8,10 @@ export const OPPORTUNITIES_ROUTES: Routes = [
   {
     path: 'detail/:id',
     loadComponent: () => import('./pages/opportunity-detail/opportunity-detail.component')
-
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./pages/create-opportunity/create-opportunity.component')
   }
 
 ]

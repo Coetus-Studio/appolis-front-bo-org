@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OpportunitiesComponent } from './opportunities.component';
+import { OpportunityFormComponent } from './opportunity-form.component';
 
-describe('OpportunitiesComponent', () => {
-  let component: OpportunitiesComponent;
-  let fixture: ComponentFixture<OpportunitiesComponent>;
+describe('OpportunityFormComponent', () => {
+  let component: OpportunityFormComponent;
+  let fixture: ComponentFixture<OpportunityFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OpportunitiesComponent]
+      imports: [OpportunityFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(OpportunitiesComponent);
+    fixture = TestBed.createComponent(OpportunityFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

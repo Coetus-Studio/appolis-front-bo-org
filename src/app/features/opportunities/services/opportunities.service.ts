@@ -41,7 +41,7 @@ export class OpportunitiesService {
       filter(token => !!token),
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
-        return this.http.get<any[]>(`${this.apiUrl}`, { headers })
+        return this.http.get<Opportunity[]>(`${this.apiUrl}`, { headers })
 
       })
     )
@@ -53,9 +53,12 @@ export class OpportunitiesService {
       filter(token => !!token), // Espera a que el token esté disponible
       switchMap(token => {
         const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-        return this.http.get<Opportunity>(`${this.apiUrl}/${opportunityId}`)
-        headers
+        return this.http.get<Opportunity>(`${this.apiUrl}/${opportunityId}`, {headers})
       })
     )
+  }
+
+  createOpportunity() {
+
   }
 }
