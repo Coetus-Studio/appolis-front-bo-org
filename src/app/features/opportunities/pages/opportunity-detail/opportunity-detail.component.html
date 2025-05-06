@@ -1,0 +1,57 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Panel de Oportunidades</h1>
+
+  <!-- Gráfico de ejemplo -->
+  <div class="bg-white p-4 rounded-xl shadow mb-6">
+    <h2 class="text-lg font-semibold text-gray-700 mb-2">Interesados por Tipo de Oportunidad</h2>
+    <canvas id="opportunitiesChart" class="w-full h-64"></canvas>
+  </div>
+
+  <!-- Lista de oportunidades -->
+  <div class="grid gap-4">
+    <div
+
+      class="bg-white rounded-2xl shadow p-6 border border-gray-200"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+        <div>
+          <p class="text-xs text-gray-500 uppercase mb-1">Título</p>
+          <h3 class="text-xl font-bold text-gray-800">{{ opportunity.title }}</h3>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 uppercase mb-1">Tipo</p>
+          <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">
+            {{ opportunity.opport_type.name }}
+          </span>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 uppercase mb-1">Creado por</p>
+          <p class="text-sm text-gray-700">{{ opportunity.created_by }}</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <p class="text-xs text-gray-500 uppercase mb-1">Descripción</p>
+        <p class="text-sm text-gray-700">{{ opportunity.description }}</p>
+      </div>
+
+      <div class="flex flex-wrap gap-4 items-center justify-between text-sm text-gray-600">
+        <div>
+          <p class="text-xs uppercase text-gray-500 mb-1">Interesados</p>
+          <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 rounded-full">
+            {{ opportunity.interested.length }} personas interesadas
+          </span>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase text-gray-500 mb-1">Fecha de creación</p>
+          <!-- <p>{{ opportunity.created_at | date: 'mediumDate' }}</p> -->
+        </div>
+
+        <div class="text-right ml-auto">
+          <button class="text-blue-600 hover:underline text-sm">Ver mensajes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

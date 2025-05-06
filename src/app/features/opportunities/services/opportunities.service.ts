@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Opportunity } from '../interfaces/opportunities.interface';
-import { map, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { filter, map, Observable, switchMap } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from '../../../storage.service';
+import { AuthService } from '../../../auth/auth.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +18,10 @@ export class OpportunitiesService {
   constructor(
     private http: HttpClient,
     private storage: StorageService,
+    private authService: AuthService
   ) {
     this.initAuthToken();
-   }
+  }
 
   private async initAuthToken() {
     this.authToken = await this.storage.getItem('authToken');
@@ -34,14 +37,25 @@ export class OpportunitiesService {
   listOpportunities(): Observable<Opportunity[]> {
     console.log('listOpportunities');
 
-    const headers = {
-      Authorization: `Bearer ${this.authToken}`,
-    }
+    return this.authService.getToken().pipe(
+      filter(token => !!token),
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` })
+        return this.http.get<any[]>(`${this.apiUrl}`, { headers })
 
-    return this.http.get<Opportunity[]>(this.apiUrl, { headers })
-     .pipe(map(res => res));
+      })
+    )
 
+  }
+  getOpportunityById(opportunityId: string): Observable<Opportunity> {
 
-
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get<Opportunity>(`${this.apiUrl}/${opportunityId}`)
+        headers
+      })
+    )
   }
 }

@@ -1,13 +1,68 @@
-<div>
-  <h1>Home opportunities...</h1>
-</div>
-<br>
+<!-- Asegúrate de tener Heroicons instalados o usa un CDN para los íconos SVG -->
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4">Oportunidades Disponibles</h1>
 
-<div>
-  <button class="btn btn-primary" (click)="getAllOpportunities()">Ver Oportunidades</button>
-  <div *ngFor="let opportunity of opportunities">
-    <h2>{{ opportunity.title }}</h2>
-    <!-- <p>{{ opportunity.description }}</p> -->
+  <div class="grid gap-4">
+    <div
+      *ngFor="let opportunity of opportunities"
+      class="bg-white shadow rounded-2xl p-4 border border-gray-200"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+        <!-- Título -->
+        <div>
+          <p class="text-xs uppercase text-gray-500 flex items-center gap-1 mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4v16m8-8H4" />
+            </svg>
+            Título
+          </p>
+          <h2 class="text-lg font-semibold text-gray-800">{{ opportunity.title }}</h2>
+        </div>
 
+        <!-- Creador -->
+        <div>
+          <p class="text-xs uppercase text-gray-500 flex items-center gap-1 mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Creado por
+          </p>
+          <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+            {{ opportunity.created_by || 'Sin Información' }}
+          </span>
+        </div>
+
+        <!-- Fecha -->
+        <div>
+          <p class="text-xs uppercase text-gray-500 flex items-center gap-1 mb-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3M16 7V3M3 11h18M5 19h14a2 2 0 002-2V7H3v10a2 2 0 002 2z" />
+            </svg>
+            Fecha
+          </p>
+          <p class="text-sm text-gray-700">{{ opportunity.created_at | date:'shortDate' }}</p>
+        </div>
+
+        <!-- Acciones -->
+        <div class="flex items-center justify-end gap-2 mt-2 md:mt-0">
+          <button
+            class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+              [routerLink]="['detail', opportunity._id]" routerLinkActive="router-link-active"
+            >
+            Ver
+          </button>
+          <button
+            class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
