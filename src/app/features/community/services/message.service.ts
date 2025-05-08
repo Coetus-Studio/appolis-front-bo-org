@@ -28,5 +28,13 @@ export class MessageService {
     );
   }
 
-
+  getMessages(orgId: string): Observable<any> {
+    return this.authService.getToken().pipe(
+      filter((token): token is string => !!token), // Ensure token is not null
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.get(`${this.baseUrl}/${orgId}/messages`, { headers });
+      })
+    );
+  }
 }

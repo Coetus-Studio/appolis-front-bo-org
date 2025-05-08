@@ -19,7 +19,8 @@ export class UsersService {
   }
 
   updateUser(id: string, data: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}`, data);
+    console.log('actualizar usuario')
+    return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
   deactivateUser(id: string): Observable<any> {

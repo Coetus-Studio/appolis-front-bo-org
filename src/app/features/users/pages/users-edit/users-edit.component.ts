@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UsersService } from '../../services/users.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { OrganizationService, Organization } from '../../../organizations/services/organization.service'; // Import OrganizationService and Organization
 
 @Component({
   selector: 'app-users-edit',
@@ -16,11 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule
+    // Removed Material Modules
   ],
   templateUrl: './users-edit.component.html',
   styleUrls: ['./users-edit.component.scss']
@@ -30,12 +22,14 @@ export class UsersEditComponent implements OnInit {
   userId: string;
   loading = false;
   availableRoles = ['admin', 'editor', 'viewer'];
+  // organizations: Organization[] = []; // Removed as no longer needed
 
   constructor(
     private route: ActivatedRoute,
     public router: Router,
     private usersService: UsersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    // private organizationService: OrganizationService // Removed as no longer needed
   ) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
@@ -48,17 +42,26 @@ export class UsersEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchUser();
+    // this.fetchOrganizations(); // Removed as no longer needed
+  }
+
+  getOrganizationName(orgId: string): string {
+    const rolesFormArray = this.userForm.get('roles') as FormArray;
+    const roleControl = rolesFormArray.controls.find(control => control.get('organizationId')?.value === orgId);
+    return roleControl?.get('organization')?.value?.name || 'Unknown Organization';
   }
 
   fetchUser() {
     this.loading = true;
     this.usersService.getUser(this.userId).subscribe({
       next: (user) => {
+        console.log('USER object received:', user);
+        console.log('rolesByOrganization:', user.rolesByOrganization);
         this.userForm.patchValue({
           name: user.name,
           email: user.email,
         });
-        this.setRoles(user.roles || []);
+        this.setRoles(user.rolesByOrganization || []); // Use rolesByOrganization
         this.loading = false;
       },
       error: (err) => {
@@ -68,12 +71,28 @@ export class UsersEditComponent implements OnInit {
     });
   }
 
-  setRoles(roles: any[]) {
+  // fetchOrganizations() { // Removed as no longer needed
+  //   this.organizationService.getOrganizations().subscribe({
+  //     next: (orgs) => {
+  //       this.organizations = orgs;
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching organizations:', err);
+  //     }
+  //   });
+  // }
+
+  setRoles(rolesByOrganization: any[]) {
     const rolesFormArray = this.userForm.get('roles') as FormArray;
-    roles.forEach(role => {
+    // Clear existing roles before setting new ones
+    while (rolesFormArray.length !== 0) {
+      rolesFormArray.removeAt(0);
+    }
+    rolesByOrganization.forEach(roleOrg => {
       rolesFormArray.push(this.fb.group({
-        organizationId: [role.organizationId, Validators.required],
-        role: [role.role, Validators.required]
+        organizationId: [roleOrg.organization._id, Validators.required],
+        role: [roleOrg.role.name, Validators.required],
+        organization: [roleOrg.organization] // Store the organization object
       }));
     });
   }
@@ -81,8 +100,9 @@ export class UsersEditComponent implements OnInit {
   addRole() {
     const rolesFormArray = this.userForm.get('roles') as FormArray;
     rolesFormArray.push(this.fb.group({
-      organizationId: ['', Validators.required],
-      role: ['', Validators.required]
+      organizationId: ['', Validators.required], // Default empty value
+      role: ['', Validators.required],
+      organization: [null] // Initialize organization as null
     }));
   }
 
@@ -93,7 +113,19 @@ export class UsersEditComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid) {
-      this.usersService.updateUser(this.userId, this.userForm.value).subscribe({
+      // Before submitting, remove the 'organization' field from the roles array
+      const rolesToSubmit = this.rolesFormArray.value.map((role: any) => {
+        const { organization, ...rest } = role;
+        return rest;
+      });
+
+      const userDataToSubmit = {
+        ...this.userForm.value,
+        roles: rolesToSubmit
+      };
+
+
+      this.usersService.updateUser(this.userId, userDataToSubmit).subscribe({
         next: () => {
           alert('User updated successfully!');
           this.router.navigate(['/users']);

@@ -83,6 +83,7 @@ export class AuthService {
         })
       );
 
+      console.log('USUARIO ', response.user);
       await this.storageService.setItem('authToken', response.accessToken);
       await this.storageService.setItem('email', response.user.email);
 

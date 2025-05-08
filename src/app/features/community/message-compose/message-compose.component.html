@@ -1,15 +1,36 @@
-<mat-card>
-  <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
-    <h2>Enviar mensaje a suscriptores</h2>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Enviar mensaje a suscriptores</h2>
 
-    <label>Título</label>
-    <input type="text" formControlName="title" />
+      <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <div class="mb-3">
+          <label for="title" class="form-label">Título</label>
+          <input type="text" class="form-control" id="title" formControlName="title" placeholder="Título del mensaje">
+        </div>
 
-    <label>Mensaje</label>
-    <textarea rows="5" formControlName="content"></textarea>
+        <div class="mb-3">
+          <label for="content" class="form-label">Mensaje</label>
+          <textarea class="form-control" id="content" formControlName="content" rows="5" placeholder="Contenido del mensaje"></textarea>
+        </div>
 
-    <button mat-flat-button color="primary" type="submit" [disabled]="messageForm.invalid">
-      Enviar mensaje
-    </button>
-  </form>
-</mat-card>
+        <button type="submit" class="btn btn-primary" [disabled]="messageForm.invalid">
+          Enviar mensaje
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <h3>Mensajes Enviados</h3>
+    <div *ngIf="isLoadingMessages" class="alert alert-info">Cargando mensajes...</div>
+    <div *ngIf="!isLoadingMessages && messages.length === 0" class="alert alert-warning">No hay mensajes enviados.</div>
+    <ul *ngIf="!isLoadingMessages && messages.length > 0" class="list-group">
+      <li *ngFor="let message of messages" class="list-group-item">
+        <h5 class="mb-1">{{ message.title }}</h5>
+        <p class="mb-1">{{ message.content }}</p>
+        <small class="text-muted">Enviado el: {{ message.createdAt | date:'short' }}</small>
+      </li>
+    </ul>
+  </div>
+</div>
