@@ -1,0 +1,219 @@
+<div class="container">
+  <h2>Asistente de Registro de Organización</h2>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="loading">Cargando...</div>
+
+  <!-- Error Message (for backend errors) -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Validation Error Summary -->
+  <div *ngIf="(currentStep === 1 && organizationForm.invalid && (organizationForm.touched || organizationForm.dirty)) || (currentStep === 2 && adminStep === 'create' && adminForm.invalid && (adminForm.touched || adminForm.dirty)) || (currentStep === 2 && adminStep === 'login' && loginForm.invalid && (loginForm.touched || loginForm.dirty))" class="alert alert-warning">
+    <h4>Errores de Validación:</h4>
+    <ul>
+      <!-- Organization Form Errors -->
+      <ng-container *ngIf="currentStep === 1">
+        <li *ngIf="organizationForm.get('name')?.invalid && (organizationForm.get('name')?.touched || organizationForm.get('name')?.dirty)">El Nombre de la Organización es requerido.</li>
+        <li *ngIf="organizationForm.get('fundation_date')?.invalid && (organizationForm.get('fundation_date')?.touched || organizationForm.get('fundation_date')?.dirty)">La Fecha de Fundación es requerida.</li>
+        <li *ngIf="organizationForm.get('org_type_id')?.invalid && (organizationForm.get('org_type_id')?.touched || organizationForm.get('org_type_id')?.dirty)">El ID del Tipo de Organización es requerido.</li>
+        <li *ngIf="organizationForm.get('public_id')?.invalid && (organizationForm.get('public_id')?.touched || organizationForm.get('public_id')?.dirty)">El ID Público es requerido.</li>
+        <li *ngIf="organizationForm.get('email')?.invalid && (organizationForm.get('email')?.touched || organizationForm.get('email')?.dirty)">Se requiere un Email de Organización válido.</li>
+        <li *ngIf="organizationForm.get('main_address.gm_formatted_address')?.invalid && (organizationForm.get('main_address.gm_formatted_address')?.touched || organizationForm.get('main_address.gm_formatted_address')?.dirty)">La Dirección Formateada es requerida.</li>
+        <!-- Add other organization form errors here -->
+      </ng-container>
+
+      <!-- Admin Create Form Errors -->
+      <ng-container *ngIf="currentStep === 2 && adminStep === 'create'">
+        <li *ngIf="adminForm.get('admin_email')?.invalid && (adminForm.get('admin_email')?.touched || adminForm.get('admin_email')?.dirty)">Se requiere un Email de Administrador válido.</li>
+        <li *ngIf="adminForm.get('public_id_admin')?.invalid && (adminForm.get('public_id_admin')?.touched || adminForm.get('public_id_admin')?.dirty)">El ID Público del Administrador es requerido.</li>
+        <li *ngIf="adminForm.get('admin_fullname')?.invalid && (adminForm.get('admin_fullname')?.touched || adminForm.get('admin_fullname')?.dirty)">El Nombre Completo del Administrador es requerido.</li>
+        <li *ngIf="adminForm.get('phone_number')?.invalid && (adminForm.get('phone_number')?.touched || adminForm.get('phone_number')?.dirty)">El Número de Teléfono es requerido.</li>
+        <li *ngIf="adminForm.get('admin_password')?.invalid && (adminForm.get('admin_password')?.touched || adminForm.get('admin_password')?.dirty)">La Contraseña es requerida.</li>
+        <!-- Add other admin create form errors here -->
+      </ng-container>
+
+      <!-- Admin Login Form Errors -->
+      <ng-container *ngIf="currentStep === 2 && adminStep === 'login'">
+        <li *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">Se requiere un Email de Inicio de Sesión válido.</li>
+        <li *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">La Contraseña de Inicio de Sesión es requerida.</li>
+        <!-- Add other admin login form errors here -->
+      </ng-container>
+    </ul>
+  </div>
+
+
+  <!-- Step 1: Organization Details -->
+  <div *ngIf="currentStep === 1">
+    <h3>Paso 1: Información de la Organización</h3>
+    <form [formGroup]="organizationForm" autocomplete="off">
+      <div class="form-group">
+        <label for="name">Nombre de la Organización:</label>
+        <input id="name" formControlName="name" class="form-control">
+        <div *ngIf="organizationForm.get('name')?.invalid && organizationForm.get('name')?.touched" class="text-danger">
+          El nombre es requerido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fundation_date">Fecha de Fundación:</label>
+        <input id="fundation_date" type="date" formControlName="fundation_date" class="form-control" #fundationDateInput (focus)="openDatePicker(fundationDateInput)">
+        <div *ngIf="organizationForm.get('fundation_date')?.invalid && organizationForm.get('fundation_date')?.touched" class="text-danger">
+          La fecha de fundación es requerida.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="org_type_id">Tipo de Organización:</label>
+        <select id="org_type_id" formControlName="org_type_id" class="form-control">
+          <option value="" disabled>Seleccione un tipo de organización</option>
+          <option *ngFor="let orgType of organizationTypes" [value]="orgType._id">{{ orgType.name }}</option>
+        </select>
+        <div *ngIf="organizationForm.get('org_type_id')?.invalid && organizationForm.get('org_type_id')?.touched" class="text-danger">
+          El tipo de organización es requerido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="main_members">Miembros Principales:</label>
+        <input id="main_members" formControlName="main_members" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="public_id">ID Público:</label>
+        <input id="public_id" formControlName="public_id" class="form-control">
+        <div *ngIf="organizationForm.get('public_id')?.invalid && organizationForm.get('public_id')?.touched" class="text-danger">
+          El ID público es requerido.
+        </div>
+        <div *ngIf="organizationExists" class="text-danger">
+          Ya existe una organización con este ID Público.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" formControlName="email" class="form-control">
+        <div *ngIf="organizationForm.get('email')?.invalid && organizationForm.get('email')?.touched" class="text-danger">
+          Se requiere un email válido.
+        </div>
+      </div>
+
+      <!-- Main Address Fields -->
+      <div formGroupName="main_address">
+        <h4>Dirección Principal</h4>
+        <div class="form-group">
+          <label for="gm_formatted_address">Dirección Formateada:</label>
+          <input id="gm_formatted_address" formControlName="gm_formatted_address" class="form-control" readonly>
+          <button type="button" class="btn btn-secondary mt-2" (click)="openAddressModal()">Seleccionar Dirección</button>
+          <div *ngIf="organizationForm.get('main_address.gm_formatted_address')?.invalid && organizationForm.get('main_address.gm_formatted_address')?.touched" class="text-danger">
+            La dirección formateada es requerida.
+          </div>
+        </div>
+        <!-- Geo Point and Description fields can be added here as needed -->
+      </div>
+
+
+      <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="organizationForm.invalid || organizationExists || loading">Siguiente</button>
+    </form>
+  </div>
+
+  <!-- Step 2: Admin Details -->
+  <div *ngIf="currentStep === 2">
+    <h3>Paso 2: Información del Administrador</h3>
+
+    <!-- Admin Tabs -->
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="adminStep === 'create'" (click)="switchAdminStep('create')">Crear Nuevo Administrador</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="adminStep === 'login'" (click)="switchAdminStep('login')">Iniciar Sesión Administrador Existente</a>
+      </li>
+    </ul>
+
+    <!-- Create New Admin Form -->
+    <div *ngIf="adminStep === 'create'">
+      <form [formGroup]="adminForm" autocomplete="off">
+        <div class="form-group">
+          <label for="admin_email">Email del Administrador:</label>
+          <input id="admin_email" type="email" formControlName="admin_email" class="form-control" (blur)="validateAdminEmail()">
+          <div *ngIf="adminForm.get('admin_email')?.invalid && adminForm.get('admin_email')?.touched" class="text-danger">
+            Se requiere un email válido.
+          </div>
+          <div *ngIf="adminEmailExists" class="text-warning">
+            Este email ya está registrado. Por favor, use la pestaña "Iniciar Sesión Administrador Existente".
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="public_id_admin">ID Público del Administrador:</label>
+          <input id="public_id_admin" formControlName="public_id_admin" class="form-control">
+          <div *ngIf="adminForm.get('public_id_admin')?.invalid && adminForm.get('public_id_admin')?.touched" class="text-danger">
+            El ID público del administrador es requerido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="admin_fullname">Nombre Completo del Administrador:</label>
+          <input id="admin_fullname" formControlName="admin_fullname" class="form-control">
+          <div *ngIf="adminForm.get('admin_fullname')?.invalid && adminForm.get('admin_fullname')?.touched" class="text-danger">
+            El nombre completo del administrador es requerido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone_number">Número de Teléfono:</label>
+          <input id="phone_number" formControlName="phone_number" class="form-control">
+          <div *ngIf="adminForm.get('phone_number')?.invalid && adminForm.get('phone_number')?.touched" class="text-danger">
+            El número de teléfono es requerido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="admin_password">Contraseña:</label>
+          <input id="admin_password" type="password" formControlName="admin_password" class="form-control">
+          <div *ngIf="adminForm.get('admin_password')?.invalid && adminForm.get('admin_password')?.touched" class="text-danger">
+            La contraseña es requerida.
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Login Existing Admin Form -->
+    <div *ngIf="adminStep === 'login'">
+      <form [formGroup]="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="login_email">Email:</label>
+          <input id="login_email" type="email" formControlName="email" class="form-control">
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+            Se requiere un email válido.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login_password">Contraseña:</label>
+          <input id="login_password" type="password" formControlName="password" class="form-control">
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+            La contraseña es requerida.
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <button type="button" class="btn btn-secondary" (click)="prevStep()" [disabled]="loading">Anterior</button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="nextStep()"
+      [disabled]="(adminStep === 'create' && adminForm.invalid) || (adminStep === 'login' && loginForm.invalid) || loading"
+    >
+      {{ adminStep === 'create' ? 'Enviar Registro' : 'Iniciar Sesión y Enviar Registro' }}
+    </button>
+  </div>
+</div>

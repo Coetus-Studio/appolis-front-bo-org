@@ -1,0 +1,149 @@
+/* Container styling similar to login page */
+.container {
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 40px auto; /* Center the container with top/bottom margin */
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Consistent heading styles */
+h2 {
+  color: #6F2DBD; /* Example color from auth.component.css */
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h3 {
+  color: #333;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+h4 {
+  color: #555;
+  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Style for labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Style for form controls (inputs, textareas) */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Style for buttons */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff; /* Example primary color */
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Example secondary color */
+  color: white;
+}
+
+.btn-success {
+  background-color: #28a745; /* Example success color */
+  color: white;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Style for validation errors and warnings */
+.text-danger {
+  color: #dc3545; /* Example danger color */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.text-warning {
+  color: #ffc107; /* Example warning color */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+/* Style for tabs */
+.nav-tabs {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-item {
+  margin-bottom: -1px;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid transparent;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #007bff; /* Example link color */
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+.nav-link.active {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
