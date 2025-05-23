@@ -12,7 +12,7 @@ import { OpportunityFormService } from '../../services/opportunity-form.service'
 @Component({
   selector: 'app-opportunity-form',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule, MatInputModule, MatChipsModule, MatIconModule ],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatChipsModule, MatIconModule],
   templateUrl: './opportunity-form.component.html',
   styleUrl: './opportunity-form.component.css'
 })
@@ -89,50 +89,50 @@ export class OpportunityFormComponent implements OnInit {
     }
   }
 
-    openAddressModal() {
-      this.isAddressModalOpen = true;
+  openAddressModal() {
+    this.isAddressModalOpen = true;
 
-      const dialogRef = this.dialog.open(ModalAddressComponent, {
-        width: '50',
-        height: '60',
-        data: {
-          location: this.opportunityForm.get('location.geo_point.coordinates')?.value
-        }
-      });
+    const dialogRef = this.dialog.open(ModalAddressComponent, {
+      width: '50',
+      height: '60',
+      data: {
+        location: this.opportunityForm.get('location.geo_point.coordinates')?.value
+      }
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          // Actualizar los valores en el formulario
-          this.opportunityForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
-          this.opportunityForm.get('location.geo_point.coordinates')?.setValue([
-            result.location.lng,
-            result.location.lat
-          ]);
-          // Actualizar los valores en el componente
-          this.opportunityForm = result.gm_formatted_address;
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Actualizar los valores en el formulario
+        this.opportunityForm.get('location.gm_formatted_address')?.setValue(result.gm_formatted_address);
+        this.opportunityForm.get('location.geo_point.coordinates')?.setValue([
+          result.location.lng,
+          result.location.lat
+        ]);
+        // Actualizar los valores en el componente
+        this.opportunityForm = result.gm_formatted_address;
+      }
+    });
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    console.log("value: ", value)
+
+    // Add our keyword
+    if (value && !this.sponsors.includes(value)) {
+      this.sponsors.push(value);
+      this.opportunityForm.patchValue({ sponsor: this.sponsors })
+      this.keywords.update(keywords => [...keywords, value]);
     }
 
-      add(event: MatChipInputEvent): void {
-        const value = (event.value || '').trim();
+    console.log("sponsors: ", this.sponsors)
 
-        console.log("value: ", value)
+    // limpio el input
+    if (event.chipInput) {
+      event.chipInput.clear()
+    }
 
-        // Add our keyword
-        if (value && !this.sponsors.includes(value)) {
-          this.sponsors.push(value);
-          this.opportunityForm.patchValue({ sponsor: this.sponsors })
-          this.keywords.update(keywords => [...keywords, value]);
-        }
-
-        console.log("sponsors: ", this.sponsors)
-
-        // limpio el input
-        if (event.chipInput) {
-          event.chipInput.clear()
-        }
-
-      }
+  }
 
 }

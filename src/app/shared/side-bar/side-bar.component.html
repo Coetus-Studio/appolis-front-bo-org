@@ -10,7 +10,7 @@
       <li><a routerLink="/users" class="block hover:underline">👥 Usuarios</a></li>
       <li><a routerLink="/citizen-points" class="block hover:underline">🗺️ Mapa Ciudadano</a></li>
       <li><a routerLink="/requirements" class="block hover:underline">📋 Requerimientos Ciudadanos</a></li>
-      <li><a routerLink="/departments" class="block hover:underline">🏢 Departamentos</a></li>
+      <li *ngIf="userAdmin"><a routerLink="/departments" class="block hover:underline">🏢 Departamentos</a></li>
 
       <!-- 🧩 Comunidad toggle -->
       <li (click)="toggleComunidad()" class="block hover:underline">

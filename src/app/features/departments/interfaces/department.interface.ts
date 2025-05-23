@@ -1,4 +1,5 @@
 import { User } from "../../../shared/interfaces/user-session.interface";
+import { Organization } from "../../organizations/interfaces/organization.interface";
 
 
 export interface DepartmentFormModel {

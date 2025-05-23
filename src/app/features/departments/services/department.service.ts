@@ -37,4 +37,16 @@ export class DepartmentsService {
 
   }
 
+  createEvent(body: DepartmentFormModel): Observable<DepartmentFormModel> {
+    console.log('body depto', body);
+
+    return this.authService.getToken().pipe(
+      filter(token => !!token), // Espera a que el token esté disponible
+      switchMap(token => {
+        const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+        return this.http.post<DepartmentFormModel>(this.apiUrl, body, { headers });
+      })
+    )
+  }
+
 }
