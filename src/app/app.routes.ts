@@ -54,6 +54,10 @@ export const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./features/users/users.routes').then(m => m.USERS_ROUTES)
   },
+  {
+    path: 'departments',
+    loadChildren: () => import('./features/departments/departments.routes').then(m => m.DEPARTMENTS_ROUTES)
+  },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Ruta predeterminada
   { path: '**', redirectTo: '/login' }, // Ruta comodín para manejar rutas no encontradas
