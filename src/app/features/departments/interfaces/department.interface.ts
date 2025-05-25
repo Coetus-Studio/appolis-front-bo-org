@@ -3,14 +3,14 @@ import { Organization } from "../../organizations/interfaces/organization.interf
 
 
 export interface DepartmentFormModel {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
   category: string[];
   responsible_organization: string;
   // user: User;
   // TODO: ver relacion con interface user
-  user: string[];
+  user: User;
   created_by: string;
 
 

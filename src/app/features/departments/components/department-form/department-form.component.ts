@@ -10,13 +10,14 @@ import { AuthService } from '../../../../auth/auth.service';
 @Component({
   selector: 'department-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './department-form.component.html',
   styleUrl: './department-form.component.css'
 })
 export class DepartmentFormComponent implements OnInit {
 
   departmentForm!: FormGroup;
+  operatorForm!: FormGroup;
   categories: Category[] = [];
   categoryOptions: { label: string, value: string }[] = []
   isUpdate: boolean = false;
@@ -47,19 +48,29 @@ export class DepartmentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initDepartmentForm();
+    this.initOperatorForm();
+    this.getAllCategories();
+  }
+
+  initDepartmentForm(): void {
     this.departmentForm = this.fb.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      // category: [[], [Validators.required]], // arreglo de IDs
+      // categories: this.fb.array([]),
       categories: this.fb.array([]),
-      responsible_organization: new FormControl(''),
-      user_name: ['', [Validators.required]],
-      user_email: ['', [Validators.required, Validators.email]],
-      user_phone: [''],
-      user_rut: [''],
-      user_password: ['', [Validators.required, Validators.minLength(6)]] // ver bien regla de password
+      responsible_organization: this.fb.control(''),
     });
-    this.getAllCategories();
+  }
+
+  initOperatorForm() {
+    this.operatorForm = this.fb.group({
+      public_id: ['', Validators.required],
+      full_name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      password: ['', Validators.required]
+    })
   }
 
   onSubmit() {
@@ -92,48 +103,52 @@ export class DepartmentFormComponent implements OnInit {
     })
   }
 
-  get categoriesFormArray() {
-    return this.departmentForm.get('categories') as FormArray;
+  get categoriesFormArray(): FormArray<FormControl<boolean>> {
+    return this.departmentForm.get('categories') as FormArray<FormControl<boolean>>;
   }
 
   private addCategoryCheckboxes() {
-    this.categoryOptions.forEach(() => this.categoriesFormArray.push(new FormControl(false)));
+    this.categoryOptions.forEach(() =>
+      this.categoriesFormArray.push(new FormControl(false, { nonNullable: true }))
+    );
   }
 
+  get userForm(): FormGroup {
+    return this.departmentForm.get('user') as FormGroup;
+  }
 
   async createDepartment() {
-    console.log('creando departamento', this.departmentForm.value )
-    console.log('orgId', this.orgId)
-
     if (this.departmentForm.valid) {
       const departmentData = this.departmentForm.getRawValue();
 
+      const selectedCategories = this.categoryOptions
+        .filter((_, i) => departmentData.categories[i])
+        .map(opt => opt.value);
+
       const department: DepartmentFormModel = {
-        _id: departmentData._id,
         name: departmentData.name,
         description: departmentData.description,
-        category: departmentData.category,
+        category: selectedCategories,
         responsible_organization: this.orgId,
         user: departmentData.user,
-        created_by: departmentData.created_by
-      }
+        created_by: 'null' // agrega el valor real si aplica
+      };
 
-      console.log('departmentData: ', department)
-
-      this.departmentService.createEvent(department).subscribe(res => {
-        console.log('Event created successfully', res);
-      })
-      setTimeout(() => {
-        this.successMessage = 'Evento creado con éxito.';
-        this.errorMessage = null;
-        this.departmentForm.reset(); // Limpia el formulario
-      }, 1000);
+      this.departmentService.createEvent(department).subscribe({
+        next: (res) => {
+          console.log('Departamento creado', res);
+          this.successMessage = 'Departamento creado con éxito.';
+          this.errorMessage = null;
+          this.departmentForm.reset();
+        },
+        error: (err) => {
+          console.error('Error al crear', err);
+          this.errorMessage = 'Error al crear el departamento.';
+        }
+      });
     } else {
-      console.log('El formulario no es válido');
-
+      console.log('Formulario inválido');
     }
-
-
   }
 
   async updateOpportunity() {
