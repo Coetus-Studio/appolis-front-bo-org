@@ -6,6 +6,7 @@ import { CategoriesService } from '../../services/categories.service';
 import { DepartmentFormModel } from '../../interfaces/department.interface';
 import { DepartmentsService } from '../../services/department.service';
 import { AuthService } from '../../../../auth/auth.service';
+import { User } from '../../../../shared/interfaces/user-session.interface';
 
 @Component({
   selector: 'department-form',
@@ -59,7 +60,10 @@ export class DepartmentFormComponent implements OnInit {
       description: ['', [Validators.required]],
       // categories: this.fb.array([]),
       categories: this.fb.array([]),
-      responsible_organization: this.fb.control(''),
+      responsible_organization: this.orgId,
+      // users: this.fb.group({
+
+      // })
     });
   }
 
@@ -119,7 +123,12 @@ export class DepartmentFormComponent implements OnInit {
 
   async createDepartment() {
     if (this.departmentForm.valid) {
+
       const departmentData = this.departmentForm.getRawValue();
+      console.log('departmentData', departmentData)
+
+      const userData = this.operatorForm.getRawValue();
+      console.log('userData: ', userData);
 
       const selectedCategories = this.categoryOptions
         .filter((_, i) => departmentData.categories[i])
@@ -130,11 +139,24 @@ export class DepartmentFormComponent implements OnInit {
         description: departmentData.description,
         category: selectedCategories,
         responsible_organization: this.orgId,
-        user: departmentData.user,
+        // user: userData.user,
         created_by: 'null' // agrega el valor real si aplica
       };
 
-      this.departmentService.createEvent(department).subscribe({
+      console.log('department: ', department)
+
+      const user: User = {
+        public_id: userData.public_id,
+        full_name: userData.full_name,
+        email: userData.email,
+        phone: userData.phone,
+        password: userData.password,
+        rolesByOrganization: userData.rolesByOrganization
+      }
+
+      console.log('user', user)
+
+      this.departmentService.createDepartment(department).subscribe({
         next: (res) => {
           console.log('Departamento creado', res);
           this.successMessage = 'Departamento creado con éxito.';

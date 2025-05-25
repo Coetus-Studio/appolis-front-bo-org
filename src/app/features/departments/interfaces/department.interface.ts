@@ -10,7 +10,7 @@ export interface DepartmentFormModel {
   responsible_organization: string;
   // user: User;
   // TODO: ver relacion con interface user
-  user: User;
+  user?: User;
   created_by: string;
 
 

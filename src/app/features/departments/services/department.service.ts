@@ -37,7 +37,7 @@ export class DepartmentsService {
 
   }
 
-  createEvent(body: DepartmentFormModel): Observable<DepartmentFormModel> {
+  createDepartment(body: DepartmentFormModel): Observable<DepartmentFormModel> {
     console.log('body depto', body);
 
     return this.authService.getToken().pipe(

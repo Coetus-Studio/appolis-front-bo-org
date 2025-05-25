@@ -20,8 +20,12 @@ export interface RoleByOrganization {
 }
 
 export interface User {
-  _id: string;
+  _id?: string;
+  public_id: string;
+  full_name: string;
   email: string;
+  phone: string;
+  password: string;
   rolesByOrganization: RoleByOrganization[];
 }
 
